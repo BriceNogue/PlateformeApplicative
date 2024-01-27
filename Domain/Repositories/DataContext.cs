@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
@@ -7,6 +8,8 @@ namespace Domain.Repositories
         public DataContext() { }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
