@@ -1,4 +1,5 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Domain.Entities
 {
     public class User
