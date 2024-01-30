@@ -25,7 +25,7 @@ namespace Domain.Repositories
 
         public DbSet<User> Users { get; set; }
         public DbSet<Etablissement> Etablissements { get; set; } 
-        public DbSet<TypeE> Types { get; set; }
+        public DbSet<TypeE> Types { get; set; } 
 
     }
 }
