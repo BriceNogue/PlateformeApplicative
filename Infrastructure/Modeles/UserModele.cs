@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Modeles
 {
-    public class UserModel
+    public class UserModele
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
