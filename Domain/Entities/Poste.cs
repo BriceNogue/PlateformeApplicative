@@ -9,7 +9,7 @@ namespace Domain.Entities
         public string AdresseIp { get; set; } = string.Empty;
         public string AdresseMAC { get; set; } = string.Empty;
         public string IdSalle { get; set; } = string.Empty;
-        public string IdType { get; set; } = string.Empty;
+        public int IdType { get; set; }
         public string Statut { get; set; } = string.Empty;
 
         public TypeE TypeE { get; set; } = default!;
