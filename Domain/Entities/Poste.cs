@@ -11,5 +11,7 @@ namespace Domain.Entities
         public string IdSalle { get; set; } = string.Empty;
         public string IdType { get; set; } = string.Empty;
         public string Statut { get; set; } = string.Empty;
+
+        public TypeE TypeE { get; set; } = default!;
     }
 }
