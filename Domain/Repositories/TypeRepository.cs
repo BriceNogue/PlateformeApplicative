@@ -30,13 +30,13 @@ namespace Domain.Repositories
         public void Delete(int id)
         {
             var type = Get(id);
-            _dataContext.Remove(type);
+            _dataContext.Types.Remove(type);
             _dataContext.SaveChanges();
         }
 
         public void Update(TypeE type)
         {
-            _dataContext.Update(type);
+            _dataContext.Types.Update(type);
             _dataContext.SaveChanges();
         }
     }

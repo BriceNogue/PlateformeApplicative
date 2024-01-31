@@ -36,7 +36,7 @@ namespace Domain.Repositories
 
         public void Update(User user)
         {
-            _dataContext.Update(user);
+            _dataContext.Users.Update(user);
             _dataContext.SaveChanges();
         }
     }
