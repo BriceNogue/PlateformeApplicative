@@ -1,7 +1,12 @@
-﻿
-namespace Domain.Entities
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Infrastructure.Modeles
 {
-    public class Poste
+    public class PosteModele
     {
         public int Id { get; set; }
         public string LibellePoste { get; set; } = string.Empty;
@@ -11,7 +16,5 @@ namespace Domain.Entities
         public string IdSalle { get; set; } = string.Empty;
         public int IdType { get; set; }
         public bool Statut { get; set; }
-
-        public TypeE TypeE { get; set; } = default!;
     }
 }
