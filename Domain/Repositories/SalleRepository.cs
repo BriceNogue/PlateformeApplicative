@@ -21,6 +21,11 @@ namespace Domain.Repositories
             return _dataContext.Salles.FirstOrDefault(s => s.Id == id)!;
         }
 
+        public void Add(Salle salle)
+        {
+            _dataContext.Salles.Add(salle);
+        }
+
         public void Delete(int id)
         {
             var salle = Get(id);
