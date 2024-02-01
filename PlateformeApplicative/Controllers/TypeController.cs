@@ -47,7 +47,7 @@ namespace PlateformeApplicative.Controllers
             }
         }
 
-        [HttpPost("add")]
+        [HttpPost("create")]
         public ActionResult<TypeModele> Add(TypeModele type)
         {
             return Ok(_typeService.Add(type));

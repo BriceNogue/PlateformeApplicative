@@ -7,10 +7,12 @@ namespace Infrastructure.Services
     public class UserService
     {
         private readonly UserRepository _userRepository;
+        private readonly TypeRepository _typeRepository;
 
         public UserService()
         {
             _userRepository = new UserRepository();
+            _typeRepository = new TypeRepository();
         }
 
         public List<User> GetAll()
@@ -31,17 +33,25 @@ namespace Infrastructure.Services
             }
             else
             {
-                var newUser = new User()
+                var usertype = _typeRepository.Get(user.IdType);
+                if (usertype is null) 
                 {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    Password = user.Password,
-                    IdType = user.IdType
-                };
-                return true;
+                    return false;
+                }
+                else
+                {
+                    var newUser = new User()
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Password = user.Password,
+                        IdType = user.IdType
+                    };
+                    return true;
+                }
             }
         }
 
