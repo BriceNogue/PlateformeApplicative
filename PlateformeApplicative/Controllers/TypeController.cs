@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Infrastructure.Modeles;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ namespace PlateformeApplicative.Controllers
             _typeService = new TypeService();
         }
 
-        [HttpGet("types")]
-        public ActionResult<List<TypeE>> GetAll()
+        [HttpGet("all")]
+        public IActionResult GetAll()
         {
             List<TypeE> types = new List<TypeE>();
             types = _typeService.GetAll();
@@ -31,8 +32,8 @@ namespace PlateformeApplicative.Controllers
             }
         }
 
-        [HttpGet("type/id")]
-        public ActionResult<TypeE> Get(int id)
+        [HttpGet("id")]
+        public IActionResult Get(int id)
         {
             TypeE typeE = new TypeE();
             typeE = _typeService.Get(id);
@@ -44,6 +45,12 @@ namespace PlateformeApplicative.Controllers
             {
                 return Ok(typeE);
             }
+        }
+
+        [HttpPost("add")]
+        public ActionResult<TypeModele> Add(TypeModele type)
+        {
+            return Ok(_typeService.Add(type));
         }
     }
 }
