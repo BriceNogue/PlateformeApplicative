@@ -44,5 +44,40 @@ namespace Infrastructure.Services
                 return true;
             }
         }
+
+        public bool Delete(int id)
+        {
+            var existingUser = _userRepository.Get(id);
+            if (existingUser is null)
+            {
+                return false;
+            }
+            else
+            {
+                _userRepository.Delete(id);
+                return true;
+            }
+        }
+
+        public bool Update(UserModele user)
+        {
+            var oldUser = _userRepository.Get(user.Id);
+            if (oldUser is null)
+            {
+                return false;
+            }
+            else
+            {
+                oldUser.FirstName = user.FirstName;
+                oldUser.LastName = user.LastName;
+                oldUser.Email = user.Email;
+                oldUser.PhoneNumber = user.PhoneNumber;
+                oldUser.Password = user.Password;
+                oldUser.IdType = user.IdType;
+
+                _userRepository.Update(oldUser);
+                return true;
+            }
+        }
     }
 }
