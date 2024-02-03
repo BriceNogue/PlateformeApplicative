@@ -50,7 +50,10 @@ namespace PlateformeApplicative.Controllers
         [HttpPost("create")]
         public ActionResult<TypeModele> Add(TypeModele type)
         {
-            return Ok(_typeService.Add(type));
+            var result = _typeService.Add(type);
+            if (result)
+                return Ok("Type enregistre avec succes.");
+            return BadRequest("Impossible d'enregistrer le type.");
         }
     }
 }
