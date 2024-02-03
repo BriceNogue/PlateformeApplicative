@@ -50,7 +50,7 @@ namespace PlateformeApplicative.Controllers
             var result = _service.Delete(id);
             if (result)
                 return Ok("Etablissement supprime avec suces.");
-            return BadRequest("Impossible de supprimer l'etablissement.");
+            return NotFound("L'etablissement n'exite pas.");
         }
 
         [HttpPut("update")]

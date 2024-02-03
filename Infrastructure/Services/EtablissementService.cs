@@ -64,7 +64,7 @@ namespace Infrastructure.Services
         public bool Update(EtablissementModele etab)
         {
             var etabUpdated = _repository.Get(etab.Id);
-            if (etab is null)
+            if (etabUpdated is null)
             {
                 return false;
             }
