@@ -39,7 +39,12 @@ namespace Domain.Repositories
             modelBuilder.Entity<Salle>()
                 .HasOne(salle => salle.TypeE)
                 .WithMany(typee => typee.Salles)
-                .HasForeignKey(sale => sale.IdType);
+                .HasForeignKey(salle => salle.IdType);
+
+            modelBuilder.Entity<Salle>()
+                .HasOne(salle => salle.Etablissement)
+                .WithMany(etab => etab.Salles)
+                .HasForeignKey(salle => salle.IdEtablissement);
 
             modelBuilder.Entity<Poste>()
                 .HasOne(poste => poste.TypeE)

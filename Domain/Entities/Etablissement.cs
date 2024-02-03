@@ -11,5 +11,7 @@ namespace Domain.Entities
         public string Ville { get; set; } = string.Empty;
         public string CodePostal { get; set; } = string.Empty;
         public string Pays { get; set; } = string.Empty;
+
+        public List<Salle> Salles { get; set; } = default!;
     }
 }
