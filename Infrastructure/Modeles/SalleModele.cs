@@ -14,6 +14,6 @@ namespace Infrastructure.Modeles
         public string Capacite { get; set; } = string.Empty;
         public bool Status { get; set; }
         public int IdType { get; set; }
-        public string IdEtablissement { get; set; } = string.Empty;
+        public int IdEtablissement { get; set; } = string.Empty;
     }
 }

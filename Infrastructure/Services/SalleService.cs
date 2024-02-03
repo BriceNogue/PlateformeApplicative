@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Modeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,35 @@ namespace Infrastructure.Services
         {
             return _repository.Get(id);
         }
+        /*
+         public int Id { get; set; }
+        public string Nom { get; set; } = string.Empty;
+        public string Emplacement { get; set; } = string.Empty;
+        public string Capacite { get; set; } = string.Empty;
+        public bool Status { get; set; }
+        public int IdType { get; set; }
+        public int IdEtablissement { get; set; }*/
+        public bool Add(SalleModele salle)
+        {
+            if (salle.Id > 0)
+            {
+                return false;
+            }
+            else
+            {
+                var newSalle = new Salle()
+                {
+                    Id = salle.Id,
+                    Nom = salle.Nom,
+                    Emplacement = salle.Emplacement,
+                    Capacite = salle.Capacite,
+                    Status = salle.Status,
+                    IdType = salle.IdType,
+                    IdEtablissement = salle.IdEtablissement,
+                };
+                return true;
+            }
+        }
 
         public bool Delete(int id)
         {
@@ -35,5 +65,7 @@ namespace Infrastructure.Services
             _repository.Delete(id);
             return true;
         }
+
+
     }
 }
