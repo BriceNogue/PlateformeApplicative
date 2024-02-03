@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Azure;
+using Domain.Entities;
 using Domain.Migrations;
 using Domain.Repositories;
 using Infrastructure.Modeles;
@@ -13,10 +14,12 @@ namespace Infrastructure.Services
     public class SalleService
     {
         private readonly SalleRepository _repository;
+        private readonly EtablissementRepository _etablissementRepository;
 
         public SalleService() 
         {
             _repository = new SalleRepository();
+            _etablissementRepository = new EtablissementRepository();
         }
 
         public List<Salle> GetAll() 
@@ -31,7 +34,8 @@ namespace Infrastructure.Services
         
         public bool Add(SalleModele salle)
         {
-            if (salle.Id > 0)
+            var etab = _etablissementRepository.Get(salle.IdEtablissement);
+            if (salle.Id > 0 || etab is null)
             {
                 return false;
             }

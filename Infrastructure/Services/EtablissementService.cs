@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Azure;
+using Domain.Entities;
 using Domain.Repositories;
 using Infrastructure.Modeles;
 using System;
@@ -30,33 +31,25 @@ namespace Infrastructure.Services
 
         public bool Add(EtablissementModele etab)
         {
-            if (etab.Id > 0)
+            var etabs = GetAll();
+            if (etab.Id > 0 || etabs.Any(e => e.Nom == etab.Nom))
             {
                 return false;
             }
             else
-            {
-                var etabs = GetAll();
-                if (etabs.Any(e => e.Nom == etab.Nom))
+            {            
+                var newEtab = new Etablissement()
                 {
-                    return false;
-                }
-                else
-                {
-                    var newEtab = new Etablissement()
-                    {
-                        Id = etab.Id,
-                        Nom = etab.Nom,
-                        Telephone = etab.Telephone,
-                        Email = etab.Email,
-                        Adresse = etab.Adresse,
-                        Ville = etab.Ville,
-                        CodePostal = etab.CodePostal,
-                        Pays = etab.Pays
-                    };
-                    _repository.Add(newEtab);
-                    return true;
-                }
+                    Nom = etab.Nom,
+                    Telephone = etab.Telephone,
+                    Email = etab.Email,
+                    Adresse = etab.Adresse,
+                    Ville = etab.Ville,
+                    CodePostal = etab.CodePostal,
+                    Pays = etab.Pays
+                };
+                _repository.Add(newEtab);
+                return true;          
             }
         }
 
