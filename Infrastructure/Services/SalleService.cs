@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Migrations;
 using Domain.Repositories;
 using Infrastructure.Modeles;
 using System;
@@ -51,7 +52,7 @@ namespace Infrastructure.Services
                     Capacite = salle.Capacite,
                     Status = salle.Status,
                     IdType = salle.IdType,
-                    IdEtablissement = salle.IdEtablissement,
+                    IdEtablissement = salle.IdEtablissement
                 };
                 return true;
             }
@@ -66,6 +67,24 @@ namespace Infrastructure.Services
             return true;
         }
 
+        public bool Update(SalleModele salle)
+        {
+            var salleUpdated = Get(salle.Id);
+            if (salleUpdated is null)
+            {
+                return false;
+            }
+            else
+            {
+                salleUpdated.Nom = salle.Nom;
+                salleUpdated.Emplacement = salle.Emplacement;
+                salleUpdated.Capacite = salle.Capacite;
+                salleUpdated.Status = salle.Status;
+                salleUpdated.IdType = salle.IdType;
 
+                _repository.Update(salleUpdated);
+                return true;
+            }
+        }
     }
 }
