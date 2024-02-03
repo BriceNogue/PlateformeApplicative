@@ -15,11 +15,13 @@ namespace Infrastructure.Services
     {
         private readonly SalleRepository _repository;
         private readonly EtablissementRepository _etablissementRepository;
+        private readonly TypeRepository _typeRepository;
 
         public SalleService() 
         {
             _repository = new SalleRepository();
             _etablissementRepository = new EtablissementRepository();
+            _typeRepository = new TypeRepository();
         }
 
         public List<Salle> GetAll() 
@@ -35,7 +37,8 @@ namespace Infrastructure.Services
         public bool Add(SalleModele salle)
         {
             var etab = _etablissementRepository.Get(salle.IdEtablissement);
-            if (salle.Id > 0 || etab is null)
+            var type = _typeRepository.Get(salle.IdType);
+            if (salle.Id > 0 || etab is null || type is null)
             {
                 return false;
             }
@@ -43,7 +46,6 @@ namespace Infrastructure.Services
             {
                 var newSalle = new Salle()
                 {
-                    Id = salle.Id,
                     Nom = salle.Nom,
                     Emplacement = salle.Emplacement,
                     Capacite = salle.Capacite,
@@ -51,6 +53,7 @@ namespace Infrastructure.Services
                     IdType = salle.IdType,
                     IdEtablissement = salle.IdEtablissement
                 };
+                _repository.Add(newSalle);
                 return true;
             }
         }

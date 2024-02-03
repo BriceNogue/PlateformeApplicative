@@ -24,6 +24,7 @@ namespace Domain.Repositories
         public void Add(Salle salle)
         {
             _dataContext.Salles.Add(salle);
+            _dataContext.SaveChanges();
         }
 
         public void Delete(int id)
