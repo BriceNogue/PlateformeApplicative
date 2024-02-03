@@ -19,6 +19,6 @@ namespace Domain.Entities
         public TypeE TypeE { get; set; } = default!;
         public Etablissement Etablissement { get; set; } = default!;
 
-        public List<Poste> postes { get; set; } = default!;
+        public List<Poste> Postes { get; set; } = default!;
     }
 }

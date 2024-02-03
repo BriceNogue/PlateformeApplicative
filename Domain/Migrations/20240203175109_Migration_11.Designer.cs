@@ -3,6 +3,7 @@ using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240203175109_Migration_11")]
+    partial class Migration_11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,8 +102,6 @@ namespace Domain.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdSalle");
 
                     b.HasIndex("IdType");
 
@@ -219,19 +220,11 @@ namespace Domain.Migrations
 
             modelBuilder.Entity("Domain.Entities.Poste", b =>
                 {
-                    b.HasOne("Domain.Entities.Salle", "Salle")
-                        .WithMany("Postes")
-                        .HasForeignKey("IdSalle")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.TypeE", "TypeE")
                         .WithMany("Postes")
                         .HasForeignKey("IdType")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Salle");
 
                     b.Navigation("TypeE");
                 });
@@ -269,11 +262,6 @@ namespace Domain.Migrations
             modelBuilder.Entity("Domain.Entities.Etablissement", b =>
                 {
                     b.Navigation("Salles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Salle", b =>
-                {
-                    b.Navigation("Postes");
                 });
 
             modelBuilder.Entity("Domain.Entities.TypeE", b =>

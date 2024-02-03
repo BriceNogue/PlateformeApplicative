@@ -49,7 +49,14 @@ namespace Domain.Repositories
             modelBuilder.Entity<Poste>()
                 .HasOne(poste => poste.TypeE)
                 .WithMany(typee => typee.Postes)
-                .HasForeignKey(poste => poste.IdType);
+                .HasForeignKey(poste => poste.IdType)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Poste>()
+                .HasOne(poste => poste.Salle)
+                .WithMany(salle => salle.Postes)
+                .HasForeignKey(poste => poste.IdSalle)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public DbSet<User> Users { get; set; }
