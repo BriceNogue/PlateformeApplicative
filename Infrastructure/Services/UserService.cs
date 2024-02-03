@@ -29,7 +29,7 @@ namespace Infrastructure.Services
         {
             var users = GetAll();
             var userType = _typeRepository.Get(user.IdType);
-            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || (x.PhoneNumber == user.PhoneNumber) || (userType is null)))
+            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.PhoneNumber == user.PhoneNumber || userType is null))
             {
                 return false;
             }
@@ -45,6 +45,7 @@ namespace Infrastructure.Services
                     Password = user.Password,
                     IdType = user.IdType
                 };
+                _userRepository.Add(newUser);
                 return true;
             }
         }
