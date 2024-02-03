@@ -42,7 +42,7 @@ namespace PlateformeApplicative.Controllers
         {
             var isAdded = _userService.Add(user);
             if (isAdded)
-                return Ok("Utilisateur ajoute avec suces.");
+                return Ok("Utilisateur ajoute avec succes.");
             return BadRequest("impossible d'ajouter l'utilisateur.");
         }
 
@@ -51,7 +51,7 @@ namespace PlateformeApplicative.Controllers
         {
             var isDeleted = _userService.Delete(id);
             if (isDeleted)
-                return Ok("Utilisateur supprime avec suces.");
+                return Ok("Utilisateur supprime avec succes.");
             return NotFound("Utilisateur inexistant.");
         }
 
@@ -60,8 +60,8 @@ namespace PlateformeApplicative.Controllers
         {
             var isUpdated = _userService.Update(user);
             if (isUpdated)
-                return Ok("Utilisateur mis a jours avec suces.");
-            return BadRequest("Mise a jours impossible.");
+                return Ok("Utilisateur mis a jour avec succes.");
+            return BadRequest("Mise a jour impossible.");
         }
     }
 }
