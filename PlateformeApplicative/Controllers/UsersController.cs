@@ -9,11 +9,11 @@ namespace PlateformeApplicative.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly UserService _userService;
 
-        public UserController() 
+        public UsersController() 
         {
             _userService = new UserService();
         }

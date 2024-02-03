@@ -8,11 +8,11 @@ namespace PlateformeApplicative.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeController : ControllerBase
+    public class TypesController : ControllerBase
     {
         private readonly TypeService _typeService;
 
-        public TypeController()
+        public TypesController()
         {
             _typeService = new TypeService();
         }
