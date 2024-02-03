@@ -40,7 +40,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Add(item);
             if (result)
-                return Ok("Etablissement enregistre avec suces.");
+                return Ok("Etablissement enregistre avec succes.");
             return BadRequest("Impossible d'enregistrer l'etablissement.");
         }
 
@@ -49,7 +49,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Delete(id);
             if (result)
-                return Ok("Etablissement supprime avec suces.");
+                return Ok("Etablissement supprime avec succes.");
             return NotFound("L'etablissement n'exite pas.");
         }
 
@@ -58,7 +58,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Update(item);
             if (result)
-                return Ok("Etablissement mis a jour avec suces.");
+                return Ok("Etablissement mis a jour avec succes.");
             return BadRequest("Impossible de mettre a jour l'etablissement.");
         }
     }

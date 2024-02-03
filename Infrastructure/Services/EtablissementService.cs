@@ -36,19 +36,27 @@ namespace Infrastructure.Services
             }
             else
             {
-                var newEtab = new Etablissement()
+                var etabs = GetAll();
+                if (etabs.Any(e => e.Nom == etab.Nom))
                 {
-                    Id = etab.Id,
-                    Nom = etab.Nom,
-                    Telephone = etab.Telephone,
-                    Email = etab.Email,
-                    Adresse = etab.Adresse,
-                    Ville = etab.Ville,
-                    CodePostal = etab.CodePostal,
-                    Pays = etab.Pays
-                };
-                _repository.Add(newEtab);
-                return true;
+                    return false;
+                }
+                else
+                {
+                    var newEtab = new Etablissement()
+                    {
+                        Id = etab.Id,
+                        Nom = etab.Nom,
+                        Telephone = etab.Telephone,
+                        Email = etab.Email,
+                        Adresse = etab.Adresse,
+                        Ville = etab.Ville,
+                        CodePostal = etab.CodePostal,
+                        Pays = etab.Pays
+                    };
+                    _repository.Add(newEtab);
+                    return true;
+                }
             }
         }
 
