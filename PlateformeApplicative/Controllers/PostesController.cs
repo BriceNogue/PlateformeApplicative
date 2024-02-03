@@ -40,7 +40,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Add(poste);
             if (result)
-                return Ok("Poste cree avec suces.");
+                return Ok("Poste cree avec succes.");
             return BadRequest("Impossible de creer le poste.");
         }
 
@@ -49,7 +49,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Delete(id);
             if (result)
-                return Ok("Poste supprimer avec suces.");
+                return Ok("Poste supprimer avec succes.");
             return BadRequest("Impossible de supprimer le poste.");
         }
 
@@ -58,7 +58,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Update(poste);
             if (result)
-                return Ok("Poste mis a jour avec suces.");
+                return Ok("Poste mis a jour avec succes.");
             return BadRequest("Impossible de mettre a jour le poste.");
         }
     }
