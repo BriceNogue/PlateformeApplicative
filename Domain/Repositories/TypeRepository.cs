@@ -14,6 +14,7 @@ namespace Domain.Repositories
         public List<TypeE> GetAll() 
         {
             return _dataContext.Types.ToList();
+
         }
 
         public TypeE Get(int id)
@@ -23,21 +24,42 @@ namespace Domain.Repositories
 
         public void Add(TypeE type)
         {
-            _dataContext.Types.Add(type);
-            _dataContext.SaveChanges();
+            try
+            {
+                _dataContext.Types.Add(type);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void Delete(int id)
         {
-            var type = Get(id);
-            _dataContext.Types.Remove(type);
-            _dataContext.SaveChanges();
+            try
+            {
+                var type = Get(id);
+                _dataContext.Types.Remove(type);
+                _dataContext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         public void Update(TypeE type)
         {
-            _dataContext.Types.Update(type);
-            _dataContext.SaveChanges();
+            try
+            {
+                _dataContext.Types.Update(type);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
