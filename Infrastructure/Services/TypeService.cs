@@ -26,30 +26,23 @@ namespace Infrastructure.Services
 
         public bool Add(TypeModele type)
         {
-            if (type.Id > 0)
+            var types = GetAll();
+            if (type.Id > 0 || types.Any(e => e.Nom == type.Nom))
             {
                 return false;
             }
             else
             {
-                var types = GetAll();
-                if (types.Any(e => e.Nom == type.Nom))
+                var typeE = new TypeE()
                 {
-                    return false;
-                }
-                else
-                {
-                    var typeE = new TypeE()
-                    {
-                        Id = type.Id,
-                        Nom = type.Nom,
-                        Description = type.Description,
-                        ObjetConcerne = type.ObjetConcerne,
-                    };
+                    Id = type.Id,
+                    Nom = type.Nom,
+                    Description = type.Description,
+                    ObjetConcerne = type.ObjetConcerne,
+                };
 
-                    _typeRepository.Add(typeE);
-                    return true;
-                }
+                _typeRepository.Add(typeE);
+                return true;  
             }
         }
 
