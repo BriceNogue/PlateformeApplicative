@@ -40,7 +40,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Add(salle);
             if (result)
-                return Ok("Salle Enregistre avec suces.");
+                return Ok("Salle Enregistre avec succes.");
             return BadRequest("Impossible d'enregistrer la salle.");
         }
 
@@ -49,7 +49,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Delete(id);
             if (result)
-                return Ok("Salle supprime avec suces.");
+                return Ok("Salle supprime avec succes.");
             return BadRequest("Impossible de supprimer la salle.");
         }
 
@@ -58,7 +58,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.Update(salle);
             if (result)
-                return Ok("Salle mise a jour avec suces.");
+                return Ok("Salle mise a jour avec succes.");
             return BadRequest("Impossible de mettre a jour la salle.");
         }
     }
