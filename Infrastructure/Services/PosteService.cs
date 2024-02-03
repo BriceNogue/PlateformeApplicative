@@ -61,6 +61,26 @@ namespace Infrastructure.Services
             return true;
         }
 
-        
+        public bool Update(PosteModele poste)
+        {
+            var postUpdated = Get(poste.Id);
+            if (postUpdated is null)
+            {
+                return false;
+            }
+            else
+            {
+                postUpdated.LibellePoste = poste.LibellePoste;
+                postUpdated.Marque = poste.Marque;
+                postUpdated.AdresseIp = poste.AdresseIp;
+                postUpdated.AdresseMAC = poste.AdresseMAC;
+                postUpdated.IdSalle = poste.IdSalle;
+                postUpdated.IdType = poste.IdType;
+                postUpdated.Statut = poste.Statut;
+
+                _repository.Update(postUpdated);
+                return true;
+            }
+        }
     }
 }
