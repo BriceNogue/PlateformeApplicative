@@ -17,5 +17,6 @@ namespace Domain.Entities
         public string IdEtablissement { get; set; } = string.Empty;
 
         public TypeE TypeE { get; set; } = default!;
+        public Etablissement Etablissement { get; set; } = default!;
     }
 }
