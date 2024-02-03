@@ -31,6 +31,7 @@ namespace Domain.Repositories
         {
             var poste = Get(id);
             _dataContext?.Postes.Remove(poste);
+            _dataContext?.SaveChanges();
         }
 
         public void Update(Poste post)

@@ -13,11 +13,13 @@ namespace Infrastructure.Services
     {
         private readonly PosteRepository _repository;
         private readonly SalleRepository _salleRepository;
+        private readonly TypeRepository _typeRepository;
 
         public PosteService() 
         {
             _repository = new PosteRepository();
             _salleRepository = new SalleRepository();
+            _typeRepository = new TypeRepository();
         }
 
         public List<Poste> GetAll()
@@ -33,7 +35,8 @@ namespace Infrastructure.Services
         public bool Add(PosteModele poste)
         {
             var salle = _salleRepository.Get(poste.IdSalle);
-            if (poste.Id > 0 || salle is null)
+            var type = _typeRepository.Get(poste.IdType);
+            if (poste.Id > 0 || salle is null || type is null)
             {
                 return false;
             }
@@ -41,7 +44,6 @@ namespace Infrastructure.Services
             {
                 var newPost = new Poste()
                 {
-                    Id = poste.Id,
                     LibellePoste = poste.LibellePoste,
                     Marque = poste.Marque,
                     AdresseIp = poste.AdresseIp,
