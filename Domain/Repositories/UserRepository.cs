@@ -13,31 +13,67 @@ namespace Domain.Repositories
 
         public List<User> GetAll()
         {
-            return _dataContext.Users.ToList();
+            try
+            {
+                return _dataContext.Users.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public User Get(int id)
         {
-            return _dataContext.Users.FirstOrDefault(x => x.Id == id)!;
+            
+            try
+            {
+                return _dataContext.Users.FirstOrDefault(x => x.Id == id)!;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public void Add(User user)
         {
-            _dataContext.Users.Add(user);
-            _dataContext.SaveChanges();
+            try
+            {
+                _dataContext.Users.Add(user);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
         }
 
         public void Delete(int id)
         {
-            var user = Get(id);
-            _dataContext.Users.Remove(user);
-            _dataContext.SaveChanges();
+            try
+            {
+                var user = Get(id);
+                _dataContext.Users.Remove(user);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
         }
 
         public void Update(User user)
         {
-            _dataContext.Users.Update(user);
-            _dataContext.SaveChanges();
+            try
+            {
+                _dataContext.Users.Update(user);
+                _dataContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+            }
         }
     }
 
