@@ -33,8 +33,9 @@ namespace Infrastructure.Services
             }
             else
             {
-                var usertype = _typeRepository.Get(user.IdType);
-                if (usertype is null) 
+                var users = GetAll();
+                var userType = _typeRepository.Get(user.IdType);
+                if (users.Any(x => (x.Email == user.Email) || (x.PhoneNumber == user.PhoneNumber) || (userType is null)))
                 {
                     return false;
                 }
