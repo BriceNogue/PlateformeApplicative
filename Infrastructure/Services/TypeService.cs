@@ -1,6 +1,7 @@
 ﻿using Domain.Repositories;
 using Domain.Entities;
 using Infrastructure.Modeles;
+using Azure;
 
 namespace Infrastructure.Services
 {
@@ -31,16 +32,24 @@ namespace Infrastructure.Services
             }
             else
             {
-                var typeE = new TypeE()
+                var types = GetAll();
+                if (types.Any(e => e.Nom == type.Nom))
                 {
-                    Id = type.Id,
-                    Nom = type.Nom,
-                    Description = type.Description,
-                    ObjetConcerne = type.ObjetConcerne,
-                };
+                    return false;
+                }
+                else
+                {
+                    var typeE = new TypeE()
+                    {
+                        Id = type.Id,
+                        Nom = type.Nom,
+                        Description = type.Description,
+                        ObjetConcerne = type.ObjetConcerne,
+                    };
 
-                _typeRepository.Add(typeE);
-                return true;
+                    _typeRepository.Add(typeE);
+                    return true;
+                }
             }
         }
 
