@@ -1,4 +1,6 @@
-﻿using Infrastructure.Services;
+﻿using Domain.Entities;
+using Infrastructure.Modeles;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +17,49 @@ namespace PlateformeApplicative.Controllers
             _service = new EtablissementService();
         }
 
+        [HttpGet("all")]
+        public ActionResult<List<Etablissement>> GetAll()
+        {
+            var result = _service.GetAll();
+            if (result.Count == 0)
+                return Ok("Aucun etablissement enregistre.");
+            return (result);
+        }
 
+        [HttpGet("id")]
+        public ActionResult<Etablissement> Get(int id)
+        {
+            var result = _service.Get(id);
+            if (result is null)
+                return NotFound("Etablissement inexistant.");
+            return Ok(result);
+        }
+
+        [HttpPost("create")]
+        public ActionResult<Etablissement> Add(EtablissementModele item)
+        {
+            var result = _service.Add(item);
+            if (result)
+                return Ok("Etablissement enregistre avec suces.");
+            return BadRequest("Impossible d'enregistrer l'etablissement.");
+        }
+
+        [HttpDelete("delete/id")]
+        public IActionResult Delete(int id)
+        {
+            var result = _service.Delete(id);
+            if (result)
+                return Ok("Etablissement supprime avec suces.");
+            return BadRequest("Impossible de supprimer l'etablissement.");
+        }
+
+        [HttpPut("update")]
+        public IActionResult Update(EtablissementModele item)
+        {
+            var result = _service.Update(item);
+            if (result)
+                return Ok("Etablissement mis a jour avec suces.");
+            return BadRequest("Impossible de mettre a jour l'etablissement.");
+        }
     }
 }
