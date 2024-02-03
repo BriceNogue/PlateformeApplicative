@@ -22,6 +22,7 @@ namespace Domain.Repositories
                throw new Exception(ex.Message);
             }
         }
+
         public Etablissement Get(int id)
         {
             try
@@ -38,13 +39,12 @@ namespace Domain.Repositories
         {
             try
             {
-
                 _dataContext.Etablissements.Add(e);
                 _dataContext.SaveChanges();
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Domain.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Domain.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
     }
