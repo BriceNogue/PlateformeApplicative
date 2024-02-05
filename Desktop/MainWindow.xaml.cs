@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Desktop.Services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,17 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly DeviceInfoService _deviceInfoService;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _deviceInfoService = new DeviceInfoService();
+
+            txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
         }
+
+
     }
 }
