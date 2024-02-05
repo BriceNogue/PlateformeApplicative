@@ -26,6 +26,8 @@ namespace Desktop
             _deviceInfoService = new DeviceInfoService();
 
             txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
+
+           
         }
 
 

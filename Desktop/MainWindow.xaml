@@ -24,15 +24,15 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Adresse IP :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_b_adr_ip" Text="Apropos du poste:" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_adr_ip" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Adresse MAC :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_b_adr_mac" Text="Apropos du poste:" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_adr_mac" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Adresse MAC :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_b_os" Text="Apropos du poste:" VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock Text="Systeme E :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_os" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
             </StackPanel>
         </StackPanel>
     </Grid>

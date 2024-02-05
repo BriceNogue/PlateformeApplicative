@@ -42,5 +42,19 @@ namespace Desktop.Services
 
             return "N/A";
         }
+
+        public string GetDiskInfo()
+        {
+            string query = "SELECT * FROM Win32_LogicalDisk";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection results = searcher.Get();
+
+            foreach (ManagementObject obj in results)
+            {
+                return obj[""].ToString()!;
+            }
+
+            return "N/A";
+        }
     }
 }
