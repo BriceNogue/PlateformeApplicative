@@ -14,8 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\" />
+    <Folder Include="Infrastructure\Models\" />
+    <Folder Include="Domain\" />
+    <Folder Include="Presentation\Controllers\" />
+    <Folder Include="Presentation\Views\" />
   </ItemGroup>
 
 </Project>

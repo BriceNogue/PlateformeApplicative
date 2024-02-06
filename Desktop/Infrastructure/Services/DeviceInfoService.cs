@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Management;
 
-namespace Desktop.Services
+namespace Desktop.Infrastructure.Services
 {
     public class DeviceInfoService
     {
@@ -14,7 +14,7 @@ namespace Desktop.Services
 
         public string GetMachineName()
         {
-            return System.Environment.MachineName;
+            return Environment.MachineName;
         }
 
         public string GetOperatingSystem()
