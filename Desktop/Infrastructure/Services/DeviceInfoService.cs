@@ -46,7 +46,7 @@ namespace Desktop.Infrastructure.Services
         public string GetDiskInfo()
         {
             string query = "SELECT * FROM Win32_LogicalDisk";
-            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query); 
             ManagementObjectCollection results = searcher.Get();
 
             foreach (ManagementObject obj in results)
