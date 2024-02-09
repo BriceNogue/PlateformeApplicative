@@ -27,7 +27,9 @@ namespace Desktop
 
             txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
 
-           
+            int FreeSpace = 80;
+            int UsedSpace = 20;
+
         }
 
 
