@@ -18,17 +18,21 @@ namespace Desktop
     public partial class MainWindow : Window
     {
         private readonly DeviceInfoService _deviceInfoService;
+        
 
         public MainWindow()
         {
             InitializeComponent();
 
             _deviceInfoService = new DeviceInfoService();
+            
 
             txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
 
             int FreeSpace = 80;
             int UsedSpace = 20;
+
+            
 
         }
 

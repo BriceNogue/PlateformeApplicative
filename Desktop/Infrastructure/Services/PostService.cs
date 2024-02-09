@@ -7,9 +7,9 @@ namespace Desktop.Infrastructure.Services
     public class PosteService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _URL = "url";
+        private readonly string _URL = "https://localhost:7281/api/postes";
 
-        public PosteService() 
+        public PosteService()
         {
             _httpClient = new HttpClient();
         }
@@ -18,7 +18,7 @@ namespace Desktop.Infrastructure.Services
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL);
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL+"/1");
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
