@@ -14,18 +14,18 @@ namespace Desktop.Infrastructure.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<PosteModele> Get()
+        public async Task<List<PosteModele>> GetAll()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL+"/1");
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL+"/all");
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
                 string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
 
-                PosteModele poste = new PosteModele();
-                poste = JsonConvert.DeserializeObject<PosteModele>(responseBody)!;
+                List<PosteModele> poste = new List<PosteModele>();
+                poste = JsonConvert.DeserializeObject<List<PosteModele>>(responseBody)!;
 
                 return poste;
 
