@@ -1,4 +1,6 @@
 ﻿@page "/"
+@inject HttpClient httpClient
+@using Infrastructure.Modeles;
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +9,31 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+@if (postes.Count <= 0)
+{
+    <span>Liste vide!</span>
+}
+else
+{
+    <ul>
+        @foreach (var poste in postes)
+        {
+           <li>@poste.LibellePoste</li>
+        }
+    </ul>
+}
+
+
+@code 
+{
+    List<PosteModele> postes = new List<PosteModele>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await httpClient.GetFromJsonAsync<List<PosteModele>>("https://localhost:7281/api/postes/all");
+        if (result != null)
+            postes = result;
+    }
+
+}

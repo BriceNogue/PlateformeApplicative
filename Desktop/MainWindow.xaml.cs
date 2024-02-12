@@ -34,7 +34,7 @@ namespace Desktop
             _deviceInfoService = new DeviceInfoService();
             
 
-            txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
+            //txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
 
             int FreeSpace = 80;
             int UsedSpace = 20;
@@ -49,10 +49,10 @@ namespace Desktop
 
             if (postes != null)
             {
-                // Faites quelque chose avec la liste des produits, par exemple, affichez-les dans une ListBox ou une DataGrid
                 foreach (PosteModele poste in postes)
                 {
                     Console.WriteLine("Poste service: " + poste.LibellePoste);
+                    txt_b_os.Text = poste.LibellePoste;
                 }
             }
         }
