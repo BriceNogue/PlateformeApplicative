@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Infrastructure.Modeles;
+using Shared.Modeles;
 
 namespace Desktop.Infrastructure.Services
 {

@@ -1,7 +1,6 @@
 ﻿using Domain.Repositories;
 using Domain.Entities;
-using Infrastructure.Modeles;
-using Azure;
+using Shared.Modeles;
 
 namespace Infrastructure.Services
 {

@@ -2,12 +2,7 @@
 using Domain.Entities;
 using Domain.Migrations;
 using Domain.Repositories;
-using Infrastructure.Modeles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared.Modeles;
 
 namespace Infrastructure.Services
 {
