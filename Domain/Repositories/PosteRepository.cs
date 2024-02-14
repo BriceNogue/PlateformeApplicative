@@ -21,6 +21,11 @@ namespace Domain.Repositories
             return _dataContext.Postes.FirstOrDefault(p => p.Id == id)!;
         }
 
+        public Poste GetOne(Poste poste)
+        {
+            return _dataContext.Postes.FirstOrDefault(p => p.AdresseIp == poste.AdresseIp && p.AdresseMAC == poste.AdresseMAC)!;
+        }
+
         public void Add(Poste post)
         {
             _dataContext.Postes.Add(post);

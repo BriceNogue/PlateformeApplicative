@@ -1,5 +1,5 @@
 ﻿using Desktop.Infrastructure.Services;
-using Infrastructure.Modeles;
+using Shared.Modeles;
 using Infrastructure.Services;
 using System.Text;
 using System.Windows;
@@ -24,6 +24,8 @@ namespace Desktop
 
         private PosteServiceDekstop _posteServiceD;
 
+        private PosteLoginModele _loginModele;
+
 
         public MainWindow()
         {
@@ -39,21 +41,18 @@ namespace Desktop
             int FreeSpace = 80;
             int UsedSpace = 20;
 
-            LoadProducts();
+            GetPost();
 
         }
 
-        private async void LoadProducts()
+        private async void GetPost()
         {
-            List<PosteModele> postes = await _posteServiceD.GetAll();
+            PosteModele poste = await _posteServiceD.GetOne();
 
-            if (postes != null)
+            if (poste != null)
             {
-                foreach (PosteModele poste in postes)
-                {
-                    Console.WriteLine("Poste service: " + poste.LibellePoste);
-                    txt_b_os.Text = poste.LibellePoste;
-                }
+                Console.WriteLine("Poste service: " + poste.LibellePoste);
+                txt_b_os.Text = poste.LibellePoste;
             }
         }
 

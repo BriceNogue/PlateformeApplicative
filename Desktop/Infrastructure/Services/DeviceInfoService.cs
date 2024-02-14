@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using System.Net.NetworkInformation;
 using System.Management;
 
 namespace Desktop.Infrastructure.Services
@@ -55,6 +50,34 @@ namespace Desktop.Infrastructure.Services
             }
 
             return "N/A";
+        }
+
+        public string GetIPAddress()
+        {
+            string ipAddress = string.Empty;
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface networkInterface in interfaces)
+            {
+                if (networkInterface.OperationalStatus == OperationalStatus.Up)
+                {
+                    IPInterfaceProperties ipProperties = networkInterface.GetIPProperties();
+
+                    foreach (UnicastIPAddressInformation ipAddressInfo in ipProperties.UnicastAddresses)
+                    {
+                        if (ipAddressInfo.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            ipAddress = ipAddressInfo.Address.ToString();
+                            break;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(ipAddress))
+                    break;
+            }
+
+            return ipAddress;
         }
     }
 }

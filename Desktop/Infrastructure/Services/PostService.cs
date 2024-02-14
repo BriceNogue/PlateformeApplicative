@@ -14,7 +14,7 @@ namespace Desktop.Infrastructure.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<PosteModele> Get()
+        public async Task<PosteModele> GetOne()
         {
             try
             {

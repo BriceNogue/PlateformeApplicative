@@ -26,7 +26,17 @@ namespace Infrastructure.Services
         {
             return _repository.Get(id);
         }
-        
+
+        public Poste GetOne(PosteLoginModele posteLogin)
+        {
+            Poste poste = new Poste()
+            {
+                AdresseIp = posteLogin.IpAddress,
+                AdresseMAC = posteLogin.MacAddress
+            };
+            return _repository.GetOne(poste);
+        }
+
         public bool Add(PosteModele poste)
         {
             var salle = _salleRepository.Get(poste.IdSalle);

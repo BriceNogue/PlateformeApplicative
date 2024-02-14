@@ -35,6 +35,15 @@ namespace PlateformeApplicative.Controllers
             return Ok(poste);
         }
 
+        [HttpPost("one")]
+        public ActionResult<Poste> GetOne(PosteLoginModele posteLogin)
+        {
+            var poste = _service.GetOne(posteLogin);
+            if (poste is null)
+                return NotFound("Poste inexistant.");
+            return Ok(poste);
+        }
+
         [HttpPost("create")]
         public IActionResult Add(PosteModele poste)
         {
