@@ -1,0 +1,105 @@
+﻿<Page x:Class="Desktop.Presentation.Views.DeviceInfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Desktop.Presentation.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DeviceInfoPage"
+      Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <Style TargetType="Ellipse">
+                <Setter Property="Stroke" Value="White"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid Grid.Column="0" Grid.Row="0">
+            <TextBlock Text="Disk Space Usage" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0,0,0,8"/>
+
+            <Grid Margin="0, 24,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Chart -->
+                <Grid Width="200" Height="200" Grid.ColumnSpan="2">
+                    <Ellipse StrokeThickness="20" Width="160" Height="160" Stroke="Green" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform>
+                            <RotateTransform Angle="-90"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+
+                    <Ellipse StrokeThickness="20" Width="160" Height="160" Stroke="Red" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.RenderTransform>
+                            <RotateTransform Angle="-90"/>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+
+                    <TextBlock Text="100%" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0 24 0 0" Width="300">
+                    <!-- Blue zone (Total space) -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Total : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding TotalROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="SkyBlue"/>
+                    </StackPanel>
+
+                    <!-- Red zone (Used space) -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Used : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding UsedROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="Red"/>
+                    </StackPanel>
+
+                    <!-- Green zone (Free space) -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Free : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding FreeROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="Green"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Text="Apropos du poste:" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,10,0,10"/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Marque :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_marque" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Nom :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_nom_poste" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Adresse IP :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_adr_ip" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Adresse MAC :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_adr_mac" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Systeme E :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_os" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desktop.Infrastructure.Models
+namespace Desktop.Presentation.Models
 {
     // Cette classe gere le formatage des donnee cote vue ainsi que les evenements associes
 
@@ -26,6 +26,16 @@ namespace Desktop.Infrastructure.Models
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Evenement sur les infos de la ROM
+        public double TotalROMSpace
+        {
+            get { return _freeROMSpace; }
+            set
+            {
+                _totalROMSpace = value;
+                OnPropertyChanged(nameof(TotalROMSpace));
+            }
+        }
+
         public double FreeROMSpace
         {
             get { return _freeROMSpace; }
@@ -67,7 +77,7 @@ namespace Desktop.Infrastructure.Models
             }
         }
 
-        protected virtual void OnPropertyChanged(string propertyName) 
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
