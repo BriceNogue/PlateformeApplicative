@@ -41,6 +41,11 @@ namespace Desktop
             int FreeSpace = 80;
             int UsedSpace = 20;
 
+            txt_b_adr_ip.Text = _deviceInfoService.GetIPAddress();
+            txt_b_adr_mac.Text = _deviceInfoService.GetMACAddress();
+            txt_b_nom_poste.Text = _deviceInfoService.GetMachineName();
+            txt_b_marque.Text = _deviceInfoService.GetComputerManufacturer();
+
             GetPost();
 
         }

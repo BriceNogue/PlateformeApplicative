@@ -74,13 +74,25 @@
             <TextBlock Text="Apropos du poste:" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,10,0,10"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Marque :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_marque" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Nom :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
+                <TextBlock x:Name="txt_b_nom_poste" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Adresse IP :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
                 <TextBlock x:Name="txt_b_adr_ip" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
             </StackPanel>
+            
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Adresse MAC :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
                 <TextBlock x:Name="txt_b_adr_mac" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
             </StackPanel>
+            
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Systeme E :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
                 <TextBlock x:Name="txt_b_os" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>

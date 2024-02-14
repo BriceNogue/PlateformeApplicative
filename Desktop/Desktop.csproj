@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\" />
     <Folder Include="Presentation\Controllers\" />
     <Folder Include="Presentation\Views\" />
   </ItemGroup>

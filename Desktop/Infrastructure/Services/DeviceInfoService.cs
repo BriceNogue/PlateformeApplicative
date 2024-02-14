@@ -52,6 +52,23 @@ namespace Desktop.Infrastructure.Services
             return "N/A";
         }
 
+        // Pour obtenir la marque du poste
+        public string GetComputerManufacturer()
+        {
+            string manufacturer = string.Empty;
+
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Manufacturer FROM Win32_ComputerSystem");
+            ManagementObjectCollection results = searcher.Get();
+
+            foreach (ManagementObject obj in results)
+            {
+                manufacturer = obj["Manufacturer"].ToString()!;
+                break;
+            }
+
+            return manufacturer;
+        }
+
         public string GetIPAddress()
         {
             string ipAddress = string.Empty;
@@ -78,6 +95,23 @@ namespace Desktop.Infrastructure.Services
             }
 
             return ipAddress;
+        }
+
+        public string GetMACAddress()
+        {
+            string macAddress = string.Empty;
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            foreach (NetworkInterface networkInterface in interfaces)
+            {
+                if (networkInterface.OperationalStatus == OperationalStatus.Up)
+                {
+                    macAddress = networkInterface.GetPhysicalAddress().ToString();
+                    break;
+                }
+            }
+
+            return macAddress;
         }
     }
 }
