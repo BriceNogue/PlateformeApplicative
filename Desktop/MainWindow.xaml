@@ -22,10 +22,29 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
+
+            <materialDesign:PopupBox Grid.Row="0" HorizontalAlignment="Right" Margin="0 5 5 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
+                <StackPanel>
+                    <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock VerticalAlignment="Center" Text="Dark Mode"/>
+                        <ToggleButton Cursor="Hand" ToolTip="Enable Dark Mode" Margin="12 0 8 0" x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}" Click="toggleTheme"/>
+                    </StackPanel>
+                    <Button ToolTip="Having Toogle Logging In?" Margin="0 8 0 0" Content="Help Me"/>
+                    <Button x:Name="btn_exit" ToolTip="Close Applcation" Content="Exit Application" Click="ExitApp"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+
+            <Grid Grid.Row="1">
+                <Frame x:Name="LoadPagesGrid" NavigationUIVisibility="Hidden"/>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="2">
+                <TextBlock Text="@" FontSize="18" FontWeight="Medium"/>
+            </Grid>
 
         </Grid>
     </materialDesign:Card>
