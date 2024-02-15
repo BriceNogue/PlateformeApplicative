@@ -7,9 +7,23 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="CreatePostPage"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Background="White">
 
+
     <Grid>
-        <TextBlock Text="Create Post Page"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Image Source="../../Ressources/Images/poste.png"/>
+
+        <materialDesign:Card Grid.Column="1">
+
+        </materialDesign:Card>
     </Grid>
 </Page>

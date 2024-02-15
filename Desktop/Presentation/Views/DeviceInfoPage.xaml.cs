@@ -32,6 +32,8 @@ namespace Desktop.Presentation.Views
 
         public DeviceViewModel deviceViewModel = new DeviceViewModel();
 
+        public PosteModele posteModele = new PosteModele();
+
         public DeviceInfoPage()
         {
             InitializeComponent();
@@ -51,13 +53,7 @@ namespace Desktop.Presentation.Views
             PosteModele poste = await _posteServiceD.GetOne();
 
             if (poste != null)
-            {
-                txt_b_os.Text = poste.LibellePoste;
-            }
-            else
-            {
-                txt_b_os.Text = "Aucun poste";
-            }
+                this.posteModele = poste;
         }
 
         private void DisplayPost()
@@ -74,6 +70,7 @@ namespace Desktop.Presentation.Views
             txt_b_adr_mac.Text = _deviceInfoService.GetMACAddress();
             txt_b_nom_poste.Text = _deviceInfoService.GetMachineName();
             txt_b_marque.Text = _deviceInfoService.GetComputerManufacturer();
+            txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
         }
 
     }
