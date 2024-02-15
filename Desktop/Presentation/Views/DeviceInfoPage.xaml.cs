@@ -66,11 +66,12 @@ namespace Desktop.Presentation.Views
             deviceViewModel.FreeROMSpace = used;
             deviceViewModel.UsedROMSpace = free;
 
-            txt_b_adr_ip.Text = _deviceInfoService.GetIPAddress();
-            txt_b_adr_mac.Text = _deviceInfoService.GetMACAddress();
-            txt_b_nom_poste.Text = _deviceInfoService.GetMachineName();
-            txt_b_marque.Text = _deviceInfoService.GetComputerManufacturer();
-            txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
+            txt_adr_ip.Text = _deviceInfoService.GetIPAddress();
+            txt_adr_mac.Text = _deviceInfoService.GetMACAddress();
+            txt_nom_poste.Text = _deviceInfoService.GetMachineName();
+            txt_marque.Text = _deviceInfoService.GetComputerManufacturer();
+            txt_os.Text = _deviceInfoService.GetOperatingSystem();
+            txt_processeur.Text = _deviceInfoService.GetProcessor();
         }
 
     }

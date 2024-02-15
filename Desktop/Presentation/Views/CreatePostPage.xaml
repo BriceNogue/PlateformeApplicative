@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Desktop.Presentation.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="500" d:DesignWidth="950"
       Title="CreatePostPage"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       Background="White">
@@ -14,7 +14,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -22,8 +22,97 @@
 
         <Image Source="../../Ressources/Images/poste.png"/>
 
-        <materialDesign:Card Grid.Column="1">
+        <StackPanel Grid.Column="1" Margin="0 0 15 0">
 
-        </materialDesign:Card>
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBox
+                    x:Name="txt_b_libelle"
+                    Margin="0 0 10 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Libelle"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBox
+                    x:Name="txt_b_marque"
+                    Margin="0 0 0 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Marque"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBox
+                    x:Name="txt_b_adresseIp"
+                    Margin="0 0 10 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Adresse IP"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBox
+                    x:Name="txt_b_adresseMac"
+                    Margin="0 0 0 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Adresse MAC"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <TextBox
+                    x:Name="txt_b_SE"
+                    Margin="0 0 10 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="SE"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                <TextBox
+                    x:Name="txt_b_type"
+                    Margin="0 0 0 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Type"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                <ComboBox 
+                    x:Name="c_b_salle" 
+                    Margin="0 0 10 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Salle"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    IsEditable="True">
+                    
+                    <ComboBoxItem Content="Android" />
+                    <ComboBoxItem Content="iOS" />
+                    <ComboBoxItem Content="Linux" />
+                    <ComboBoxItem Content="Windows" />
+                </ComboBox>
+
+            </StackPanel>
+            
+        </StackPanel>
+
     </Grid>
 </Page>
