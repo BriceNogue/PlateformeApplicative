@@ -6,9 +6,10 @@
       xmlns:local="clr-namespace:Desktop.Presentation.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="PostIndexPage">
+      Title="PostIndexPage"
+      Background="White">
 
     <Grid>
-        
+        <TextBlock Text="Index Page"/>
     </Grid>
 </Page>

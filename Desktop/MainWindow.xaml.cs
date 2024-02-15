@@ -23,5 +23,15 @@ namespace Desktop
         {
             Application.Current.Shutdown();
         }
+
+        private void LoadCreatePage(object sender, RoutedEventArgs e)
+        {
+            LoadPagesGrid.Navigate(new CreatePostPage());
+        }
+
+        private void LoadInfoPage(object sender, RoutedEventArgs e)
+        {
+            LoadPagesGrid.Navigate(new DeviceInfoPage());
+        }
     }
 }

@@ -74,7 +74,9 @@ namespace Infrastructure.Services
         public bool Update(PosteModele poste)
         {
             var postUpdated = Get(poste.Id);
-            if (postUpdated is null)
+            var salle = _salleRepository.Get(poste.IdSalle);
+            var type = _typeRepository.Get(poste.IdType);
+            if (postUpdated is null || salle is null || type is null)
             {
                 return false;
             }

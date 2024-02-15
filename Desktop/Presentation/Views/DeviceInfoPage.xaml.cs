@@ -37,15 +37,13 @@ namespace Desktop.Presentation.Views
             InitializeComponent();
 
             _posteServiceD = new PosteServiceDekstop();
-
             _deviceInfoService = new DeviceInfoService();
-
-
-            //txt_b_os.Text = _deviceInfoService.GetOperatingSystem();
+            _loginModele = new PosteLoginModele();
 
             DataContext = deviceViewModel;
 
             GetPost();
+            DisplayPost();
         }
 
         private async void GetPost()
@@ -54,8 +52,11 @@ namespace Desktop.Presentation.Views
 
             if (poste != null)
             {
-                Console.WriteLine("Poste service: " + poste.LibellePoste);
                 txt_b_os.Text = poste.LibellePoste;
+            }
+            else
+            {
+                txt_b_os.Text = "Aucun poste";
             }
         }
 

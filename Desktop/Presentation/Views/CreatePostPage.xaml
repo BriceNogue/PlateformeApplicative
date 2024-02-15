@@ -6,9 +6,10 @@
       xmlns:local="clr-namespace:Desktop.Presentation.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CreatePostPage">
+      Title="CreatePostPage"
+      Background="White">
 
     <Grid>
-        
+        <TextBlock Text="Create Post Page"/>
     </Grid>
 </Page>
