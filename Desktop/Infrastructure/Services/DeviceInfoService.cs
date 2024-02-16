@@ -38,19 +38,50 @@ namespace Desktop.Infrastructure.Services
             return "N/A";
         }
 
-        public string GetDiskInfo()
+        public double GetDiskCapacity()
         {
-            string query = "SELECT * FROM Win32_LogicalDisk";
+            string query = "SELECT * FROM Win32_DiskDrive";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             ManagementObjectCollection results = searcher.Get();
 
             foreach (ManagementObject obj in results)
             {
-                return obj[""].ToString()!;
+                ulong capacityBytes = (ulong)obj["Size"];
+                double capacityGB = capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
+
+                
+                return capacityGB;
             }
 
-            return "N/A";
+            return 0.0000;
         }
+
+        /*public double GetFreeDiskCapacity()
+        {
+            string query = "SELECT * FROM Win32_LogicalDisk";
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+            ManagementObjectCollection results = searcher.Get();
+
+            Dictionary<string, string> freeCapacities = new Dictionary<string, string>();
+            double freeCapacityGB = 0;
+
+            foreach (ManagementObject obj in results)
+            {
+                string driveLetter = obj["DeviceID"].ToString()!;
+                ulong freeSpaceBytes = (ulong)obj["FreeSpace"];
+
+                double freeSpaceGB = freeSpaceBytes / (1024 * 1024 * 1024); // Convertir en gigaoctet
+
+                freeCapacities.Add(driveLetter, freeSpaceGB.ToString("F2"));
+            }
+
+            foreach (string disk in freeCapacities.Values)
+            {
+                freeCapacityGB += Double.Parse(disk);
+            }
+
+            return freeCapacityGB;
+        }*/
 
         // Pour obtenir la marque du poste
         public string GetComputerManufacturer()

@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
+//using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
 
 namespace Desktop.Presentation.Views
 {
@@ -26,45 +26,45 @@ namespace Desktop.Presentation.Views
     {
         private readonly DeviceInfoService _deviceInfoService;
 
-        private PosteServiceDekstop _posteServiceD;
+        //private PosteServiceDekstop _posteServiceD;
 
         private PosteLoginModele _loginModele;
 
         public DeviceViewModel deviceViewModel = new DeviceViewModel();
 
-        public PosteModele posteModele = new PosteModele();
+        //public PosteModele posteModele = new PosteModele();
 
         public DeviceInfoPage()
         {
             InitializeComponent();
 
-            _posteServiceD = new PosteServiceDekstop();
+            //_posteServiceD = new PosteServiceDekstop();
             _deviceInfoService = new DeviceInfoService();
             _loginModele = new PosteLoginModele();
 
             DataContext = deviceViewModel;
 
-            GetPost();
+            //GetPost();
             DisplayPost();
         }
 
-        private async void GetPost()
+        /*private async void GetPost()
         {
             PosteModele poste = await _posteServiceD.GetOne();
 
             if (poste != null)
                 this.posteModele = poste;
-        }
+        }*/
 
         private void DisplayPost()
         {
-            double total = 500;
-            double used = 350;
-            double free = total - used;
+            double total = _deviceInfoService.GetDiskCapacity();
+            //double used = _deviceInfoService.GetFreeDiskCapacity();
+            //double free = total - used;
 
             deviceViewModel.TotalROMSpace = total;
-            deviceViewModel.FreeROMSpace = used;
-            deviceViewModel.UsedROMSpace = free;
+            //deviceViewModel.UsedROMSpace = used;
+            //deviceViewModel.FreeROMSpace = free;
 
             txt_adr_ip.Text = _deviceInfoService.GetIPAddress();
             txt_adr_mac.Text = _deviceInfoService.GetMACAddress();

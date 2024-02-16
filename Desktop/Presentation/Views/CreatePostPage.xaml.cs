@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Modeles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
 
 namespace Desktop.Presentation.Views
 {
@@ -20,9 +22,26 @@ namespace Desktop.Presentation.Views
     /// </summary>
     public partial class CreatePostPage : Page
     {
+        private readonly PosteServiceDekstop _posteServiceDekstop;
+
+        public List<TypeModele> TypesList = new List<TypeModele>();
+
         public CreatePostPage()
         {
             InitializeComponent();
+
+            _posteServiceDekstop = new PosteServiceDekstop();
+
+            DataContext = this;
+
+            GetAllTypes();
+        }
+
+        public async void GetAllTypes()
+        {
+            var types = await _posteServiceDekstop.GetTypes();
+            if (types != null)
+                TypesList.AddRange(types);
         }
     }
 }

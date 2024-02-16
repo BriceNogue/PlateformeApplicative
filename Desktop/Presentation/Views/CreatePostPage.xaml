@@ -102,12 +102,13 @@
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    IsEditable="True">
+                    IsEditable="True"
+                    ItemsSource="{Binding TypesList}"
+                    DisplayMemberPath="Nom">
                     
-                    <ComboBoxItem Content="Android" />
-                    <ComboBoxItem Content="iOS" />
-                    <ComboBoxItem Content="Linux" />
-                    <ComboBoxItem Content="Windows" />
+                    <!-- ItemsSource recupere tous les type et les place ici -->
+                    <!-- DisplayMemberPath definit la propriete a eafficher -->
+                    
                 </ComboBox>
 
             </StackPanel>

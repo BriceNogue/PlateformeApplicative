@@ -9,6 +9,7 @@ namespace Desktop.Infrastructure.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/postes";
+        private readonly string _URL_TYPES = "https://localhost:7281/api/types/all";
 
         private readonly DeviceInfoService _deviceInfoService;
         PosteLoginModele posteLogin = new PosteLoginModele();
@@ -20,6 +21,29 @@ namespace Desktop.Infrastructure.Services
 
             posteLogin.MacAddress = _deviceInfoService.GetMACAddress();
             posteLogin.IpAddress = _deviceInfoService.GetIPAddress();
+        }
+
+        public async Task<List<TypeModele>> GetTypes()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL_TYPES);
+
+                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+
+                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
+
+                List<TypeModele> types = new List<TypeModele>();
+                types = JsonConvert.DeserializeObject<List<TypeModele>>(responseBody)!;
+
+                return types;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null!;
+            }
         }
 
         public async Task<PosteModele> GetOne()
@@ -49,6 +73,7 @@ namespace Desktop.Infrastructure.Services
             }
         }
 
+        // Pour addapter le contenu de la requete
         private HttpContent SetRequestContent(Object obj)
         {
             string json = JsonConvert.SerializeObject(obj);
