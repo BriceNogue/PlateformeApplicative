@@ -1,6 +1,8 @@
-﻿using Shared.Modeles;
+﻿using Microsoft.EntityFrameworkCore;
+using Shared.Modeles;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +26,8 @@ namespace Desktop.Presentation.Views
     {
         private readonly PosteServiceDekstop _posteServiceDekstop;
 
-        public List<TypeModele> TypesList = new List<TypeModele>();
+        public ObservableCollection<TypeModele> TypesList = new ObservableCollection<TypeModele>();
+        public TypeModele typeModele = new TypeModele();
 
         public CreatePostPage()
         {
@@ -32,16 +35,20 @@ namespace Desktop.Presentation.Views
 
             _posteServiceDekstop = new PosteServiceDekstop();
 
-            DataContext = this;
-
             GetAllTypes();
+
+            DataContext = typeModele;
+
+            cmb_salle.ItemsSource = TypesList;
+
         }
 
         public async void GetAllTypes()
         {
             var types = await _posteServiceDekstop.GetTypes();
             if (types != null)
-                TypesList.AddRange(types);
+                TypesList = new ObservableCollection<TypeModele>(types);
+                txt_types.Text = TypesList!.Count().ToString();
         }
     }
 }

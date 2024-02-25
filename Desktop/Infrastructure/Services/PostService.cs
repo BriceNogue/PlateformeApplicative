@@ -33,10 +33,13 @@ namespace Desktop.Infrastructure.Services
 
                 string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
 
-                List<TypeModele> types = new List<TypeModele>();
-                types = JsonConvert.DeserializeObject<List<TypeModele>>(responseBody)!;
+                List<TypeModele> allTypes = new List<TypeModele>();
+                allTypes = JsonConvert.DeserializeObject<List<TypeModele>>(responseBody)!;
 
-                return types;
+                List<TypeModele> postTypes = new List<TypeModele>();
+                postTypes = allTypes.Where(t => t.ObjetConcerne == "Poste").ToList();
+
+                return postTypes;
 
             }
             catch (Exception ex)

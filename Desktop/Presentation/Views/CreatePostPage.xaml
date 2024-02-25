@@ -24,6 +24,8 @@
 
         <StackPanel Grid.Column="1" Margin="0 0 15 0">
 
+            <TextBlock x:Name="txt_types" Text="..." />
+
             <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
                 <TextBox
                     x:Name="txt_b_libelle"
@@ -93,8 +95,9 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                
                 <ComboBox 
-                    x:Name="c_b_salle" 
+                    x:Name="cmb_salle" 
                     Margin="0 0 10 0"
                     Width="250"
                     FontSize="18"
@@ -103,12 +106,12 @@
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
-                    ItemsSource="{Binding TypesList}"
-                    DisplayMemberPath="Nom">
+                    
+                    DisplayMemberPath="Name">
                     
                     <!-- ItemsSource recupere tous les type et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
-                    
+
                 </ComboBox>
 
             </StackPanel>
