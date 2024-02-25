@@ -10,6 +10,7 @@ namespace Desktop.Infrastructure.Services
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/postes";
         private readonly string _URL_TYPES = "https://localhost:7281/api/types/all";
+        private readonly string _URL_SALLES = "https://localhost:7281/api/salles/all";
 
         private readonly DeviceInfoService _deviceInfoService;
         PosteLoginModele posteLogin = new PosteLoginModele();
@@ -40,6 +41,29 @@ namespace Desktop.Infrastructure.Services
                 postTypes = allTypes.Where(t => t.ObjetConcerne == "Poste").ToList();
 
                 return postTypes;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null!;
+            }
+        }
+
+        public async Task<List<SalleModele>> GetSalles()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL_SALLES);
+
+                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+
+                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
+
+                List<SalleModele> allSalles = new List<SalleModele>();
+                allSalles = JsonConvert.DeserializeObject<List<SalleModele>>(responseBody)!;
+
+                return allSalles;
 
             }
             catch (Exception ex)

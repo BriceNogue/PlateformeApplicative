@@ -26,7 +26,7 @@ namespace Desktop.Presentation.Views
     {
         private readonly PosteServiceDekstop _posteServiceDekstop;
 
-        public ObservableCollection<TypeModele> TypesList = new ObservableCollection<TypeModele>();
+        public List<TypeModele> TypesList = new List<TypeModele>();
         public TypeModele typeModele = new TypeModele();
 
         public CreatePostPage()
@@ -37,9 +37,7 @@ namespace Desktop.Presentation.Views
 
             GetAllTypes();
 
-            DataContext = typeModele;
-
-            cmb_salle.ItemsSource = TypesList;
+            cmb_types.ItemsSource = TypesList; // typeof(Colors).GetProperties();
 
         }
 
@@ -47,8 +45,9 @@ namespace Desktop.Presentation.Views
         {
             var types = await _posteServiceDekstop.GetTypes();
             if (types != null)
-                TypesList = new ObservableCollection<TypeModele>(types);
+                TypesList = types;
                 txt_types.Text = TypesList!.Count().ToString();
         }
+
     }
 }

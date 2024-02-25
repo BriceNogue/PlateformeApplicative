@@ -96,18 +96,17 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
                 
-                <ComboBox 
-                    x:Name="cmb_salle" 
+                <ComboBox
+                    x:Name="cmb_types"
                     Margin="0 0 10 0"
                     Width="250"
                     FontSize="18"
-                    materialDesign:HintAssist.Hint="Salle"
+                    materialDesign:HintAssist.Hint="Type"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
-                    
-                    DisplayMemberPath="Name">
+                    DisplayMemberPath="Nom">
                     
                     <!-- ItemsSource recupere tous les type et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
