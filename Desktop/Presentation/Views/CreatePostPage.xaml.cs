@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Desktop.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Shared.Modeles;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,11 @@ namespace Desktop.Presentation.Views
     public partial class CreatePostPage : Page
     {
         private readonly PosteServiceDekstop _posteServiceDekstop;
+        private readonly DeviceInfoService _deviceInfoService;
 
         public List<TypeModele> TypesList = new List<TypeModele>();
+        public List<TypeModele> SallesList = new List<TypeModele>();
+
         public TypeModele typeModele = new TypeModele();
 
         public CreatePostPage()
@@ -34,19 +38,27 @@ namespace Desktop.Presentation.Views
             InitializeComponent();
 
             _posteServiceDekstop = new PosteServiceDekstop();
+            _deviceInfoService = new DeviceInfoService();
 
-            GetAllTypes();
-
-            cmb_types.ItemsSource = TypesList; // typeof(Colors).GetProperties();
+            GetTypesAndSalles();
 
         }
 
-        public async void GetAllTypes()
+        public async void GetTypesAndSalles()
         {
             var types = await _posteServiceDekstop.GetTypes();
+            var salles = await _posteServiceDekstop.GetSalles();
+
             if (types != null)
-                TypesList = types;
-                txt_types.Text = TypesList!.Count().ToString();
+                cmb_types.ItemsSource = types;
+
+            if (salles != null)
+                cmb_salles.ItemsSource = salles;
+        }
+
+        public void GetDeviceInnfo()
+        {
+
         }
 
     }

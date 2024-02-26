@@ -22,14 +22,14 @@
 
         <Image Source="../../Ressources/Images/poste.png"/>
 
-        <StackPanel Grid.Column="1" Margin="0 0 15 0">
+        <StackPanel Grid.Column="1" Margin="0 0 10 0">
 
             <TextBlock x:Name="txt_types" Text="..." />
 
-            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
                 <TextBox
                     x:Name="txt_b_libelle"
-                    Margin="0 0 10 0"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Libelle"
@@ -49,7 +49,7 @@
 
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
                 <TextBox
                     x:Name="txt_b_adresseIp"
                     Margin="0 0 10 0"
@@ -71,7 +71,7 @@
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
                 <TextBox
                     x:Name="txt_b_SE"
                     Margin="0 0 10 0"
@@ -82,20 +82,6 @@
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
 
-                <TextBox
-                    x:Name="txt_b_type"
-                    Margin="0 0 0 0"
-                    Width="250"
-                    FontSize="18"
-                    materialDesign:HintAssist.Hint="Type"
-                    BorderThickness="2"
-                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
-
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
-                
                 <ComboBox
                     x:Name="cmb_types"
                     Margin="0 0 10 0"
@@ -107,8 +93,29 @@
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
                     DisplayMemberPath="Nom">
+
+                    <!-- ItemsSource recupere tous les types et les place ici -->
+                    <!-- DisplayMemberPath definit la propriete a eafficher -->
+
+                </ComboBox>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                
+                <ComboBox
+                    x:Name="cmb_salles"
+                    Margin="0 0 10 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Salle"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    IsEditable="True"
+                    DisplayMemberPath="Nom">
                     
-                    <!-- ItemsSource recupere tous les type et les place ici -->
+                    <!-- ItemsSource recupere tous les salles et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
 
                 </ComboBox>
