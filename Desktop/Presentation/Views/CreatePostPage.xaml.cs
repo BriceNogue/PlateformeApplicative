@@ -43,7 +43,11 @@ namespace Desktop.Presentation.Views
             GetTypesAndSalles();
             GetDeviceInnfo();
 
+            cmb_salles.SelectionChanged += SetDeviceNumber;
+
         }
+
+        
 
         public async void GetTypesAndSalles()
         {
@@ -63,6 +67,17 @@ namespace Desktop.Presentation.Views
             txt_b_adresseIp.Text = _deviceInfoService.GetIPAddress();
             txt_b_adresseMac.Text = _deviceInfoService.GetMACAddress();
             txt_b_SE.Text = _deviceInfoService.GetOperatingSystem();
+        }
+
+        private void SetDeviceNumber(object sender, SelectionChangedEventArgs e)
+        {
+            // Recuperer et convertir l'element selectionne
+            var selectedSalle = cmb_salles.SelectedItem as SalleModele;
+
+            if (selectedSalle != null)
+            {
+                txt_types.Text = selectedSalle.Capacite.ToString();
+            }
         }
 
     }
