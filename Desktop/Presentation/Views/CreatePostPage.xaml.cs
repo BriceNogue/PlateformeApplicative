@@ -29,7 +29,8 @@ namespace Desktop.Presentation.Views
         private readonly DeviceInfoService _deviceInfoService;
 
         public List<TypeModele> TypesList = new List<TypeModele>();
-        public List<TypeModele> SallesList = new List<TypeModele>();
+        public List<SalleModele> SallesList = new List<SalleModele>();
+        public List<PosteModele> PostesList = new List<PosteModele>();
 
         public TypeModele typeModele = new TypeModele();
 
@@ -42,6 +43,7 @@ namespace Desktop.Presentation.Views
 
             GetTypesAndSalles();
             GetDeviceInnfo();
+            GetPostes();
 
             cmb_salles.SelectionChanged += SetDeviceNumber;
 
@@ -69,6 +71,12 @@ namespace Desktop.Presentation.Views
             txt_b_SE.Text = _deviceInfoService.GetOperatingSystem();
         }
 
+        public async void GetPostes()
+        {
+            var postes = await _posteServiceDekstop.GetPostes();
+           PostesList = postes;
+        }
+
         private void SetDeviceNumber(object sender, SelectionChangedEventArgs e)
         {
             // Recuperer et convertir l'element selectionne
@@ -76,7 +84,10 @@ namespace Desktop.Presentation.Views
 
             if (selectedSalle != null)
             {
-                txt_types.Text = selectedSalle.Capacite.ToString();
+                
+                var postesSalle = PostesList.Where(p => p.IdSalle == selectedSalle.Id);
+
+                txt_types.Text = postesSalle.Count().ToString();
             }
         }
 

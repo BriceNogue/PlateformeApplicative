@@ -73,6 +73,29 @@ namespace Desktop.Infrastructure.Services
             }
         }
 
+        public async Task<List<PosteModele>> GetPostes()
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL+"/all");
+
+                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+
+                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
+
+                List<PosteModele> allPostes = new List<PosteModele>();
+                allPostes = JsonConvert.DeserializeObject<List<PosteModele>>(responseBody)!;
+
+                return allPostes;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null!;
+            }
+        }
+
         public async Task<PosteModele> GetOne()
         {
             
