@@ -41,6 +41,7 @@ namespace Desktop.Presentation.Views
             _deviceInfoService = new DeviceInfoService();
 
             GetTypesAndSalles();
+            GetDeviceInnfo();
 
         }
 
@@ -58,7 +59,10 @@ namespace Desktop.Presentation.Views
 
         public void GetDeviceInnfo()
         {
-
+            txt_b_marque.Text = _deviceInfoService.GetComputerManufacturer();
+            txt_b_adresseIp.Text = _deviceInfoService.GetIPAddress();
+            txt_b_adresseMac.Text = _deviceInfoService.GetMACAddress();
+            txt_b_SE.Text = _deviceInfoService.GetOperatingSystem();
         }
 
     }

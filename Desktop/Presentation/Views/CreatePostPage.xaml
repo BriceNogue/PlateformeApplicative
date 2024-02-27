@@ -45,20 +45,22 @@
                     materialDesign:HintAssist.Hint="Marque"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True"/>
 
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
                 <TextBox
                     x:Name="txt_b_adresseIp"
-                    Margin="0 0 10 0"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Adresse IP"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True"/>
 
                 <TextBox
                     x:Name="txt_b_adresseMac"
@@ -68,23 +70,25 @@
                     materialDesign:HintAssist.Hint="Adresse MAC"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
                 <TextBox
                     x:Name="txt_b_SE"
-                    Margin="0 0 10 0"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="SE"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True"/>
 
                 <ComboBox
                     x:Name="cmb_types"
-                    Margin="0 0 10 0"
+                    Margin="0 0 0 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Type"
@@ -105,7 +109,7 @@
                 
                 <ComboBox
                     x:Name="cmb_salles"
-                    Margin="0 0 10 0"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Salle"
@@ -117,6 +121,20 @@
                     
                     <!-- ItemsSource recupere tous les salles et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
+
+                </ComboBox>
+
+                <ComboBox
+                    x:Name="cmb_num_poste"
+                    Margin="0 0 0 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Numero"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                    IsEditable="True"
+                    DisplayMemberPath="Nom">
 
                 </ComboBox>
 
