@@ -13,15 +13,12 @@ namespace Desktop.Infrastructure.Services
         private readonly string _URL_SALLES = "https://localhost:7281/api/salles/all";
 
         private readonly DeviceInfoService _deviceInfoService;
-        PosteLoginModele posteLogin = new PosteLoginModele();
+        
 
         public PosteService()
         {
             _httpClient = new HttpClient();
             _deviceInfoService = new DeviceInfoService();
-
-            posteLogin.MacAddress = _deviceInfoService.GetMACAddress();
-            posteLogin.IpAddress = _deviceInfoService.GetIPAddress();
         }
 
         public async Task<List<TypeModele>> GetTypes()
@@ -98,7 +95,10 @@ namespace Desktop.Infrastructure.Services
 
         public async Task<PosteModele> GetOne()
         {
-            
+            PosteLoginModele posteLogin = new PosteLoginModele();
+            posteLogin.MacAddress = _deviceInfoService.GetMACAddress();
+            posteLogin.Manufacturer = _deviceInfoService.GetComputerManufacturer();
+
             try
             {
                 string json = JsonConvert.SerializeObject(posteLogin);

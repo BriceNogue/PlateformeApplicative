@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Modeles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
 
 namespace Desktop.Presentation.Views
 {
@@ -20,9 +22,30 @@ namespace Desktop.Presentation.Views
     /// </summary>
     public partial class PostIndexPage : Page
     {
+        PosteModele posteModele = new PosteModele();
+
+        private PosteServiceDekstop _posteServiceD;
+
         public PostIndexPage()
         {
             InitializeComponent();
+
+            _posteServiceD = new PosteServiceDekstop();
+
+            GetPost();
+        }
+
+        private async void GetPost()
+        {
+            PosteModele poste = await _posteServiceD.GetOne();
+            if (poste is null)
+            {       
+                txt_post.Text = "Nonnnnnnn";
+            }
+            {
+                this.posteModele = poste!;
+                txt_post.Text = poste!.Id.ToString();
+            }
         }
     }
 }

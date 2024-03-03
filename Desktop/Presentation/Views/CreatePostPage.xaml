@@ -24,19 +24,30 @@
 
         <StackPanel Grid.Column="1" Margin="0 0 10 0">
 
-            <TextBlock x:Name="txt_types" Text="..." />
+            <TextBlock x:Name="txt_t" Text="" />
 
             <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                <TextBox
+                <!-- <TextBox
                     x:Name="txt_b_libelle"
                     Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Libelle"
                     BorderThickness="2"
-                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    BorderBrush="{DynamicResource MaterialDesignDivider}" 
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/> -->
 
+                <TextBox
+                    x:Name="txt_b_adresseIp"
+                    Margin="0 0 15 0"
+                    Width="250"
+                    FontSize="18"
+                    materialDesign:HintAssist.Hint="Adresse IP"
+                    BorderThickness="2"
+                    BorderBrush="{DynamicResource MaterialDesignDivider}"
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="True"/>
+                
                 <TextBox
                     x:Name="txt_b_marque"
                     Margin="0 0 0 0"
@@ -52,11 +63,11 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
                 <TextBox
-                    x:Name="txt_b_adresseIp"
+                    x:Name="txt_b_SE"
                     Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
-                    materialDesign:HintAssist.Hint="Adresse IP"
+                    materialDesign:HintAssist.Hint="SE"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -75,20 +86,10 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
-                <TextBox
-                    x:Name="txt_b_SE"
-                    Margin="0 0 15 0"
-                    Width="250"
-                    FontSize="18"
-                    materialDesign:HintAssist.Hint="SE"
-                    BorderThickness="2"
-                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    IsReadOnly="True"/>
-
+                
                 <ComboBox
                     x:Name="cmb_types"
-                    Margin="0 0 0 0"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Type"
@@ -103,13 +104,9 @@
 
                 </ComboBox>
 
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
-                
                 <ComboBox
                     x:Name="cmb_salles"
-                    Margin="0 0 15 0"
+                    Margin="0 0 0 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Salle"
@@ -118,28 +115,47 @@
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
                     DisplayMemberPath="Nom">
-                    
+
                     <!-- ItemsSource recupere tous les salles et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
 
                 </ComboBox>
 
-                <ComboBox
-                    x:Name="cmb_num_poste"
-                    Margin="0 0 0 0"
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+   
+                <TextBox
+                    x:Name="txt_num_post"
+                    Margin="0 0 15 0"
                     Width="250"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Numero"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedComboBox}"
-                    IsEditable="True"
-                    DisplayMemberPath="Nom">
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    IsReadOnly="false"/>
 
-                </ComboBox>
+                <Button 
+                    x:Name="btn_save"
+                    Margin="0 0 0 0"
+                    Content="Enregistrer"
+                    FontSize="18"
+                    Width="250"
+                    Height="60"
+                    Click="SavePost"/>
 
             </StackPanel>
-            
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                <TextBlock x:Name="txt_capacite" Text="" Margin="0 0 10 0" FontSize="18"/>
+                <TextBlock x:Name="txt_dispo" Text="" Margin="10 0 0 0" FontSize="18"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0">
+                <TextBlock x:Name="txt_error" Text="" FontSize="18"/>
+            </StackPanel>
+
         </StackPanel>
 
     </Grid>

@@ -23,7 +23,7 @@ namespace Domain.Repositories
 
         public Poste GetOne(Poste poste)
         {
-            return _dataContext.Postes.FirstOrDefault(p => p.AdresseIp == poste.AdresseIp && p.AdresseMAC == poste.AdresseMAC)!;
+            return _dataContext.Postes.FirstOrDefault(p => p.Marque == poste.Marque && p.AdresseMAC == poste.AdresseMAC)!;
         }
 
         public void Add(Poste post)

@@ -1,4 +1,5 @@
 ﻿using Desktop.Infrastructure.Services;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Shared.Modeles;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +36,9 @@ namespace Desktop.Presentation.Views
 
         public TypeModele typeModele = new TypeModele();
 
+        int salleCapacity = 0;
+        int dispo = 0;
+
         public CreatePostPage()
         {
             InitializeComponent();
@@ -45,7 +50,8 @@ namespace Desktop.Presentation.Views
             GetDeviceInnfo();
             GetPostes();
 
-            cmb_salles.SelectionChanged += SetDeviceNumber;
+            cmb_salles.SelectionChanged += GetSelectedSalleCapacity;
+            txt_num_post.TextChanged += OnSetPosteNumber;
 
         }
 
@@ -77,19 +83,86 @@ namespace Desktop.Presentation.Views
            PostesList = postes;
         }
 
-        private void SetDeviceNumber(object sender, SelectionChangedEventArgs e)
+        private void GetSelectedSalleCapacity(object sender, SelectionChangedEventArgs e)
         {
             // Recuperer et convertir l'element selectionne
             var selectedSalle = cmb_salles.SelectedItem as SalleModele;
 
             if (selectedSalle != null)
             {
-                
-                var postesSalle = PostesList.Where(p => p.IdSalle == selectedSalle.Id);
+                this.salleCapacity = selectedSalle.Capacite;
+                txt_capacite.Text = "Capacite: "+ this.salleCapacity.ToString();
 
-                txt_types.Text = postesSalle.Count().ToString();
+                var postesSalle = PostesList.Count(p => p.IdSalle == selectedSalle.Id);
+
+                this.dispo = (selectedSalle.Capacite - postesSalle);
+                txt_dispo.Text = "Disponible: "+ this.dispo.ToString();
             }
         }
 
+        private void OnSetPosteNumber(object sender, TextChangedEventArgs e)
+        {
+            string inputText = txt_num_post.Text;
+            
+            var inputVerify = Regex.Match(inputText, "[0-9]+");
+
+            if (inputVerify.Success)
+            {
+                List<PosteModele> postesSalle = [];
+
+                if (cmb_salles.SelectedItem != null)
+                {
+                    var selectedSalle = cmb_salles.SelectedItem as SalleModele;
+                    postesSalle = PostesList.Where(p => p.IdSalle == selectedSalle!.Id).ToList();
+                }
+
+                bool existingPost = postesSalle.Any(p => p.LibellePoste == inputVerify.Value);
+                int inputNumber = int.Parse(inputVerify.Value);
+
+                if (inputNumber > this.salleCapacity)
+                {
+                    txt_error.Text = "Valeur superieur a la capacite de la salle.";
+                }else if (inputNumber > this.dispo || inputNumber == 0)
+                {
+                    txt_error.Text = "Valeur indisponible.";
+                }
+                else if (existingPost)
+                {
+                    txt_error.Text = "Valeur deja attribuee a un poste.";
+                }
+                else
+                {
+                    txt_error.Text = "";
+                }
+            }
+            else
+            {
+                txt_error.Text = "Entrez une valeur valide.";
+            }
+
+        }
+
+        private async void GetPost()
+        {
+           
+            
+        }
+
+        private async void SavePost(object sender, EventArgs e)
+        {
+            PosteModele poste = await _posteServiceDekstop.GetOne();
+            if (poste is null)
+            {
+                PosteModele newPost = new PosteModele();
+
+                
+
+                MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)
+            {
+                MessageBoxResult result = MessageBox.Show("Se Poste a deja ete cree.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
     }
 }

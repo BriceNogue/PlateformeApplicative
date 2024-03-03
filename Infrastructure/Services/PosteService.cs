@@ -31,7 +31,7 @@ namespace Infrastructure.Services
         {
             Poste poste = new Poste()
             {
-                AdresseIp = posteLogin.IpAddress,
+                Marque = posteLogin.Manufacturer,
                 AdresseMAC = posteLogin.MacAddress
             };
             return _repository.GetOne(poste);

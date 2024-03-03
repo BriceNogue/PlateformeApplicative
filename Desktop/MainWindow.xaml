@@ -30,6 +30,7 @@
             <materialDesign:PopupBox Grid.Row="0" HorizontalAlignment="Right" Margin="0 5 5 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
                 <StackPanel>
                     <Button ToolTip="Having Toogle Logging In?" Margin="0 8 0 0" Content="Help Me"/>
+                    <Button x:Name="btn_home" ToolTip="Accueil" Content="Accueil" Click="LoadIndexPage"/>
                     <Button x:Name="btn_create" ToolTip="Close Applcation" Content="Creer un poste" Click="LoadCreatePage"/>
                     <Button x:Name="btn_info" ToolTip="Close Applcation" Content="Informations" Click="LoadInfoPage"/>
                     <Button x:Name="btn_exit" ToolTip="Close Applcation" Content="Quitter" Click="ExitApp"/>

@@ -11,5 +11,6 @@
 
     <Grid>
         <TextBlock Text="Index Page"/>
+        <TextBlock x:Name="txt_post" Text="" FontSize="18" FontWeight="Medium"/>
     </Grid>
 </Page>

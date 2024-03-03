@@ -2,7 +2,6 @@
 using Shared.Modeles;
 using System.Windows;
 using System.Windows.Controls;
-using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
 
 namespace Desktop
 {
@@ -11,34 +10,19 @@ namespace Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        private PosteServiceDekstop _posteServiceD;
-
-        public PosteModele posteModele = new PosteModele();
-
         private Page currentPage = default!;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            _posteServiceD = new PosteServiceDekstop();
-
             LoadPagesGrid.Navigate(new PostIndexPage());
 
-            GetPost();
         }
 
-        private async void GetPost()
+        private void LoadIndexPage(object sender, RoutedEventArgs e)
         {
-            PosteModele poste = await _posteServiceD.GetOne();
-
-            if (poste != null)
-                this.posteModele = poste;
-        }
-
-        private void ExitApp(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
+            LoadPagesGrid.Navigate(new PostIndexPage());
         }
 
         private void LoadCreatePage(object sender, RoutedEventArgs e)
@@ -49,6 +33,11 @@ namespace Desktop
         private void LoadInfoPage(object sender, RoutedEventArgs e)
         {
             LoadPagesGrid.Navigate(new DeviceInfoPage());
+        }
+
+        private void ExitApp(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
