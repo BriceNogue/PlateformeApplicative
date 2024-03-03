@@ -142,22 +142,28 @@ namespace Desktop.Presentation.Views
 
         }
 
-        private async void GetPost()
-        {
-           
-            
-        }
-
         private async void SavePost(object sender, EventArgs e)
         {
             PosteModele poste = await _posteServiceDekstop.GetOne();
             if (poste is null)
             {
+                string marque = txt_b_marque.Text;
+                string adresseIp = txt_b_adresseIp.Text;
+                string adresseMac = txt_b_adresseMac.Text;
+                string se = txt_b_SE.Text;
+                int idSalle = ((SalleModele)cmb_salles.SelectedItem).Id;
+                int idType = ((TypeModele)cmb_types.SelectedItem).Id;
+
                 PosteModele newPost = new PosteModele();
 
-                
+                newPost.Marque = marque;
+                newPost.AdresseIp = adresseIp;
+                newPost.AdresseMAC = adresseMac;
+                newPost.SE = se;
+                newPost.IdSalle = idSalle;
+                newPost.IdType = idType;
 
-                MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"{newPost.IdSalle + " " + newPost.IdType}", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)
             {
