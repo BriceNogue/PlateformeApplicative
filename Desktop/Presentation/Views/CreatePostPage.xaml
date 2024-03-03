@@ -134,7 +134,8 @@
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    IsReadOnly="false"/>
+                    IsReadOnly="false"
+                    PreviewTextInput="OnTextInput"/>
 
                 <Button 
                     x:Name="btn_save"

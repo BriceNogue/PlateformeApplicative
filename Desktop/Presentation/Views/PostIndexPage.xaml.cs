@@ -44,7 +44,7 @@ namespace Desktop.Presentation.Views
             }
             {
                 this.posteModele = poste!;
-                txt_post.Text = poste!.Id.ToString();
+                txt_post.Text = poste?.Id.ToString();
             }
         }
     }

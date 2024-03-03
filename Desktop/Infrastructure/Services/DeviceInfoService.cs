@@ -1,5 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 using System.Management;
+using System.Text.RegularExpressions;
 
 namespace Desktop.Infrastructure.Services
 {
@@ -142,7 +143,18 @@ namespace Desktop.Infrastructure.Services
                 }
             }
 
-            return macAddress;
+            // Formater l'adresse MAC
+            /*macAddress = string.Format("{0}:{1}:{2}:{3}:{4}:{5}",
+                macAddress.Substring(0, 2),
+                macAddress.Substring(2, 2),
+                macAddress.Substring(4, 2),
+                macAddress.Substring(6, 2),
+                macAddress.Substring(8, 2),
+                macAddress.Substring(10, 2));*/
+
+            string formattedMacAddress = Regex.Replace(macAddress, "(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})", "$1:$2:$3:$4:$5:$6");
+
+            return formattedMacAddress;
         }
     }
 }

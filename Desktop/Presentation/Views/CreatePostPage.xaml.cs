@@ -51,7 +51,7 @@ namespace Desktop.Presentation.Views
             GetPostes();
 
             cmb_salles.SelectionChanged += GetSelectedSalleCapacity;
-            txt_num_post.TextChanged += OnSetPosteNumber;
+            //txt_num_post.TextChanged += OnSetPosteNumber;
 
         }
 
@@ -100,6 +100,8 @@ namespace Desktop.Presentation.Views
             }
         }
 
+
+        /*
         private void OnSetPosteNumber(object sender, TextChangedEventArgs e)
         {
             string inputText = txt_num_post.Text;
@@ -141,6 +143,17 @@ namespace Desktop.Presentation.Views
             }
 
         }
+        */
+
+
+        private void OnTextInput(object sender, TextCompositionEventArgs e)
+        {
+            // Vérifier si le caractère entré est un chiffre
+            if (!char.IsDigit(e.Text, e.Text.Length - 1) || e.Text == " ")
+            {
+                e.Handled = true; // Ignorer la saisie du caractère non autorisé
+            }
+        }
 
         private async void SavePost(object sender, EventArgs e)
         {
@@ -151,19 +164,32 @@ namespace Desktop.Presentation.Views
                 string adresseIp = txt_b_adresseIp.Text;
                 string adresseMac = txt_b_adresseMac.Text;
                 string se = txt_b_SE.Text;
-                int idSalle = ((SalleModele)cmb_salles.SelectedItem).Id;
-                int idType = ((TypeModele)cmb_types.SelectedItem).Id;
+                string libelePoste;
+                int idSalle;
+                int idType;
 
-                PosteModele newPost = new PosteModele();
+                if (cmb_salles.SelectedItem is null || cmb_types.SelectedItem is null || txt_num_post.Text == string.Empty)
+                {
+                    MessageBoxResult result = MessageBox.Show("Champ manquant.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    idSalle = ((SalleModele)cmb_salles.SelectedItem).Id;
+                    idType = ((TypeModele)cmb_types.SelectedItem).Id;
+                    libelePoste = txt_num_post.Text;
 
-                newPost.Marque = marque;
-                newPost.AdresseIp = adresseIp;
-                newPost.AdresseMAC = adresseMac;
-                newPost.SE = se;
-                newPost.IdSalle = idSalle;
-                newPost.IdType = idType;
+                    PosteModele newPost = new PosteModele();
 
-                MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"{newPost.IdSalle + " " + newPost.IdType}", MessageBoxButton.OK, MessageBoxImage.Information);
+                    newPost.Marque = marque;
+                    newPost.AdresseIp = adresseIp;
+                    newPost.AdresseMAC = adresseMac;
+                    newPost.SE = se;
+                    newPost.IdSalle = idSalle;
+                    newPost.IdType = idType;
+                    newPost.LibellePoste = libelePoste;
+
+                    MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"{newPost.IdSalle + " " + newPost.IdType}", MessageBoxButton.OK, MessageBoxImage.Information);
+                }               
             }
             else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)
             {
