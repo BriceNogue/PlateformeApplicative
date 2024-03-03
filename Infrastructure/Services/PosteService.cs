@@ -53,9 +53,12 @@ namespace Infrastructure.Services
                     Marque = poste.Marque,
                     AdresseIp = poste.AdresseIp,
                     AdresseMAC = poste.AdresseMAC,
+                    SE = poste.SE,
+                    ROM = poste.ROM,
+                    RAM = poste.RAM,
                     IdSalle = poste.IdSalle,
                     IdType = poste.IdType,
-                    Statut = poste.Statut,
+                    Statut = false,
                 };
                 _repository.Add(newPost);
                 return true;

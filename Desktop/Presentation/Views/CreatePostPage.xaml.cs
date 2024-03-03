@@ -51,7 +51,7 @@ namespace Desktop.Presentation.Views
             GetPostes();
 
             cmb_salles.SelectionChanged += GetSelectedSalleCapacity;
-            //txt_num_post.TextChanged += OnSetPosteNumber;
+            txt_num_post.TextChanged += OnSetPosteNumber;
 
         }
 
@@ -100,8 +100,6 @@ namespace Desktop.Presentation.Views
             }
         }
 
-
-        /*
         private void OnSetPosteNumber(object sender, TextChangedEventArgs e)
         {
             string inputText = txt_num_post.Text;
@@ -143,7 +141,6 @@ namespace Desktop.Presentation.Views
             }
 
         }
-        */
 
 
         private void OnTextInput(object sender, TextCompositionEventArgs e)
@@ -188,7 +185,16 @@ namespace Desktop.Presentation.Views
                     newPost.IdType = idType;
                     newPost.LibellePoste = libelePoste;
 
-                    MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"{newPost.IdSalle + " " + newPost.IdType}", MessageBoxButton.OK, MessageBoxImage.Information);
+                    bool isAdded = await _posteServiceDekstop.Add(newPost);
+
+                    if (isAdded)
+                    {
+                        MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBoxResult result = MessageBox.Show("un problème est survenu lors de l'enregistrement du poste.", $"Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }               
             }
             else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)

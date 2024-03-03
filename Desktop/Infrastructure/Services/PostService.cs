@@ -136,7 +136,7 @@ namespace Desktop.Infrastructure.Services
         {
             var content = SetRequestContent(poste);
 
-            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/Add", content);
+            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/create", content);
             if (response.IsSuccessStatusCode)
             {
                 return true;
