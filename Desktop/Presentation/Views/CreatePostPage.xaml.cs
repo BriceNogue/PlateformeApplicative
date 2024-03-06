@@ -1,7 +1,7 @@
 ﻿using Desktop.Infrastructure.Services;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
-using Shared.Modeles;
+using Shareds.Modeles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -1,5 +1,5 @@
 ﻿using Desktop.Presentation.Views;
-using Shared.Modeles;
+using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Controls;
 

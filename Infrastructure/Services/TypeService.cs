@@ -1,6 +1,6 @@
 ﻿using Domain.Repositories;
 using Domain.Entities;
-using Shared.Modeles;
+using Shareds.Modeles;
 
 namespace Infrastructure.Services
 {

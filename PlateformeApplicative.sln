@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{5490AAF8-0741-4317-AB4D-7B00B0330762}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{A6F36725-99CD-43A1-952E-E371D3444D24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shareds", "Shared\Shareds.csproj", "{A6F36725-99CD-43A1-952E-E371D3444D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

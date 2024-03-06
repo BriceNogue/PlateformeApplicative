@@ -1,5 +1,5 @@
 ﻿
-namespace Shared.Modeles
+namespace Shareds.Modeles
 {
     public class PosteLoginModele
     {

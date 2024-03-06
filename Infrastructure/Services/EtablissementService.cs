@@ -1,7 +1,7 @@
 ﻿using Azure;
 using Domain.Entities;
 using Domain.Repositories;
-using Shared.Modeles;
+using Shareds.Modeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,7 @@
 ﻿@page "/"
-@inject HttpClient httpClient
-@using Infrastructure.Modeles;
+
+@using Services;
+@using Shareds.Modeles;
 
 <PageTitle>Index</PageTitle>
 
@@ -27,13 +28,12 @@ else
 
 @code 
 {
-    List<PosteModele> postes = new List<PosteModele>();
+    private PosteService posteService = new PosteService();
+    private List<PosteModele> postes = new List<PosteModele>();
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await httpClient.GetFromJsonAsync<List<PosteModele>>("https://localhost:7281/api/postes/all");
-        if (result != null)
-            postes = result;
+        postes = await posteService.GetAll();
     }
 
 }

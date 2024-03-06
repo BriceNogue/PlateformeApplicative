@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Shared.Modeles;
+using Shareds.Modeles;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
