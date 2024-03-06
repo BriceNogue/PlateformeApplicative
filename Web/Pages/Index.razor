@@ -11,7 +11,11 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
-@if (postes.Count <= 0)
+@if (postes is null)
+{
+    <span>Chargement...</span>
+}
+else if (postes.Count == 0)
 {
     <span>Liste vide!</span>
 }
@@ -33,6 +37,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await Task.Delay(1000);
+
         postes = await posteService.GetAll();
     }
 

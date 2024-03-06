@@ -2,7 +2,7 @@
 
 namespace Web.Services
 {
-    public class PosteService
+    public class PosteService : IPosteService
     {
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/postes";
