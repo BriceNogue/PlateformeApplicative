@@ -5,7 +5,7 @@ namespace Web.Services
     public class UserService
     {
         private readonly HttpClient _httpClient;
-        private readonly string _URL = "";
+        private readonly string _URL = "https://localhost:7281/api/users";
 
         public UserService()
         {

@@ -15,6 +15,6 @@ namespace Shareds.Modeles
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
         public int IdType { get; set; }
-        public int IdParc { get; set; }
+        //public int IdParc { get; set; }
     }
 }

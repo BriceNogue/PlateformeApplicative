@@ -3,43 +3,95 @@
 @using Services;
 @using Shareds.Modeles;
 
+@inject NavigationManager NavigationM
+
 <PageTitle>Dashboard</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Groupe 3IL</h1>
 
-Welcome to your new app.
+<div class="container container-nbr">
+    <div class="nbr nbr-salles">
+         <h3> @salles.Count </h3>
+        <h3>Salles</h3>
+    </div>
+    <div class="nbr nbr-postes">
+        <h3> @postes.Count </h3>
+        <h3>Postes</h3>
+    </div>
+    <div class="nbr nbr-users">
+        <h3> @users.Count </h3>
+        <h3>Utilisateurs</h3>
+    </div>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
-
-@if (postes is null)
-{
-    <span>Chargement...</span>
-}
-else if (postes.Count == 0)
-{
-    <span>Liste vide!</span>
-}
-else
-{
-    <ul>
-        @foreach (var poste in postes)
-        {
-           <li>@poste.LibellePoste</li>
-        }
-    </ul>
-}
-
+<div class="container container-stat">
+    @if(salles.Count == 0)
+    {
+        <h3>Aucune salle dans ce parc.</h3>
+    }
+    else
+    {
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Emplacement</th>
+                        <th>Capacité</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Etablissement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var salle in salles)
+                    {                        
+                        <tr class="d-table-row" @onclick="(()=> GetSalleDetails(salle.Id))">
+                            <td>@salle.Id</td>
+                            <td>@salle.Nom</td>
+                            <td>@salle.Emplacement</td>
+                            <td>@salle.Capacite</td>
+                            <td>@salle.Status</td>
+                            <td>@salle.IdType</td>
+                            <td>@salle.IdEtablissement</td>
+                            <!--<td>
+                                <a href="@($"salles/details/{salle.Id}")">Details</a>
+                            </td>-->
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="stat stat-salles">
+        </div>
+    }
+</div>
 
 @code 
 {
     private PosteService posteService = new PosteService();
     private List<PosteModele> postes = new List<PosteModele>();
 
+    private SalleService salleService = new SalleService();
+    private List<SalleModele> salles = new List<SalleModele>();
+
+    private UserService userService = new UserService();
+    private List<UserModele> users = new List<UserModele>();
+
     protected override async Task OnInitializedAsync()
     {
         await Task.Delay(1000);
 
         postes = await posteService.GetAll();
+        salles = await salleService.GetAll();
+        users = await userService.GetAll();
+    }
+
+    private void GetSalleDetails(int id)
+    {
+        var url = $"salles/details/{id}";
+        NavigationM.NavigateTo(url);
     }
 
 }
