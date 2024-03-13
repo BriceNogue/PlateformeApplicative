@@ -1,9 +1,32 @@
 ﻿@page "/parcs"
 
+@using Services;
+@using Shareds.Modeles;
+
 <PageTitle>Parcs</PageTitle>
 
 <h3>Index Parcs</h3>
 
-@code {
+@if(parcs.Count == 0)
+{
+    <h1>Liste vide.</h1>
+}
+else
+{
+    <ul>
+        @foreach(var parc in parcs)
+        {
+            <li>@parc.Nom</li>
+        }
+    </ul>
+}
 
+@code {
+    private ParcService parcService = new ParcService();
+    private List<EtablissementModele> parcs = new List<EtablissementModele>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        parcs = await parcService.GetAll();
+    }
 }

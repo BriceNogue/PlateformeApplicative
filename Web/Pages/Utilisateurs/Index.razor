@@ -1,9 +1,32 @@
 ﻿@page "/utilisateurs"
 
+@using Shareds.Modeles;
+@using Services;
+
 <PageTitle>Utilisateurs</PageTitle>
 
 <h3>Index</h3>
 
-@code {
+@if(users.Count == 0)
+{
+    <h1>Liste vide.</h1>
+}
+else
+{
+    <ul>
+        @foreach(var user in users)
+        {
+            <li>@user.FirstName</li>
+        }
+    </ul>
+}
 
+@code {
+    private List<UserModele> users = new List<UserModele>();
+    private UserService userService = new UserService();
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await userService.GetAll();
+    }
 }

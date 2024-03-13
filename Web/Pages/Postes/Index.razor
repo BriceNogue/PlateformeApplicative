@@ -1,9 +1,32 @@
 ﻿@page "/postes"
 
+@using Shareds.Modeles;
+@using Services;
+
 <PageTitle>Postes</PageTitle>
 
 <h3>Postes</h3>
 
-@code {
+@if(postes.Count == 0)
+{
+    <h1>Liste vide.</h1>
+}
+else
+{
+    <ul>
+        @foreach(var poste in postes)
+        {
+            <li>@poste.LibellePoste</li>
+        }
+    </ul>
+}
 
+@code {
+    private List<PosteModele> postes = new List<PosteModele>();
+    private PosteService posteService = new PosteService();
+
+    protected override async Task OnInitializedAsync()
+    {
+        postes = await posteService.GetAll();
+    }
 }
