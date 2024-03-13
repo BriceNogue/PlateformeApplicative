@@ -32,6 +32,29 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach(var poste in postes)
+                {
+                    <tr>
+                        <td>@poste.Id</td>
+                        <td>Poste @poste.LibellePoste</td>
+                        <td>@poste.Marque</td>
+                        <td>@poste.AdresseIp</td>
+                        <td>@poste.AdresseMAC</td>
+                        <td>@poste.SE</td>
+                        <td>@poste.ROM</td>
+                        <td>@poste.RAM</td>
+                        <td>@salle.Nom</td>
+                        <td>@poste.IdType</td>
+                        @if(poste.Statut == true)
+                        {
+                            <td>Connecté</td>
+                        }
+                        else
+                        {
+                            <td>Déconnecté</td>
+                        }
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -47,20 +70,27 @@
     private List<PosteModele> postes = new List<PosteModele>();
     private PosteService posteService = new PosteService();
 
-    protected override void OnParametersSet()
+    private List<TypeModele> types = new List<TypeModele>();
+    private TypeService typeService = new TypeService();
+
+        /*
+            protected override void OnParametersSet()
     {
         GetSalleDetails(id);
-    }
+        }
 
-    private async void GetSalleDetails(int id)
+        private async void GetSalleDetails(int id)
+            {
+            salle = await salleService.GetById(id);
+    }
+    */
+
+
+    protected override async Task OnInitializedAsync()
     {
         salle = await salleService.GetById(id);
-    }
 
-    private async void GetSallePostes(int id)
-    {
         var res = await posteService.GetAll();
-
         postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
     }
 }
