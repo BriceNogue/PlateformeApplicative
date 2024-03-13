@@ -5,6 +5,8 @@
 
 @inject NavigationManager NavigationM
 
+<PageTitle>Details salle</PageTitle>
+
 <h3>ID @id</h3>
 <h3>Salle @salle.Id</h3>
 <h3>Nom @salle.Nom</h3>
@@ -55,8 +57,10 @@
         salle = await salleService.GetById(id);
     }
 
-    private async void GetSallePostes()
+    private async void GetSallePostes(int id)
     {
-        postes = await posteService.GetAll();
+        var res = await posteService.GetAll();
+
+        postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
     }
 }
