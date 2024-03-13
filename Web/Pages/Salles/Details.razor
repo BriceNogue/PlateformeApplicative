@@ -44,7 +44,15 @@
                         <td>@poste.ROM</td>
                         <td>@poste.RAM</td>
                         <td>@salle.Nom</td>
-                        <td>@poste.IdType</td>
+
+                        @{
+                            var type = typesPoste.Where(t => t.Id == poste.IdType);
+                            foreach(var t in type)
+                            {
+                                <td>@t.Nom</td>
+                            }                          
+                        }
+                        
                         @if(poste.Statut == true)
                         {
                             <td>Connecté</td>
@@ -70,18 +78,19 @@
     private List<PosteModele> postes = new List<PosteModele>();
     private PosteService posteService = new PosteService();
 
-    private List<TypeModele> types = new List<TypeModele>();
+    private List<TypeModele> typesPoste = new List<TypeModele>();
+    private List<TypeModele> typesSalle = new List<TypeModele>();
     private TypeService typeService = new TypeService();
 
-        /*
-            protected override void OnParametersSet()
+    /*
+    protected override void OnParametersSet()
     {
-        GetSalleDetails(id);
+    GetSalleDetails(id);
         }
 
-        private async void GetSalleDetails(int id)
-            {
-            salle = await salleService.GetById(id);
+    private async void GetSalleDetails(int id)
+    {
+    salle = await salleService.GetById(id);
     }
     */
 
@@ -92,5 +101,10 @@
 
         var res = await posteService.GetAll();
         postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
+
+        var result = await typeService.GetAll();
+        typesPoste = result.Where(t => t.ObjetConcerne == "Poste").ToList<TypeModele>();
+        typesSalle = result.Where(t => t.ObjetConcerne == "Salle").ToList<TypeModele>();
+
     }
 }
