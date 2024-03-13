@@ -10,9 +10,4 @@
     <ProjectReference Include="..\Shared\Shareds.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Salles\" />
-    <Folder Include="Pages\Utilisateurs\" />
-  </ItemGroup>
-
 </Project>

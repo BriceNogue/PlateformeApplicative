@@ -62,7 +62,7 @@ namespace Domain.Migrations
                     b.HasIndex("Nom")
                         .IsUnique();
 
-                    b.ToTable("Etablissements");
+                    b.ToTable("Etablissements", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Poste", b =>
@@ -114,7 +114,7 @@ namespace Domain.Migrations
 
                     b.HasIndex("IdType");
 
-                    b.ToTable("Postes");
+                    b.ToTable("Postes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Salle", b =>
@@ -151,7 +151,7 @@ namespace Domain.Migrations
 
                     b.HasIndex("IdType");
 
-                    b.ToTable("Salles");
+                    b.ToTable("Salles", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.TypeE", b =>
@@ -179,7 +179,7 @@ namespace Domain.Migrations
                     b.HasIndex("Nom")
                         .IsUnique();
 
-                    b.ToTable("Types");
+                    b.ToTable("Types", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -223,7 +223,7 @@ namespace Domain.Migrations
                     b.HasIndex("PhoneNumber")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Poste", b =>

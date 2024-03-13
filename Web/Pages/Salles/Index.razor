@@ -1,0 +1,37 @@
+﻿@page "/salles"
+@using Shareds.Modeles
+@using Web.Services
+
+<PageTitle>Salles</PageTitle>
+
+<h3>Index</h3>
+
+@if (salles is null)
+{
+    <span>Chargement...</span>
+}
+else if (salles.Count == 0)
+{
+    <span>Liste vide!</span>
+}
+else
+{
+    <ul>
+        @foreach (var salle in salles)
+        {
+            <li>@salle.Nom</li>
+        }
+    </ul>
+}
+
+@code {
+    private SalleService salleService = new SalleService();
+    private List<SalleModele> salles = new List<SalleModele>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+
+        salles = await salleService.GetAll();
+    }
+}

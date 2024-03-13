@@ -34,7 +34,14 @@ namespace Domain.Repositories
             modelBuilder.Entity<User>()
                 .HasOne(user => user.TypeE)
                 .WithMany(typee => typee.Users)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(user => user.IdType);
+
+            /*modelBuilder.Entity<User>()
+                .HasOne(user => user.Etablissement)
+                .WithMany(etab => etab.Users)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(user => user.IdEtablissement);*/
 
             modelBuilder.Entity<Salle>()
                 .HasOne(salle => salle.TypeE)
