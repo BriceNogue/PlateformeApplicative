@@ -26,5 +26,20 @@ namespace Web.Services
             }
 
         }
+
+        public async Task<SalleModele> GetById(int id)
+        {
+            SalleModele? salle = await _httpClient.GetFromJsonAsync<SalleModele>(_URL + $"/id?id={id}");
+
+            if (salle != null)
+            {
+                return salle;
+            }
+            else
+            {
+                return new SalleModele();
+            }
+
+        }
     }
 }
