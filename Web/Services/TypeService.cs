@@ -27,7 +27,7 @@ namespace Web.Services
 
         public async Task<TypeModele> GetById(int id)
         {
-            TypeModele? res = await _httpClient.GetFromJsonAsync<TypeModele>(_URL + $"/id{id}");
+            TypeModele? res = await _httpClient.GetFromJsonAsync<TypeModele>(_URL + $"/id?id={id}");
 
             if (res is not null)
             {

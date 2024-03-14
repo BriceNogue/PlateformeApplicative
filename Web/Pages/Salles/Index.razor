@@ -2,6 +2,8 @@
 @using Shareds.Modeles
 @using Web.Services
 
+@inject NavigationManager NavigationM
+
 <PageTitle>Salles</PageTitle>
 
 <h3>Index</h3>
@@ -19,7 +21,7 @@ else
     <ul>
         @foreach (var salle in salles)
         {
-            <li>@salle.Nom</li>
+            <li @onclick="(()=> GetSalleDetails(salle.Id))">@salle.Nom</li>
         }
     </ul>
 }
@@ -33,5 +35,11 @@ else
         await Task.Delay(1000);
 
         salles = await salleService.GetAll();
+    }
+
+    private void GetSalleDetails(int id)
+    {
+        var url = $"salles/details/{id}";
+        NavigationM.NavigateTo(url);
     }
 }

@@ -29,7 +29,7 @@ namespace Web.Services
 
         public async Task<PosteModele> GetById(int id)
         {
-            PosteModele? poste = await _httpClient.GetFromJsonAsync<PosteModele>(_URL + $"/id{id}");
+            PosteModele? poste = await _httpClient.GetFromJsonAsync<PosteModele>(_URL + $"/id?id={id}");
 
             if (poste != null)
             {

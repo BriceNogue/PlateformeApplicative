@@ -3,13 +3,13 @@
 @using Shareds.Modeles;
 @using Services;
 
-@inject NavigationManager NavigationM
-
 <PageTitle>Details poste</PageTitle>
 
 <h3>ID @id</h3>
-<h3>Salle @salle.Id</h3>
-<h3>Nom @salle.Nom</h3>
+<h3>Poste @poste.Id</h3>
+<h3>Nom @poste.Marque</h3>
+<h3>Salle @salle.Nom</h3>
+<h3>Type @type.Nom</h3>
 
 <div class="container">
     <div>
@@ -19,7 +19,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>IDD</th>
                     <th>Libellé</th>
                     <th>Marque</th>
                     <th>Adresse IP</th>
