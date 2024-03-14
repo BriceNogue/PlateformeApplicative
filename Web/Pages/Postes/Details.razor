@@ -5,59 +5,37 @@
 
 <PageTitle>Details poste</PageTitle>
 
-<h3>ID @id</h3>
-<h3>Poste @poste.Id</h3>
-<h3>Nom @poste.Marque</h3>
-<h3>Salle @salle.Nom</h3>
-<h3>Type @type.Nom</h3>
-
 <div class="container">
-    <div>
-
+    <div class="poste-infos">
+        <div class="poste-info">
+            <div class="infos infos-rom">
+            </div>
+            <div class="infos infos-ram">
+            </div>
+        </div>
+        <div class="poste-info details">
+            <h4>ID: @poste.Id</h4>
+            <h4>Libellé: Poste @poste.LibellePoste</h4>
+            <h4>Marque: @poste.Marque</h4>
+            <h4>Adresse IP: @poste.AdresseIp</h4>
+            <h4>Adresse MAC: @poste.AdresseMAC</h4>
+            <h4>SE: @poste.SE</h4>
+            <h4>ROM: @poste.ROM</h4>
+            <h4>RAM: @poste.RAM</h4>
+            <h4>Salle: @salle.Nom</h4>
+            <h4>Type: @type.Nom</h4>
+            @if (poste.Statut == true)
+            {
+                <h4>Statut: Connecté</h4>
+            }
+            else
+            {
+                <h4>Statut: Déconnecté</h4>
+            }     
+        </div>
     </div>
-    <div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>IDD</th>
-                    <th>Libellé</th>
-                    <th>Marque</th>
-                    <th>Adresse IP</th>
-                    <th>Adresse MAC</th>
-                    <th>SE</th>
-                    <th>ROM</th>
-                    <th>RAM</th>
-                    <th>Salle</th>
-                    <th>Type</th>
-                    <th>Statut</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                    <tr>
-                        <td>@poste.Id</td>
-                        <td>Poste @poste.LibellePoste</td>
-                        <td>@poste.Marque</td>
-                        <td>@poste.AdresseIp</td>
-                        <td>@poste.AdresseMAC</td>
-                        <td>@poste.SE</td>
-                        <td>@poste.ROM</td>
-                        <td>@poste.RAM</td>
-                        <td>@salle.Nom</td>
-                        <td>@type.Nom</td>
-                       
-                        @if (poste.Statut == true)
-                        {
-                            <td>Connecté</td>
-                        }
-                        else
-                        {
-                            <td>Déconnecté</td>
-                        }
-                    </tr>
-                
-            </tbody>
-        </table>
+    <div class="poste-controls">
+
     </div>
 </div>
 
