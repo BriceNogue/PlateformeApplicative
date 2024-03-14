@@ -1,4 +1,5 @@
 ﻿using Shareds.Modeles;
+using System.Text;
 
 namespace Web.Services
 {
@@ -40,6 +41,20 @@ namespace Web.Services
                 return new SalleModele();
             }
 
+        }
+
+        public async Task<bool> Create(SalleModele salle)
+        {
+            HttpResponseMessage res = await _httpClient.PostAsJsonAsync(_URL, salle);
+            if (res.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            else
+            {
+
+                return false;
+            }
         }
     }
 }
