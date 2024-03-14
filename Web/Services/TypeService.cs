@@ -24,5 +24,19 @@ namespace Web.Services
                 return new List<TypeModele>();
             }
         }
+
+        public async Task<TypeModele> GetById(int id)
+        {
+            TypeModele? res = await _httpClient.GetFromJsonAsync<TypeModele>(_URL + $"/id{id}");
+
+            if (res is not null)
+            {
+                return res;
+            }
+            else
+            {
+                return new TypeModele();
+            }
+        }
     }
 }

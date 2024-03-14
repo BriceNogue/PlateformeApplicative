@@ -3,6 +3,8 @@
 @using Shareds.Modeles;
 @using Services;
 
+@inject NavigationManager NavigationM
+
 <PageTitle>Postes</PageTitle>
 
 <h3>Postes</h3>
@@ -36,7 +38,7 @@ else
                 <tbody>
                     @foreach (var poste in postes)
                     {
-                        <tr>
+                        <tr @onclick="(()=> GetPosteDetails(poste.Id))">
                             <td>@poste.Id</td>
                             <td>Poste @poste.LibellePoste</td>
                             <td>@poste.Marque</td>
@@ -93,5 +95,11 @@ else
 
         var result = await typeService.GetAll();
         types = result.Where(t => t.ObjetConcerne == "Poste").ToList<TypeModele>();
+    }
+
+    private void GetPosteDetails(int id)
+    {
+        var url = $"postes/details/{id}";
+        NavigationM.NavigateTo(url);
     }
 }
