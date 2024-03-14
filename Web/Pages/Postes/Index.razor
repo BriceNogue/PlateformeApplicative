@@ -13,20 +13,85 @@
 }
 else
 {
-    <ul>
-        @foreach(var poste in postes)
-        {
-            <li>@poste.LibellePoste</li>
-        }
-    </ul>
+    <div class="container">
+        <div>
+        </div>
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Libellé</th>
+                        <th>Marque</th>
+                        <th>Adresse IP</th>
+                        <th>Adresse MAC</th>
+                        <th>SE</th>
+                        <th>ROM</th>
+                        <th>RAM</th>
+                        <th>Salle</th>
+                        <th>Type</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var poste in postes)
+                    {
+                        <tr>
+                            <td>@poste.Id</td>
+                            <td>Poste @poste.LibellePoste</td>
+                            <td>@poste.Marque</td>
+                            <td>@poste.AdresseIp</td>
+                            <td>@poste.AdresseMAC</td>
+                            <td>@poste.SE</td>
+                            <td>@poste.ROM</td>
+                            <td>@poste.RAM</td>
+
+                            @{
+                                var salle = salles.Where(s => s.Id == poste.IdSalle);
+                                foreach (var s in salle)
+                                {
+                                    <td>@s.Nom</td>
+                                }
+
+                                var type = types.Where(t => t.Id == poste.IdType);
+                                foreach (var t in type)
+                                {
+                                    <td>@t.Nom</td>
+                                }
+                            }
+
+                            @if (poste.Statut == true)
+                            {
+                                <td>Connecté</td>
+                            }
+                            else
+                            {
+                                <td>Déconnecté</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 }
 
 @code {
     private List<PosteModele> postes = new List<PosteModele>();
     private PosteService posteService = new PosteService();
 
+    private List<TypeModele> types = new List<TypeModele>();
+    private TypeService typeService = new TypeService();
+
+    private List<SalleModele> salles = new List<SalleModele>();
+    private SalleService salleService = new SalleService();
+
     protected override async Task OnInitializedAsync()
     {
         postes = await posteService.GetAll();
+        salles = await salleService.GetAll();
+
+        var result = await typeService.GetAll();
+        types = result.Where(t => t.ObjetConcerne == "Poste").ToList<TypeModele>();
     }
 }
