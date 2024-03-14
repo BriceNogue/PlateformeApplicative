@@ -1,5 +1,23 @@
-﻿<h3>form</h3>
+﻿@using Shareds.Modeles;
+@using Services;
+
+<h3>form</h3>
 
 @code {
+    [Parameter]
+    public bool isNew { get; set; }
+
+    [Parameter]
+    public int id { get; set; }
+
+    private SalleModele salle;
+
+    protected override void OnInitialized()
+    {
+        if(isNew)
+        {
+            salle = new SalleModele();
+        }
+    }
 
 }
