@@ -26,7 +26,7 @@ namespace Infrastructure.Services
         public bool Add(TypeModele type)
         {
             var types = GetAll();
-            if (type.Id > 0 || types.Any(e => e.Nom == type.Nom))
+            if (type.Id > 0 || types.Any(e => e.Libelle == type.Libelle))
             {
                 return false;
             }
@@ -34,10 +34,9 @@ namespace Infrastructure.Services
             {
                 var typeE = new TypeE()
                 {
-                    Id = type.Id,
-                    Nom = type.Nom,
+                    Libelle = type.Libelle,
                     Description = type.Description,
-                    ObjetConcerne = type.ObjetConcerne,
+                    Objet = type.Objet,
                 };
 
                 _typeRepository.Add(typeE);
@@ -63,9 +62,9 @@ namespace Infrastructure.Services
             }
             else
             {
-                oldType.Nom = type.Nom;
+                oldType.Libelle = type.Libelle;
                 oldType.Description = type.Description;
-                oldType.ObjetConcerne = type.ObjetConcerne;
+                oldType.Objet = type.Objet;
 
                 _typeRepository.Update(oldType);
                 return true;
