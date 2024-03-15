@@ -9,8 +9,7 @@ namespace Shareds.Modeles
     public class SalleModele
     {
         public int Id { get; set; }
-        public string Nom { get; set; } = string.Empty;
-        public string Emplacement { get; set; } = string.Empty;
+        public int Numero { get; set; }
         public int Capacite { get; set; }
         public bool Status { get; set; }
         public int IdType { get; set; }

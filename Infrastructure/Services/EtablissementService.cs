@@ -37,16 +37,18 @@ namespace Infrastructure.Services
                 return false;
             }
             else
-            {            
+            {
                 var newEtab = new Etablissement()
                 {
                     Nom = etab.Nom,
                     Telephone = etab.Telephone,
                     Email = etab.Email,
-                    Adresse = etab.Adresse,
-                    Ville = etab.Ville,
+                    Pays = etab.Pays,
                     CodePostal = etab.CodePostal,
-                    Pays = etab.Pays
+                    Ville = etab.Ville,
+                    NumeroRue = etab.NumeroRue,
+                    LibelleRue = etab.LibelleRue,
+                    DateCreation = new DateTime(),
                 };
                 _repository.Add(newEtab);
                 return true;          
@@ -74,10 +76,11 @@ namespace Infrastructure.Services
                 etabUpdated.Nom = etab.Nom;
                 etabUpdated.Telephone = etab.Telephone;
                 etabUpdated.Email = etab.Email;
-                etabUpdated.Adresse = etab.Adresse;
-                etabUpdated.Ville = etab.Ville;
-                etabUpdated.CodePostal = etab.CodePostal;
                 etabUpdated.Pays = etab.Pays;
+                etabUpdated.CodePostal = etab.CodePostal;
+                etabUpdated.Ville = etab.Ville;
+                etabUpdated.NumeroRue = etab.NumeroRue;
+                etabUpdated.LibelleRue = etab.LibelleRue;
 
                 _repository.Update(etabUpdated);
                 return true;
