@@ -15,12 +15,12 @@ namespace Infrastructure.Services
             _typeRepository = new TypeRepository();
         }
 
-        public List<User> GetAll()
+        public List<Utilisateur> GetAll()
         {
             return _userRepository.GetAll();
         }
 
-        public User Get(int id)
+        public Utilisateur Get(int id)
         {
             return _userRepository.Get(id);
         }
@@ -29,19 +29,21 @@ namespace Infrastructure.Services
         {
             var users = GetAll();
             var userType = _typeRepository.Get(user.IdType);
-            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.PhoneNumber == user.PhoneNumber) || userType is null)
+            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.Telephone == user.Telephone) || userType is null)
             {
                 return false;
             }
             else
             {
-                var newUser = new User()
+                var newUser = new Utilisateur()
                 {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
+                    Nom = user.Nom,
+                    Prenom = user.Prenom,
+                    DateNaissance = user.DateNaissance,
+                    Telephone = user.Telephone,
                     Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    Password = user.Password,
+                    MotDePasse = user.MotDePasse,
+                    DateInscription = DateTime.Now,
                     IdType = user.IdType
                 };
                 _userRepository.Add(newUser);
@@ -72,11 +74,12 @@ namespace Infrastructure.Services
             }
             else
             {
-                oldUser.FirstName = user.FirstName;
-                oldUser.LastName = user.LastName;
+                oldUser.Nom = user.Nom;
+                oldUser.Prenom = user.Prenom;
+                oldUser.DateNaissance = user.DateNaissance;
+                oldUser.Telephone = user.Telephone;
                 oldUser.Email = user.Email;
-                oldUser.PhoneNumber = user.PhoneNumber;
-                oldUser.Password = user.Password;
+                oldUser.MotDePasse = user.MotDePasse;
                 oldUser.IdType = user.IdType;
 
                 _userRepository.Update(oldUser);
