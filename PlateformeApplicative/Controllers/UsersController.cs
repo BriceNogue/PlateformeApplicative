@@ -19,9 +19,9 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
-        public ActionResult<List<User>> GetAll()
+        public ActionResult<List<Utilisateur>> GetAll()
         {
-            var users = new List<User>();
+            var users = new List<Utilisateur>();
             users = _userService.GetAll();
             if (users.Count == 0)
                 return NoContent();
@@ -29,7 +29,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
-        public ActionResult<User> Get(int id)
+        public ActionResult<Utilisateur> Get(int id)
         {
             var user = _userService.Get(id);
             if (user is null)
