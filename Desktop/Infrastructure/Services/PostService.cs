@@ -35,7 +35,7 @@ namespace Desktop.Infrastructure.Services
                 allTypes = JsonConvert.DeserializeObject<List<TypeModele>>(responseBody)!;
 
                 List<TypeModele> postTypes = new List<TypeModele>();
-                postTypes = allTypes.Where(t => t.ObjetConcerne == "Poste").ToList();
+                postTypes = allTypes.Where(t => t.Objet == "Poste").ToList();
 
                 return postTypes;
 
