@@ -41,8 +41,7 @@ namespace Infrastructure.Services
             {
                 var newSalle = new Salle()
                 {
-                    Nom = salle.Nom,
-                    Emplacement = salle.Emplacement,
+                    Numero = salle.Numero,
                     Capacite = salle.Capacite,
                     Status = salle.Status,
                     IdType = salle.IdType,
@@ -71,8 +70,7 @@ namespace Infrastructure.Services
             }
             else
             {
-                salleUpdated.Nom = salle.Nom;
-                salleUpdated.Emplacement = salle.Emplacement;
+                salleUpdated.Numero = salle.Numero;
                 salleUpdated.Capacite = salle.Capacite;
                 salleUpdated.Status = salle.Status;
                 salleUpdated.IdType = salle.IdType;
