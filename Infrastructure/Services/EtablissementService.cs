@@ -32,7 +32,7 @@ namespace Infrastructure.Services
         public bool Add(EtablissementModele etab)
         {
             var etabs = GetAll();
-            if (etab.Id > 0 || etabs.Any(e => e.Nom == etab.Nom))
+            if (etab.Id > 0 || etabs.Any(e => e.Nom == etab.Nom) || etabs.Any(e => e.Email == etab.Email) || etabs.Any(e => e.Telephone == etab.Telephone))
             {
                 return false;
             }
