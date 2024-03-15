@@ -18,30 +18,38 @@ namespace Domain.Repositories
         // Creation d'index et de contraintes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(user => {
-                user.HasIndex(u => u.Email).IsUnique();
-                user.HasIndex(u => u.PhoneNumber).IsUnique();
+            modelBuilder.Entity<Utilisateur>(utilisateur => {
+                utilisateur.HasIndex(u => u.Email).IsUnique();
+                utilisateur.HasIndex(u => u.Telephone).IsUnique();
             });
 
             modelBuilder.Entity<TypeE>(tp => {
-                tp.HasIndex(t => t.Nom).IsUnique();
+                tp.HasIndex(t => t.Libelle).IsUnique();
             });
 
             modelBuilder.Entity<Etablissement>(etablissement => {
                 etablissement.HasIndex(e => e.Nom).IsUnique();
+                etablissement.HasIndex(e => e.Telephone).IsUnique();
+                etablissement.HasIndex(e => e.Email).IsUnique();
             });
 
-            modelBuilder.Entity<User>()
-                .HasOne(user => user.TypeE)
-                .WithMany(typee => typee.Users)
+            modelBuilder.Entity<Utilisateur>()
+                .HasOne(utilisateur => utilisateur.TypeE)
+                .WithMany(typee => typee.Utilisateurs)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(user => user.IdType);
+                .HasForeignKey(utilisateur => utilisateur.IdType);
 
-            /*modelBuilder.Entity<User>()
-                .HasOne(user => user.Etablissement)
-                .WithMany(etab => etab.Users)
+            modelBuilder.Entity<UtilisateurEtablissement>()
+                .HasOne(utilisateurE => utilisateurE.Utilisateur)
+                .WithMany(utilisateur => utilisateur.UtilisateurEtabs)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(user => user.IdEtablissement);*/
+                .HasForeignKey(utilisateurE => utilisateurE.IdUtilisateur);
+
+            modelBuilder.Entity<UtilisateurEtablissement>()
+                .HasOne(utilisateurE => utilisateurE.Etablissement)
+                .WithMany(etab => etab.UtilisateurEtabs)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(utilisateurE => utilisateurE.IdUtilisateur);
 
             modelBuilder.Entity<Salle>()
                 .HasOne(salle => salle.TypeE)
@@ -66,11 +74,13 @@ namespace Domain.Repositories
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Utilisateur> Utilisateurs { get; set; }
+        public DbSet<Etablissement> Etablissements { get; set; }
+        public DbSet<UtilisateurEtablissement> UtilisateurEtablissements { get; set; }
         public DbSet<TypeE> Types { get; set; }
         public DbSet<Salle> Salles { get; set; }
         public DbSet<Poste> Postes { get; set; }
-        public DbSet<Etablissement> Etablissements { get; set; }
+        
 
     }
 }

@@ -11,11 +11,11 @@ namespace Domain.Repositories
             _dataContext = new DataContext();
         }
 
-        public List<User> GetAll()
+        public List<Utilisateur> GetAll()
         {
             try
             {
-                return _dataContext.Users.ToList();
+                return _dataContext.Utilisateurs.ToList();
             }
             catch (Exception ex)
             {
@@ -23,12 +23,12 @@ namespace Domain.Repositories
             }
         }
 
-        public User Get(int id)
+        public Utilisateur Get(int id)
         {
             
             try
             {
-                return _dataContext.Users.FirstOrDefault(x => x.Id == id)!;
+                return _dataContext.Utilisateurs.FirstOrDefault(x => x.Id == id)!;
             }
             catch (Exception ex)
             {
@@ -36,11 +36,11 @@ namespace Domain.Repositories
             }
         }
 
-        public void Add(User user)
+        public void Add(Utilisateur user)
         {
             try
             {
-                _dataContext.Users.Add(user);
+                _dataContext.Utilisateurs.Add(user);
                 _dataContext.SaveChanges();
             }
             catch (Exception ex)
@@ -54,7 +54,7 @@ namespace Domain.Repositories
             try
             {
                 var user = Get(id);
-                _dataContext.Users.Remove(user);
+                _dataContext.Utilisateurs.Remove(user);
                 _dataContext.SaveChanges();
             }
             catch (Exception ex)
@@ -63,11 +63,11 @@ namespace Domain.Repositories
             }
         }
 
-        public void Update(User user)
+        public void Update(Utilisateur user)
         {
             try
             {
-                _dataContext.Users.Update(user);
+                _dataContext.Utilisateurs.Update(user);
                 _dataContext.SaveChanges();
             }
             catch (Exception ex)

@@ -4,9 +4,9 @@ namespace Domain.Entities
     public class Poste
     {
         public int Id { get; set; }
-        public string LibellePoste { get; set; } = string.Empty;
+        public int Numero { get; set; }
         public string Marque { get; set; } = string.Empty;
-        public string AdresseIp { get; set; } = string.Empty;
+        public string AdresseIP { get; set; } = string.Empty;
         public string AdresseMAC { get; set; } = string.Empty;
         public string SE { get; set; } = string.Empty;
         public double ROM { get; set; }
