@@ -9,8 +9,9 @@ namespace Shareds.Modeles
     public class UEModele
     {
         public int Id { get; set; }
+        public bool status { get; set; }
+        public DateTime DateCreation { get; set; }
         public int IdUtilisateur { get; set; }
         public int IdEtablissement { get; set; }
-        public DateTime DateCreation { get; set; }
     }
 }

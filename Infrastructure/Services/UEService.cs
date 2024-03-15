@@ -12,10 +12,14 @@ namespace Infrastructure.Services
     public class UEService
     {
         private readonly UERepository _ueRepository;
+        private readonly UserService _userService;
+        private readonly EtablissementService _etablissementService;
 
         public UEService()
         {
             _ueRepository = new UERepository();
+            _userService = new UserService();
+            _etablissementService = new EtablissementService();
         }
 
         public List<UtilisateurEtablissement> GetAll()
@@ -30,7 +34,9 @@ namespace Infrastructure.Services
 
         public bool Add(UEModele ue)
         {
-            if (ue.Id > 0)
+            var user = _userService.Get(ue.IdUtilisateur);
+            var etab = _etablissementService.Get(ue.IdEtablissement);
+            if (ue.Id > 0 || user is null || etab is null)
             {
                 return false;
             }
