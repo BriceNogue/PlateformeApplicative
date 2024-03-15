@@ -44,6 +44,8 @@ namespace Infrastructure.Services
             {
                 var newUE = new UtilisateurEtablissement()
                 {
+                    Statut = ue.status,
+                    DateCreation = DateTime.Now,
                     IdUtilisateur = ue.IdUtilisateur,
                     IdEtablissement = ue.IdEtablissement,
                 };
@@ -71,6 +73,7 @@ namespace Infrastructure.Services
             }
             else
             {
+                oldObj.Statut = obj.status;
                 oldObj.IdUtilisateur = obj.IdUtilisateur;
                 oldObj.IdEtablissement = obj.IdEtablissement;
 

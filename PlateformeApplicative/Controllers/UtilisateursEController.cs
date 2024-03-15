@@ -54,7 +54,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Delele(UEModele user)
+        public IActionResult Update(UEModele user)
         {
             var isUpdated = _ueService.Update(user);
             if (isUpdated)
