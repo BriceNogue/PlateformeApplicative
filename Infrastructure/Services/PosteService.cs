@@ -49,16 +49,16 @@ namespace Infrastructure.Services
             {
                 var newPost = new Poste()
                 {
-                    LibellePoste = poste.LibellePoste,
+                    Numero = poste.Numero,
                     Marque = poste.Marque,
-                    AdresseIp = poste.AdresseIp,
+                    AdresseIP = poste.AdresseIP,
                     AdresseMAC = poste.AdresseMAC,
                     SE = poste.SE,
                     ROM = poste.ROM,
                     RAM = poste.RAM,
                     IdSalle = poste.IdSalle,
                     IdType = poste.IdType,
-                    Statut = false,
+                    Statut = true,
                 };
                 _repository.Add(newPost);
                 return true;
@@ -79,16 +79,19 @@ namespace Infrastructure.Services
             var postUpdated = Get(poste.Id);
             var salle = _salleRepository.Get(poste.IdSalle);
             var type = _typeRepository.Get(poste.IdType);
-            if (postUpdated is null || salle is null || type is null)
+            if (postUpdated is null || type is null)
             {
                 return false;
             }
             else
             {
-                postUpdated.LibellePoste = poste.LibellePoste;
+                postUpdated.Numero = poste.Numero;
                 postUpdated.Marque = poste.Marque;
-                postUpdated.AdresseIp = poste.AdresseIp;
+                postUpdated.AdresseIP = poste.AdresseIP;
                 postUpdated.AdresseMAC = poste.AdresseMAC;
+                postUpdated.SE = poste.SE;
+                postUpdated.ROM = poste.ROM;
+                postUpdated.RAM = poste.RAM;
                 postUpdated.IdSalle = poste.IdSalle;
                 postUpdated.IdType = poste.IdType;
                 postUpdated.Statut = poste.Statut;
