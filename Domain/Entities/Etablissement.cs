@@ -13,6 +13,5 @@ namespace Domain.Entities
         public string Pays { get; set; } = string.Empty;
 
         public List<Salle> Salles { get; set; } = default!;
-        //public List<User> Users { get; set; } = default!;
     }
 }
