@@ -116,7 +116,7 @@ namespace Desktop.Presentation.Views
                     postesSalle = PostesList.Where(p => p.IdSalle == selectedSalle!.Id).ToList();
                 }
 
-                bool existingPost = postesSalle.Any(p => p.LibellePoste == inputVerify.Value);
+                bool existingPost = postesSalle.Any(p => p.Numero == int.Parse(inputVerify.Value));
                 int inputNumber = int.Parse(inputVerify.Value);
 
                 if (inputNumber > this.salleCapacity)
@@ -142,7 +142,7 @@ namespace Desktop.Presentation.Views
 
         }
 
-
+        //Bloquer la saisie de caractere autre que nombres
         private void OnTextInput(object sender, TextCompositionEventArgs e)
         {
             // Vérifier si le caractère entré est un chiffre
@@ -157,11 +157,13 @@ namespace Desktop.Presentation.Views
             PosteModele poste = await _posteServiceDekstop.GetOne();
             if (poste is null)
             {
+                int numeroPoste;
                 string marque = txt_b_marque.Text;
-                string adresseIp = txt_b_adresseIp.Text;
-                string adresseMac = txt_b_adresseMac.Text;
+                string adresseIP = txt_b_adresseIp.Text;
+                string adresseMAC = txt_b_adresseMac.Text;
                 string se = txt_b_SE.Text;
-                string libelePoste;
+                double ROM = 0;
+                double RAM = 0;
                 int idSalle;
                 int idType;
 
@@ -173,17 +175,19 @@ namespace Desktop.Presentation.Views
                 {
                     idSalle = ((SalleModele)cmb_salles.SelectedItem).Id;
                     idType = ((TypeModele)cmb_types.SelectedItem).Id;
-                    libelePoste = txt_num_post.Text;
+                    numeroPoste = int.Parse(txt_num_post.Text);
 
                     PosteModele newPost = new PosteModele();
 
+                    newPost.Numero = numeroPoste;
                     newPost.Marque = marque;
-                    newPost.AdresseIp = adresseIp;
-                    newPost.AdresseMAC = adresseMac;
+                    newPost.AdresseIP = adresseIP;
+                    newPost.AdresseMAC = adresseMAC;
                     newPost.SE = se;
+                    newPost.ROM = ROM;
+                    newPost.RAM = RAM;
                     newPost.IdSalle = idSalle;
                     newPost.IdType = idType;
-                    newPost.LibellePoste = libelePoste;
 
                     bool isAdded = await _posteServiceDekstop.Add(newPost);
 
