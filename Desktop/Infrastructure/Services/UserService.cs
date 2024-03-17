@@ -13,7 +13,7 @@ namespace Desktop.Infrastructure.Services
         private readonly HttpClient httpClient;
         private readonly string _URL = "";
 
-        public static UserModele user;
+        //public static UserModele user;
 
         public UserService() 
         { 
