@@ -1,13 +1,15 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<Utilisateur, TypeE, int>
     {
         public DataContext() { }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public DataContext(DbContextOptions options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -18,14 +20,14 @@ namespace Domain.Repositories
         // Creation d'index et de contraintes
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Utilisateur>(utilisateur => {
+            /*modelBuilder.Entity<Utilisateur>(utilisateur => {
                 utilisateur.HasIndex(u => u.Email).IsUnique();
                 utilisateur.HasIndex(u => u.Telephone).IsUnique();
-            });
+            });*/
 
-            modelBuilder.Entity<TypeE>(tp => {
+            /*modelBuilder.Entity<TypeE>(tp => {
                 tp.HasIndex(t => t.Libelle).IsUnique();
-            });
+            });*/
 
             modelBuilder.Entity<Etablissement>(etablissement => {
                 etablissement.HasIndex(e => e.Nom).IsUnique();
@@ -33,11 +35,17 @@ namespace Domain.Repositories
                 etablissement.HasIndex(e => e.Email).IsUnique();
             });
 
-            modelBuilder.Entity<Utilisateur>()
+            /*modelBuilder.Entity<Utilisateur>()
                 .HasOne(utilisateur => utilisateur.TypeE)
                 .WithMany(typee => typee.Utilisateurs)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(utilisateur => utilisateur.IdType);
+                .HasForeignKey(utilisateur => utilisateur.IdType);*/
+
+            // Classes par defaut de IdentityUser, pour specifier qu'elles n'ont pas de clé primaire
+            modelBuilder.Entity<IdentityUserLogin<int>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserRole<int>>().HasNoKey();
+            modelBuilder.Entity<IdentityUserToken<int>>().HasNoKey();
+
 
             modelBuilder.Entity<UtilisateurEtablissement>()
                 .HasOne(utilisateurE => utilisateurE.Utilisateur)

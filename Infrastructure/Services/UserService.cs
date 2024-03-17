@@ -29,7 +29,7 @@ namespace Infrastructure.Services
         {
             var users = GetAll();
             var userType = _typeRepository.Get(user.IdType);
-            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.Telephone == user.Telephone) || userType is null)
+            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.PhoneNumber == user.Telephone) || userType is null)
             {
                 return false;
             }
@@ -40,11 +40,11 @@ namespace Infrastructure.Services
                     Nom = user.Nom,
                     Prenom = user.Prenom,
                     DateNaissance = user.DateNaissance,
-                    Telephone = user.Telephone,
+                    PhoneNumber = user.Telephone,
                     Email = user.Email,
-                    MotDePasse = user.MotDePasse,
+                    PasswordHash = user.MotDePasse,
                     DateInscription = DateTime.Now,
-                    IdType = user.IdType
+                    //IdType = user.IdType
                 };
                 _userRepository.Add(newUser);
                 return true;
@@ -77,10 +77,10 @@ namespace Infrastructure.Services
                 oldUser.Nom = user.Nom;
                 oldUser.Prenom = user.Prenom;
                 oldUser.DateNaissance = user.DateNaissance;
-                oldUser.Telephone = user.Telephone;
+                oldUser.PhoneNumber = user.Telephone;
                 oldUser.Email = user.Email;
-                oldUser.MotDePasse = user.MotDePasse;
-                oldUser.IdType = user.IdType;
+                oldUser.PasswordHash = user.MotDePasse;
+                //oldUser.IdType = user.IdType;
 
                 _userRepository.Update(oldUser);
                 return true;
