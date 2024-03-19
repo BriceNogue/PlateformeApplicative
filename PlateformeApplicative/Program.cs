@@ -61,7 +61,10 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IUserAccount, AccountService>();
-builder.Services.AddScoped<TypeService>();
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<UEService>();
+builder.Services.AddScoped<TypeRepository>();
 
 // Ending *********************
 

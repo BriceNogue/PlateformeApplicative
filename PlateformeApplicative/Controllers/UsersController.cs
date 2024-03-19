@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace PlateformeApplicative.Controllers
 {
@@ -14,9 +15,9 @@ namespace PlateformeApplicative.Controllers
     {
         private readonly UserService _userService;
 
-        public UsersController() 
+        public UsersController(UserService userService) 
         {
-            _userService = new UserService();
+            _userService = userService;
         }
 
         [HttpGet("all")]
@@ -39,12 +40,17 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPost("create")]
-        public ActionResult<UserModele> Add(UserModele user) 
+        public async Task<IActionResult> Add(UserModele user) 
         {
-            var isAdded = _userService.Add(user);
-            if (isAdded)
-                return Ok("Utilisateur ajoute avec succes.");
-            return BadRequest("impossible d'ajouter l'utilisateur.");
+            if (user is null)
+            {
+                return BadRequest(new GeneralResponse(false, "Aucune donnée."));
+            }
+            else
+            {
+                var res = await _userService.Add(user);
+                return Ok(res);
+            }
         }
 
         [HttpDelete("delete/id")]

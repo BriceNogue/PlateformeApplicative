@@ -17,10 +17,10 @@ namespace Infrastructure.Services
         private readonly UserRepository _userRepository;
         private readonly TypeRepository _typeRepository;
 
-        public UserService()
+        public UserService(UserRepository userRepository,TypeRepository typeRepository)
         {
-            _userRepository = new UserRepository();
-            _typeRepository = new TypeRepository();
+            _userRepository = userRepository;
+            _typeRepository = typeRepository;
         }
 
         public List<Utilisateur> GetAll()
@@ -33,7 +33,7 @@ namespace Infrastructure.Services
             return _userRepository.Get(id);
         }
 
-        public bool Add(UserModele user)
+        /*public bool Add(UserModele user)
         {
             var users = GetAll();
             var userType = _typeRepository.Get(user.IdType);
@@ -57,6 +57,38 @@ namespace Infrastructure.Services
                 };
                 _userRepository.Add(newUser);
                 return true;
+            }
+        }*/
+
+
+        public async Task<GeneralResponse> Add(UserModele user)
+        {
+            var users = GetAll();
+            var userType = _typeRepository.Get(user.IdType);
+            if ((user.Id > 0) || userType is null)
+            {
+                return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
+            }
+            else if (users.Any(x => (x.PhoneNumber == user.Telephone)))
+            {
+                return new GeneralResponse(false, "Numéro de téléphone déja utilisé.");
+            }
+            else
+            {
+                var newUser = new Utilisateur()
+                {
+                    Nom = user.Nom,
+                    Prenom = user.Prenom,
+                    DateNaissance = user.DateNaissance,
+                    PhoneNumber = user.Telephone,
+                    Email = user.Email,
+                    PasswordHash = user.MotDePasse,
+                    DateInscription = DateTime.Now,
+                    IdType = user.IdType,
+                    UserName = user.Email
+                };
+                var res = await _userRepository.Add(newUser, user.MotDePasse);
+                return res;
             }
         }
 

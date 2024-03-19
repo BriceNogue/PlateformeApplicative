@@ -11,9 +11,9 @@ namespace PlateformeApplicative.Controllers
     {
         private readonly UEService _ueService;
 
-        public UtilisateursEController()
+        public UtilisateursEController(UEService ueService)
         {
-            _ueService = new UEService();
+            _ueService = ueService;
         }
 
         [HttpGet("all")]

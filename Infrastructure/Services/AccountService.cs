@@ -16,7 +16,7 @@ using static Shareds.Modeles.ResponsesModels;
 
 namespace Infrastructure.Services
 {
-    public class AccountService(UserManager<Utilisateur> userManager, TypeService typeService, IConfiguration config) : IUserAccount
+    public class AccountService(UserManager<Utilisateur> userManager, IConfiguration config) : IUserAccount
     {
         public async Task<GeneralResponse> CreateAccount(UserModele userDTO)
         {
@@ -59,8 +59,8 @@ namespace Infrastructure.Services
             if (!checkUserPasswords)
                 return new LoginResponse(false, null, "Email ou mot de passe invalide");
 
-            var getUserRole = typeService.Get(1);
-            var userSession = new UserSession(getUser.Id, getUser.Nom, getUser.Email, getUserRole.Libelle);
+            var getUserRole = await userManager.GetRolesAsync(getUser);
+            var userSession = new UserSession(getUser.Id, getUser.Nom, getUser.Email, getUserRole.First());
             string token = GenerateToken(userSession);
 
             return new LoginResponse(true, token, "login completed");

@@ -15,10 +15,10 @@ namespace Infrastructure.Services
         private readonly UserService _userService;
         private readonly EtablissementService _etablissementService;
 
-        public UEService()
+        public UEService(UserService userService)
         {
             _ueRepository = new UERepository();
-            _userService = new UserService();
+            _userService = userService;
             _etablissementService = new EtablissementService();
         }
 

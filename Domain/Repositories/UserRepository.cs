@@ -2,16 +2,19 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Domain.Repositories
 {
     public class UserRepository
     {
         private readonly DataContext _dataContext;
+        private UserManager<Utilisateur> _userManager;
 
-        public UserRepository() 
+        public UserRepository(UserManager<Utilisateur> userManager) 
         { 
             _dataContext = new DataContext();
+            _userManager = userManager;
         }
 
         public List<Utilisateur> GetAll()
@@ -39,7 +42,7 @@ namespace Domain.Repositories
             }
         }
 
-        public void Add(Utilisateur user)
+        /*public void Add(Utilisateur user)
         {
             try
             {
@@ -49,6 +52,28 @@ namespace Domain.Repositories
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message.ToString());
+            }
+        }*/
+
+        public async Task<GeneralResponse> Add(Utilisateur newUser, string userPWD)
+        {
+            try
+            {
+                var existUser = await _userManager.FindByEmailAsync(newUser.Email!);
+                if (existUser is not null) return new GeneralResponse(false, "Adresse email déja utilisé.");
+
+                var createUser = await _userManager.CreateAsync(newUser, userPWD);
+                if (!createUser.Succeeded) return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
+
+                else
+                {
+                    return new GeneralResponse(true, "Compte crée avec succès");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message.ToString());
+                return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
         }
 
