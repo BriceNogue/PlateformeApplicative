@@ -26,7 +26,7 @@ namespace Infrastructure.Services
         public bool Add(TypeModele type)
         {
             var types = GetAll();
-            if (type.Id > 0 || types.Any(e => e.Name == type.Libelle))
+            if (type.Id > 0 || types.Any(e => e.Libelle == type.Libelle))
             {
                 return false;
             }
@@ -34,7 +34,7 @@ namespace Infrastructure.Services
             {
                 var typeE = new TypeE()
                 {
-                    Name = type.Libelle,
+                    //Libelle = type.Libelle,
                     Description = type.Description,
                     Objet = type.Objet,
                 };
@@ -62,7 +62,7 @@ namespace Infrastructure.Services
             }
             else
             {
-                oldType.Name = type.Libelle;
+                //oldType.Libelle = type.Libelle;
                 oldType.Description = type.Description;
                 oldType.Objet = type.Objet;
 

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Repositories
 {
-    public class DataContext : IdentityDbContext<Utilisateur, TypeE, int>
+    public class DataContext : IdentityDbContext<Utilisateur, IdentityRole<int>, int>
     {
         public DataContext() { }
 
@@ -25,9 +25,9 @@ namespace Domain.Repositories
                 utilisateur.HasIndex(u => u.Telephone).IsUnique();
             });*/
 
-            /*modelBuilder.Entity<TypeE>(tp => {
+            modelBuilder.Entity<TypeE>(tp => {
                 tp.HasIndex(t => t.Libelle).IsUnique();
-            });*/
+            });
 
             modelBuilder.Entity<Etablissement>(etablissement => {
                 etablissement.HasIndex(e => e.Nom).IsUnique();
@@ -35,11 +35,11 @@ namespace Domain.Repositories
                 etablissement.HasIndex(e => e.Email).IsUnique();
             });
 
-            /*modelBuilder.Entity<Utilisateur>()
+            modelBuilder.Entity<Utilisateur>()
                 .HasOne(utilisateur => utilisateur.TypeE)
                 .WithMany(typee => typee.Utilisateurs)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(utilisateur => utilisateur.IdType);*/
+                .HasForeignKey(utilisateur => utilisateur.IdType);
 
             // Classes par defaut de IdentityUser, pour specifier qu'elles n'ont pas de clé primaire
             modelBuilder.Entity<IdentityUserLogin<int>>().HasNoKey();
@@ -54,10 +54,10 @@ namespace Domain.Repositories
                 .HasForeignKey(utilisateurE => utilisateurE.IdUtilisateur);
 
             modelBuilder.Entity<UtilisateurEtablissement>()
-                .HasOne(utilisateurE => utilisateurE.Etablissement)
+                .HasOne(etabU => etabU.Etablissement)
                 .WithMany(etab => etab.UtilisateurEtabs)
                 .OnDelete(DeleteBehavior.Restrict)
-                .HasForeignKey(utilisateurE => utilisateurE.IdUtilisateur);
+                .HasForeignKey(etabU => etabU.IdEtablissement);
 
             modelBuilder.Entity<Salle>()
                 .HasOne(salle => salle.TypeE)
@@ -89,6 +89,5 @@ namespace Domain.Repositories
         public DbSet<Salle> Salles { get; set; }
         public DbSet<Poste> Postes { get; set; }
         
-
     }
 }

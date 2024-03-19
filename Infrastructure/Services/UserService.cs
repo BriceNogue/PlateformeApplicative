@@ -1,6 +1,14 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Shareds.Modeles;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Infrastructure.Services
 {
@@ -35,6 +43,7 @@ namespace Infrastructure.Services
             }
             else
             {
+                string hashedPWD = HashPassword(user.MotDePasse);
                 var newUser = new Utilisateur()
                 {
                     Nom = user.Nom,
@@ -42,9 +51,9 @@ namespace Infrastructure.Services
                     DateNaissance = user.DateNaissance,
                     PhoneNumber = user.Telephone,
                     Email = user.Email,
-                    PasswordHash = user.MotDePasse,
+                    PasswordHash = hashedPWD,
                     DateInscription = DateTime.Now,
-                    //IdType = user.IdType
+                    IdType = user.IdType
                 };
                 _userRepository.Add(newUser);
                 return true;
@@ -74,17 +83,33 @@ namespace Infrastructure.Services
             }
             else
             {
+                //string hashedPWD = HashPassword(user.MotDePasse);
                 oldUser.Nom = user.Nom;
                 oldUser.Prenom = user.Prenom;
                 oldUser.DateNaissance = user.DateNaissance;
                 oldUser.PhoneNumber = user.Telephone;
                 oldUser.Email = user.Email;
-                oldUser.PasswordHash = user.MotDePasse;
-                //oldUser.IdType = user.IdType;
+                //oldUser.PasswordHash = hashedPWD;
+               // oldUser.IdType = user.IdType;
 
                 _userRepository.Update(oldUser);
                 return true;
             }
         }
+
+        // Crypte un mot de passe à l'aide de l'algorithme bcrypt
+        public static string HashPassword(string password)
+        {
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+            return hashedPassword;
+        }
+
+        // Vérifie si un mot de passe correspond à un hachage donné
+        public static bool VerifyPassword(string password, string hashedPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
+        
     }
 }

@@ -13,9 +13,9 @@ namespace Domain.Entities
         //public string Email { get; set; } = string.Empty; // Email
         //public string MotDePasse { get; set; } = string.Empty; // PasswordHash
         public DateTime DateInscription { get; set; }
-        //public int IdType { get; set; }
+        public int IdType { get; set; }
 
-        //public TypeE TypeE { get; set; } = default!; // UserRoles
+        public TypeE TypeE { get; set; } = default!; // UserRoles
 
         public List<UtilisateurEtablissement> UtilisateurEtabs { get; set; } = default!;
     }
