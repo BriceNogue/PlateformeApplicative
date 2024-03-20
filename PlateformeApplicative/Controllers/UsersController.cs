@@ -70,5 +70,13 @@ namespace PlateformeApplicative.Controllers
                 return Ok("Utilisateur mis a jour avec succes.");
             return BadRequest("Mise a jour impossible.");
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginModele loginM)
+        {
+            var res = await _userService.Login(loginM);
+
+            return Ok(res);
+        }
     }
 }

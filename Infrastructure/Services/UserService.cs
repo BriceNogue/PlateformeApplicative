@@ -115,33 +115,28 @@ namespace Infrastructure.Services
             }
             else
             {
-                //string hashedPWD = HashPassword(user.MotDePasse);
                 oldUser.Nom = user.Nom;
                 oldUser.Prenom = user.Prenom;
                 oldUser.DateNaissance = user.DateNaissance;
                 oldUser.PhoneNumber = user.Telephone;
                 oldUser.Email = user.Email;
-                //oldUser.PasswordHash = hashedPWD;
-               // oldUser.IdType = user.IdType;
+                oldUser.IdType = user.IdType;
 
                 _userRepository.Update(oldUser);
                 return true;
             }
         }
 
-        // Crypte un mot de passe à l'aide de l'algorithme bcrypt
-        public static string HashPassword(string password)
+        public async Task<LoginResponse> Login(UserLoginModele loginM)
         {
-            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+            if (loginM == null)
+                return new LoginResponse(false, null, "Entrez les informations de connexion");
 
-            return hashedPassword;
+            var res = await _userRepository.Login(loginM);
+            return res;
         }
 
-        // Vérifie si un mot de passe correspond à un hachage donné
-        public static bool VerifyPassword(string password, string hashedPassword)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
-        }
+        
         
     }
 }
