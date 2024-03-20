@@ -11,7 +11,7 @@ namespace Shareds.Modeles
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage ="1Az#")]
         public string Password { get; set; } = string.Empty;
     }
 }

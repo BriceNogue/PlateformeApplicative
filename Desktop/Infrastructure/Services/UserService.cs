@@ -2,8 +2,10 @@
 using Shareds.Modeles;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static Shareds.Modeles.ResponsesModels;
@@ -16,6 +18,9 @@ namespace Desktop.Infrastructure.Services
         private readonly string _URL = "https://localhost:7281/api/users";
 
         //public static UserModele user;
+
+        public static UserSession? userSession;
+        public static string? userToken;
 
         public UserService() 
         { 
@@ -37,6 +42,11 @@ namespace Desktop.Infrastructure.Services
 
                 var userLogin = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
 
+                if (userLogin.Flag)
+                {
+                    SetUserSession(userLogin.Token!);
+                }
+
                 return userLogin;
 
             }
@@ -44,6 +54,32 @@ namespace Desktop.Infrastructure.Services
             {
                 Console.WriteLine(ex.Message);
                 return null!;
+            }
+        }
+
+        private void SetUserSession(string token)
+        {
+            if (token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+                userToken = token;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var tokenDecoded = tokenHandler.ReadJwtToken(token);
+
+            // Accès aux revendications (données) du token JWT et èxtraction des infos
+            var claims = tokenDecoded.Claims;
+
+            if (claims is not null)
+            {
+                string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
+                string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+                string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
+                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+                userSession = new UserSession(int.Parse(id), name, email, role);
             }
         }
 

@@ -10,7 +10,6 @@ namespace Desktop.Presentation.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         [Required]
         [EmailAddress]
@@ -22,6 +21,13 @@ namespace Desktop.Presentation.ViewModels
         private string _password { get; set; } = string.Empty;
 
         public LoginViewModel() { }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public string Email
         {
@@ -41,11 +47,6 @@ namespace Desktop.Presentation.ViewModels
                 _password = value;
                 OnPropertyChanged(nameof(_password));
             }
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

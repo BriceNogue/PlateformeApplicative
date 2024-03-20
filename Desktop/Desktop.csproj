@@ -34,4 +34,13 @@
     <ProjectReference Include="..\Shared\Shareds.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Presentation\ViewModels\DeviceViewModel.cs">
+      <CustomToolNamespace>Desktop.Presentation.ViewModels</CustomToolNamespace>
+    </Compile>
+    <Compile Update="Presentation\ViewModels\LoginViewModel.cs">
+      <CustomToolNamespace></CustomToolNamespace>
+    </Compile>
+  </ItemGroup>
+
 </Project>

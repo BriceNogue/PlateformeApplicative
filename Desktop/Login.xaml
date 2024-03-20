@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Desktop"
+        xmlns:vm="clr-namespace:Desktop.Presentation.ViewModels"
         mc:Ignorable="d"
         Title="Login" Height="760" Width="450"
         WindowStyle="None"
@@ -12,6 +13,12 @@
         Background="{x:Null}"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         AllowsTransparency="True">
+
+    <!--
+        <Window.DataContext>
+           <vm:LoginViewModel/>
+        </Window.DataContext>
+    -->
 
     <materialDesign:Card
         materialDesign:ElevationAssist.Elevation="Dp4"
@@ -71,26 +78,36 @@
                     FontWeight="SemiBold"
                     Text="Connectez vous a votre compte"/>
 
+                <TextBlock
+                    x:Name="txt_connected"
+                    Margin="0 25 0 5"
+                    HorizontalAlignment="Center"
+                    FontSize="17"
+                    FontWeight="SemiBold"
+                    Text=""
+                    Foreground="Green"/>
+
                 <TextBox
                     x:Name="txt_b_email"
-                    Margin="0 50 0 0"
+                    Margin="0 100 0 0"
                     Width="300"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Email"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    Text="{Binding email}"/>
+                    />
 
                 <PasswordBox
-                    x:Name="txt_password"
+                    x:Name="txt_b_password"
                     Margin="0 20 0 0"
                     Width="300"
                     FontSize="18"
                     materialDesign:HintAssist.Hint="Mot de passe"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                    />
 
                 <Button
                     x:Name="loginBtn"

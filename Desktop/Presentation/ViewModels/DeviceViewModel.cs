@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel;
 
-namespace Desktop.Presentation.Models
+namespace Desktop.Presentation.ViewModels
 {
     // Cette classe gere le formatage des donnee cote vue ainsi que les evenements associes
 
@@ -20,6 +20,11 @@ namespace Desktop.Presentation.Models
         public DeviceViewModel() { }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         // Evenement sur les infos de la ROM
         public double TotalROMSpace
@@ -71,11 +76,6 @@ namespace Desktop.Presentation.Models
                 _usedRAMSpace = value;
                 OnPropertyChanged(nameof(UsedRAMSpace));
             }
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
