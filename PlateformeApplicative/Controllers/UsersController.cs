@@ -21,6 +21,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
+        [Authorize(Roles ="SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAll()
         {
             var users = new List<Utilisateur>();
@@ -31,6 +32,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
+        [Authorize(Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Utilisateur> Get(int id)
         {
             var user = _userService.Get(id);
@@ -54,6 +56,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete/id")]
+        [Authorize(Roles = "SuperAdmin,Admin,User")]
         public IActionResult Delete(int id)
         {
             var isDeleted = _userService.Delete(id);
@@ -63,6 +66,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(Roles = "SuperAdmin,Admin,User")]
         public IActionResult Update(UserModele user)
         {
             var isUpdated = _userService.Update(user);

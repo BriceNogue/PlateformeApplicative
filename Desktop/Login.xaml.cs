@@ -1,4 +1,6 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Desktop.Infrastructure.Services;
+using MaterialDesignThemes.Wpf;
+using Shareds.Modeles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Desktop
 {
@@ -21,11 +24,15 @@ namespace Desktop
     public partial class Login : Window
     {
         public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
+        private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
+        private readonly UserService _userService;
+
+        public static UserSession userSession = new UserSession (null, null, null, null);
 
         public Login()
         {
             InitializeComponent();
+            _userService = new UserService();
         }
 
         private void toggleTheme(object sender, RoutedEventArgs e)
@@ -56,11 +63,22 @@ namespace Desktop
             DragMove();
         }
 
-        private void login(object sender, RoutedEventArgs e)
+        private async void login(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            this.Close();
-            mainWindow.Show();
+            UserLoginModele loginM = new UserLoginModele();
+            var res = await _userService.Login(loginM);
+
+            if (!res.Flag)
+            {
+                MessageBoxResult messageBox = MessageBox.Show(res.Message, "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+            {
+                Thread.Sleep(300);
+                MainWindow mainWindow = new MainWindow();
+                this.Close();
+                mainWindow.Show();
+            }
         }
     }
 }
