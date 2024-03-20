@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Newtonsoft.Json.Linq;
+using Desktop.Presentation.ViewModels;
 
 namespace Desktop
 {
@@ -18,7 +19,7 @@ namespace Desktop
         private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
         private readonly UserService _userService;
 
-        public UserLoginModele loginM = new UserLoginModele();
+        public LoginViewModel loginVM = new LoginViewModel();
         public static UserSession? userSession;
 
         public Login()
@@ -26,7 +27,7 @@ namespace Desktop
             InitializeComponent();
             _userService = new UserService();
 
-            DataContext = loginM;
+            DataContext = loginVM;
         }
 
         public void toggleTheme(object sender, RoutedEventArgs e)

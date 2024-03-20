@@ -79,7 +79,8 @@
                     materialDesign:HintAssist.Hint="Email"
                     BorderThickness="2"
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                    Text="{Binding email}"/>
 
                 <PasswordBox
                     x:Name="txt_password"
