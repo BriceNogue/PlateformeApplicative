@@ -1,20 +1,11 @@
 ﻿using Desktop.Infrastructure.Services;
 using MaterialDesignThemes.Wpf;
 using Shareds.Modeles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static Shareds.Modeles.ResponsesModels;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Newtonsoft.Json.Linq;
 
 namespace Desktop
 {
@@ -27,15 +18,18 @@ namespace Desktop
         private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
         private readonly UserService _userService;
 
-        public static UserSession userSession = new UserSession (null, null, null, null);
+        public UserLoginModele loginM = new UserLoginModele();
+        public static UserSession? userSession;
 
         public Login()
         {
             InitializeComponent();
             _userService = new UserService();
+
+            DataContext = loginM;
         }
 
-        private void toggleTheme(object sender, RoutedEventArgs e)
+        public void toggleTheme(object sender, RoutedEventArgs e)
         {
             ITheme theme = paletteHelper.GetTheme();
 
@@ -74,10 +68,37 @@ namespace Desktop
             }
             else
             {
+                SetUserSession(res.Token!);
+
                 Thread.Sleep(300);
                 MainWindow mainWindow = new MainWindow();
                 this.Close();
                 mainWindow.Show();
+            }
+        }
+
+        private void SetUserSession(string token)
+        {
+            if (token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var tokenDecoded = tokenHandler.ReadJwtToken(token);
+
+            // Accès aux revendications (données) du token JWT et èxtraction des infos
+            var claims = tokenDecoded.Claims;
+
+            if (claims is not null)
+            {
+                string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
+                string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+                string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
+                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+                userSession = new UserSession(int.Parse(id), name, email, role);
             }
         }
     }
