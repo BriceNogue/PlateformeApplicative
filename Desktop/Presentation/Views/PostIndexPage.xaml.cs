@@ -40,11 +40,11 @@ namespace Desktop.Presentation.Views
             PosteModele poste = await _posteServiceD.GetOne();
             if (poste is null)
             {       
-                txt_post.Text = "Nonnnnnnn";
+                txt_post.Text = "Poste inconnu..";
             }
             {
                 this.posteModele = poste!;
-                txt_post.Text = poste?.Id.ToString();
+                txt_post.Text = "Poste : " + poste?.Numero.ToString();
             }
         }
     }

@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
+using UserService = Desktop.Infrastructure.Services.UserService;
 
 namespace Desktop.Presentation.Views
 {
@@ -42,6 +43,8 @@ namespace Desktop.Presentation.Views
         public CreatePostPage()
         {
             InitializeComponent();
+
+            CheckUserAuthorization();
 
             _posteServiceDekstop = new PosteServiceDekstop();
             _deviceInfoService = new DeviceInfoService();
@@ -204,6 +207,29 @@ namespace Desktop.Presentation.Views
             else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)
             {
                 MessageBoxResult result = MessageBox.Show("Se Poste a deja ete cree.", "", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        public void CheckUserAuthorization()
+        {
+            if (UserService.userSession is null)
+            {
+                //GoBack();
+            }
+            else
+            {
+                if (UserService.userSession!.Role != "Admin")
+                {
+                    //GoBack();
+                }
+            }
+        }
+
+        private void GoBack()
+        {
+            if (NavigationService.CanGoBack)
+            {
+                NavigationService.GoBack();
             }
         }
     }

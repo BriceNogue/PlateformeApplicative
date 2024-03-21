@@ -33,7 +33,7 @@ namespace Infrastructure.Services
         {
             var etab = _etablissementRepository.Get(salle.IdEtablissement);
             var type = _typeRepository.Get(salle.IdType);
-            if (salle.Id > 0 || etab is null || type is null)
+            if (salle.Id > 0 || etab is null || type is null || salle.Numero <= 0)
             {
                 return false;
             }

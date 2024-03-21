@@ -97,7 +97,7 @@
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
-                    DisplayMemberPath="Nom">
+                    DisplayMemberPath="Libelle">
 
                     <!-- ItemsSource recupere tous les types et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
@@ -114,7 +114,7 @@
                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
                     IsEditable="True"
-                    DisplayMemberPath="Nom">
+                    DisplayMemberPath="Numero">
 
                     <!-- ItemsSource recupere tous les salles et les place ici -->
                     <!-- DisplayMemberPath definit la propriete a eafficher -->
