@@ -7,7 +7,7 @@
 <PageTitle>Web</PageTitle>
 
 <div class="page">
-    @if (userS is not null)
+    @if (UserService.userSession is not null)
     {
         <div class="sidebar">
             <NavMenu />
@@ -16,10 +16,10 @@
 
     <main>
         <div class="top-row px-4">          
-            @if(userS is not null)
+            @if (UserService.userSession is not null)
             {
-                <a href="" @onclick="(()=>Test2())">
-                    @userS.Name
+                <a href="" @onclick="(()=>Logout())">
+                    @UserService.userSession.Name
                 </a>
             }
             else
@@ -46,7 +46,6 @@
 </div>
 
 @code {
-    UserSession? userS = UserService.userSession;
     public int text = 0;
 
     protected override void OnParametersSet()
@@ -76,15 +75,14 @@
         text += 1;
 
         UserService.userSession = new UserSession(1, "Alpha", "string@string;com", "Admin");
-        userS = UserService.userSession;
+        //userS = UserService.userSession;
         NavigationM.NavigateTo("/dashboard");
     }
 
 
-    public void Test2()
+    public void Logout()
     {
-        UserService.userSession = null;
-        userS = UserService.userSession;
+        UserService.Logout();
         NavigationM.NavigateTo("/");
     }
 }

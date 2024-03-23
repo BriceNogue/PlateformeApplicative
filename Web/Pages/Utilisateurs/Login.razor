@@ -1,6 +1,7 @@
 ﻿@page "/login"
 @using Shareds.Modeles
 @using Services;
+@using System.ComponentModel.DataAnnotations
 
 @inject NavigationManager NavigationM
 
@@ -12,14 +13,17 @@
             <div class="form-header">
                 <h3>Connexion</h3>
             </div>
+           <div>
+                <p>@resText</p>
+           </div>
             <div class="form-body">
                 <div class="form-group">
                     <label for="email" class="form-label">Email :</label>
-                    <input id="email" @bind="loginM!.Email" class="form-input" />
+                    <input type="email" id="email" @bind="loginM!.Email" class="form-input" />
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-label">Mot de passe :</label>
-                    <input id="password" @bind="loginM.Password" class="form-input" />
+                    <input type="password" id="password" @bind="loginM.Password" class="form-input" />
                 </div>
                 <div>
                     <input type="checkbox" class="form-check-input" />
@@ -27,7 +31,7 @@
                 </div>
             </div>
             <div class="form-control">
-                <button type="submit" class="btn btn-primary">Se connecter</button>
+                <button type="button" class="btn btn-primary" @onclick="(()=> ToLogin(loginM))">Se connecter</button>
             </div>
         </form>
     </div>
@@ -37,21 +41,46 @@
 
 @code {
     private UserLoginModele? loginM;
+    public string resText = "";
+    public UserService? userService;
 
     protected override void OnInitialized()
     {
-        UserSession? userS = UserService.userSession;
+        userService = new UserService();
+        loginM = new UserLoginModele();
 
-        if (userS is not null)
+        if (UserService.userSession is not null)
         {
             NavigationM.NavigateTo("/dashboard");
         }
-        loginM = new UserLoginModele();
     }
 
-    private void ToLogin()
+    public async void ToLogin(UserLoginModele obj)
     {
-        
-    }
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(obj, serviceProvider: null, items: null);
 
+        bool isValid = Validator.TryValidateObject(obj, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            //resText = "";
+            var res = await userService!.Login(obj);
+
+
+            if (res is not null)
+                resText = res.Message;
+
+            if(res!.Flag)
+                NavigationM.NavigateTo("/dashboard");
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
+        }
+    }
 }

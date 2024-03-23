@@ -26,6 +26,16 @@ namespace PlateformeApplicative.Controllers
             return Ok(users);
         }
 
+        [HttpGet("all/id")]
+        public ActionResult<List<UtilisateurEtablissement>> GetAllByUserId(int id)
+        {
+            var res = new List<UtilisateurEtablissement>();
+            res = _ueService.GetAll();
+            if (res.Count == 0)
+                return NoContent();
+            return Ok(res.Where(eu => eu.IdUtilisateur == id));
+        }
+
         [HttpGet("id")]
         public ActionResult<UtilisateurEtablissement> Get(int id)
         {
