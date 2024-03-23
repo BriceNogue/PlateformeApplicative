@@ -15,15 +15,15 @@
         </div>
         <div class="poste-info details">
             <h4>ID: @poste.Id</h4>
-            <h4>Libellé: Poste @poste.LibellePoste</h4>
+            <h4>Numéro: Poste @poste.Numero</h4>
             <h4>Marque: @poste.Marque</h4>
-            <h4>Adresse IP: @poste.AdresseIp</h4>
+            <h4>Adresse IP: @poste.AdresseIP</h4>
             <h4>Adresse MAC: @poste.AdresseMAC</h4>
             <h4>SE: @poste.SE</h4>
             <h4>ROM: @poste.ROM</h4>
             <h4>RAM: @poste.RAM</h4>
-            <h4>Salle: @salle.Nom</h4>
-            <h4>Type: @type.Nom</h4>
+            <h4>Salle: @salle.Numero</h4>
+            <h4>Type: @type.Libelle</h4>
             @if (poste.Statut == true)
             {
                 <h4>Statut: Connecté</h4>

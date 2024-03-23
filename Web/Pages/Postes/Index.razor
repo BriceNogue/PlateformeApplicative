@@ -23,7 +23,7 @@ else
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Libellé</th>
+                        <th>Numéro</th>
                         <th>Marque</th>
                         <th>Adresse IP</th>
                         <th>Adresse MAC</th>
@@ -40,9 +40,9 @@ else
                     {
                         <tr @onclick="(()=> GetPosteDetails(poste.Id))">
                             <td>@poste.Id</td>
-                            <td>Poste @poste.LibellePoste</td>
+                            <td>Poste @poste.Numero</td>
                             <td>@poste.Marque</td>
-                            <td>@poste.AdresseIp</td>
+                            <td>@poste.AdresseIP</td>
                             <td>@poste.AdresseMAC</td>
                             <td>@poste.SE</td>
                             <td>@poste.ROM</td>
@@ -52,13 +52,13 @@ else
                                 var salle = salles.Where(s => s.Id == poste.IdSalle);
                                 foreach (var s in salle)
                                 {
-                                    <td>@s.Nom</td>
+                                    <td>@s.Numero</td>
                                 }
 
                                 var type = types.Where(t => t.Id == poste.IdType);
                                 foreach (var t in type)
                                 {
-                                    <td>@t.Nom</td>
+                                    <td>@t.Libelle</td>
                                 }
                             }
 
@@ -94,7 +94,7 @@ else
         salles = await salleService.GetAll();
 
         var result = await typeService.GetAll();
-        types = result.Where(t => t.ObjetConcerne == "Poste").ToList<TypeModele>();
+        types = result.Where(t => t.Objet == "Poste").ToList<TypeModele>();
     }
 
     private void GetPosteDetails(int id)

@@ -1,0 +1,57 @@
+﻿@page "/login"
+@using Shareds.Modeles
+@using Services;
+
+@inject NavigationManager NavigationM
+
+<PageTitle>Se connecter</PageTitle>
+
+<div class="container">
+    <div class="form login-form">
+        <form>
+            <div class="form-header">
+                <h3>Connexion</h3>
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email :</label>
+                    <input id="email" @bind="loginM!.Email" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe :</label>
+                    <input id="password" @bind="loginM.Password" class="form-input" />
+                </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" />
+                    <label>Se souvenir de moi.</label>
+                </div>
+            </div>
+            <div class="form-control">
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </div>
+        </form>
+    </div>
+    <div>
+    </div>
+</div>
+
+@code {
+    private UserLoginModele? loginM;
+
+    protected override void OnInitialized()
+    {
+        UserSession? userS = UserService.userSession;
+
+        if (userS is not null)
+        {
+            NavigationM.NavigateTo("/dashboard");
+        }
+        loginM = new UserLoginModele();
+    }
+
+    private void ToLogin()
+    {
+        
+    }
+
+}

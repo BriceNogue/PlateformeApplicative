@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Shared\Composants\Postes\" />
+    <Folder Include="Shared\Composants\Salles\" />
     <Folder Include="Shared\Composants\Utilisateurs\" />
     <Folder Include="Shared\Composants\Parcs\" />
   </ItemGroup>

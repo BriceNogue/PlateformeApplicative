@@ -1,15 +1,42 @@
-﻿@inherits LayoutComponentBase
+﻿@using Shareds.Modeles
+@using Web.Services
+@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationM
 
 <PageTitle>Web</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    @if (userS is not null)
+    {
+        <div class="sidebar">
+            <NavMenu />
+        </div>
+    }
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <div class="top-row px-4">          
+            @if(userS is not null)
+            {
+                <a href="" @onclick="(()=>Test2())">
+                    @userS.Name
+                </a>
+            }
+            else
+            {
+                if (UserService.isLoginPage)
+                {
+                    <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToLogin())">
+                        Se connecter
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToRegister())">
+                        Créer un compte
+                    </button>
+                }
+            }          
         </div>
 
         <article class="content px-4">
@@ -17,3 +44,47 @@
         </article>
     </main>
 </div>
+
+@code {
+    UserSession? userS = UserService.userSession;
+    public int text = 0;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    protected override void OnInitialized()
+    {
+
+    }
+
+    public void GoToLogin()
+    {
+        UserService.isLoginPage = false;
+        NavigationM.NavigateTo("/login");
+    }
+
+    public void GoToRegister()
+    {
+        UserService.isLoginPage = true;
+        NavigationM.NavigateTo("/resister");
+    }
+
+    public void Test()
+    {
+        text += 1;
+
+        UserService.userSession = new UserSession(1, "Alpha", "string@string;com", "Admin");
+        userS = UserService.userSession;
+        NavigationM.NavigateTo("/dashboard");
+    }
+
+
+    public void Test2()
+    {
+        UserService.userSession = null;
+        userS = UserService.userSession;
+        NavigationM.NavigateTo("/");
+    }
+}

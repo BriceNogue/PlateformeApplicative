@@ -7,6 +7,9 @@ namespace Web.Services
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/users";
 
+        public static UserSession? userSession;
+        public static bool isLoginPage = true;
+
         public UserService()
         {
             _httpClient = new HttpClient();

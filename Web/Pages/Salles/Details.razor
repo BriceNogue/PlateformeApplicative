@@ -9,7 +9,7 @@
 
 <h3>ID @id</h3>
 <h3>Salle @salle.Id</h3>
-<h3>Nom @salle.Nom</h3>
+<h3>Nom @salle.Numero</h3>
 
 <div class="container">
     <div>
@@ -19,7 +19,7 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Libellé</th>
+                    <th>Numéro</th>
                     <th>Marque</th>
                     <th>Adresse IP</th>
                     <th>Adresse MAC</th>
@@ -36,20 +36,20 @@
                 {
                     <tr>
                         <td>@poste.Id</td>
-                        <td>Poste @poste.LibellePoste</td>
+                        <td>Poste @poste.Numero</td>
                         <td>@poste.Marque</td>
-                        <td>@poste.AdresseIp</td>
+                        <td>@poste.AdresseIP</td>
                         <td>@poste.AdresseMAC</td>
                         <td>@poste.SE</td>
                         <td>@poste.ROM</td>
                         <td>@poste.RAM</td>
-                        <td>@salle.Nom</td>
+                        <td>@salle.Numero</td>
 
                         @{
                             var type = typesPoste.Where(t => t.Id == poste.IdType);
                             foreach(var t in type)
                             {
-                                <td>@t.Nom</td>
+                                <td>@t.Libelle</td>
                             }                          
                         }
                         
@@ -103,8 +103,8 @@
         postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
 
         var result = await typeService.GetAll();
-        typesPoste = result.Where(t => t.ObjetConcerne == "Poste").ToList<TypeModele>();
-        typesSalle = result.Where(t => t.ObjetConcerne == "Salle").ToList<TypeModele>();
+        typesPoste = result.Where(t => t.Objet == "Poste").ToList<TypeModele>();
+        typesSalle = result.Where(t => t.Objet == "Salle").ToList<TypeModele>();
 
     }
 }

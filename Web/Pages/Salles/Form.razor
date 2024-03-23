@@ -3,28 +3,21 @@
 @using Microsoft.AspNetCore.Components.Forms;
 
 @*
-    public int Id { get; set; }
-        public string Nom { get; set; } = string.Empty;
-        public string Emplacement { get; set; } = string.Empty;
+   public int Numero { get; set; }
         public int Capacite { get; set; }
         public bool Status { get; set; }
         public int IdType { get; set; }
         public int IdEtablissement { get; set; }
 *@
 
-<EditForm Model="salle">
+@*<EditForm Model="salle">
     <div class="form-group">
-        <label for="nom">Nom:</label>
-        <InputText id="nom" @bind-Value="salle.Nom"/>
-        <ValidationMessage For="@(() => salle.nom)"/>
+        <label for="numero">Numéro:</label>
+        <InputText id="numero" @bind-Value="salle.Numero.ToString()"/>
+        <ValidationMessage For="@(() => salle.Numero)"/>
     </div>
     <div class="form-group">
-        <label for="emplacement">Emplacement:</label>
-        <InputText id="Emplacement" @bind-Value="salle.Emplacement" />
-        <ValidationMessage For="@(() => salle.Emplacement)" />
-    </div>
-    <div class="form-group">
-        <label for="capacite">Capacite:</label>
+        <label for="capacite">Capacité:</label>
         <InputNumber id="capacite" @bind-Value="salle.Capacite" />
         <ValidationMessage For="@(() => salle.Capacite)" />
     </div>
@@ -35,15 +28,15 @@
             <label for="statutDisponible" class="form-check-label">Disponible</label>
         </div>
         <div class="form-check">
-            <InputRadio id="statutIndisponible" @bind-Value="salle.Status" Value="true"  class="form-check-input"/>
+            <InputRadio id="statutIndisponible" @bind-value="salle.Status" Value="false"  class="form-check-input"/>
             <label for="statutIndisponible" class="form-check-label">Indisponible</label>
         </div>
     </div>
     <div class="form-group">
-        <label for="capacite">Type:</label>
+        <label for="type">Type:</label>
         <InputNumber id="type" @bind-Value="salle.IdType" />
     </div>
-</EditForm>
+</EditForm>*@
 
 @code {
     [Parameter]
