@@ -1,4 +1,5 @@
 ﻿using Shareds.Modeles;
+using System.Text.Json;
 
 namespace Web.Services
 {
@@ -13,11 +14,13 @@ namespace Web.Services
         }
 
         public async Task <List<TypeModele>> GetAll() {
-            List<TypeModele>? res = await _httpClient.GetFromJsonAsync<List<TypeModele>>(_URL + "/all");
+            var res = await _httpClient.GetAsync(_URL + "/all");
 
-            if (res is not null)
+            if (res.IsSuccessStatusCode)
             {
-                return res;
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonSerializer.Deserialize<List<TypeModele>>(jsonString);
+                return data!;
             }
             else
             {
@@ -27,11 +30,13 @@ namespace Web.Services
 
         public async Task<TypeModele> GetById(int id)
         {
-            TypeModele? res = await _httpClient.GetFromJsonAsync<TypeModele>(_URL + $"/id?id={id}");
+            var res = await _httpClient.GetAsync(_URL + $"/id?id={id}");
 
-            if (res is not null)
+            if (res.IsSuccessStatusCode)
             {
-                return res;
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonSerializer.Deserialize<TypeModele>(jsonString);
+                return data!;
             }
             else
             {

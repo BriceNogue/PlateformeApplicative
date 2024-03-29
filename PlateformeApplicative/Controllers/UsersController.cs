@@ -21,7 +21,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(Roles ="SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAll()
         {
             var users = new List<Utilisateur>();
@@ -51,7 +51,14 @@ namespace PlateformeApplicative.Controllers
             else
             {
                 var res = await _userService.Add(user);
-                return Ok(res);
+                if (res.Flag)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest(res);
+                }
             }
         }
 

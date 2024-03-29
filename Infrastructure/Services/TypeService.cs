@@ -1,18 +1,12 @@
 ﻿using Domain.Repositories;
 using Domain.Entities;
 using Shareds.Modeles;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Infrastructure.Services
 {
-    public class TypeService
+    public class TypeService(TypeRepository _typeRepository)
     {
-        private readonly TypeRepository _typeRepository;
-
-        public TypeService() 
-        {
-            _typeRepository = new TypeRepository();
-        }
-
         public List<TypeE> GetAll()
         {
             return _typeRepository.GetAll();
@@ -23,24 +17,25 @@ namespace Infrastructure.Services
             return _typeRepository.Get(id);
         }
 
-        public bool Add(TypeModele type)
+        public async Task<GeneralResponse> Add(TypeModele type)
         {
             var types = GetAll();
             if (type.Id > 0 || types.Any(e => e.Libelle == type.Libelle))
             {
-                return false;
+                return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
             else
             {
                 var typeE = new TypeE()
                 {
-                    //Libelle = type.Libelle,
+                    Libelle = type.Libelle,
                     Description = type.Description,
                     Objet = type.Objet,
+                    Name = type.Libelle
                 };
 
-                _typeRepository.Add(typeE);
-                return true;  
+                var res = await _typeRepository.Add(typeE);
+                return res;  
             }
         }
 

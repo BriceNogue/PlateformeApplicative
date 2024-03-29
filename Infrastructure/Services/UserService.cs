@@ -64,8 +64,8 @@ namespace Infrastructure.Services
         public async Task<GeneralResponse> Add(UserModele user)
         {
             var users = GetAll();
-            var userType = _typeRepository.Get(user.IdType);
-            if ((user.Id > 0) || userType is null)
+            
+            if ((user.Id > 0))
             {
                 return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
@@ -87,7 +87,14 @@ namespace Infrastructure.Services
                     IdType = user.IdType,
                     UserName = user.Email
                 };
-                var res = await _userRepository.Add(newUser, user.MotDePasse);
+
+                if (user.IdType == 0)
+                {
+                    var types = _typeRepository.GetAll();
+                    var userType = types.FirstOrDefault(t => t.Libelle == "SuperAdmin");
+                    newUser.IdType = userType!.Id;
+                }
+                var res = await _userRepository.Add(newUser, user.ConfirmeMotDePasse);
                 return res;
             }
         }

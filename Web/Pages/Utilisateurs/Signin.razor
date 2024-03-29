@@ -1,0 +1,140 @@
+﻿@page "/register"
+@using Shareds.Modeles
+@using System.ComponentModel.DataAnnotations
+@using Web.Services
+
+@inject NavigationManager NavigationM
+
+<PageTitle>Créer un compte</PageTitle>
+
+<div class="container">
+    <div class="form login-form">
+        <form>
+            <div class="form-header">
+                <h3>Connexion</h3>
+            </div>
+            <div>
+                <p>@resText</p>
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label for="nom" class="form-label">Nom :</label>
+                    <input type="text" id="nom" @bind="newUser!.Nom" placeholder="Nom" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="prenom" class="form-label">Prénom :</label>
+                    <input type="text" id="prenom" @bind="newUser!.Prenom" placeholder="Prénom" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-label">Email :</label>
+                    <input type="email" id="email" @bind="newUser!.Email" placeholder="Email" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="form-label">Télephone :</label>
+                    <input type="phone" id="phone" @bind="newUser!.Telephone" placeholder="Téléphone" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                    <input type="date" id="dateNaissance" value="formatedDate" @oninput="HandleDateinput" placeholder="Date de naissance" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe :</label>
+                    <input type="password" id="password" @bind="newUser!.MotDePasse" placeholder="Mot de passe" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="cPassword" class="form-label">Confirmez le mot de passe :</label>
+                    <input type="Password" id="cPassword" @bind="newUser!.ConfirmeMotDePasse" placeholder="Confirmez le mot de passe" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" class="form-check-input" @bind="isConditionsAcept" />
+                    <label>Je reconnais avoir pris connaissance des <a href="">Conditions générales d'utilisation.</a></label>
+                </div>
+                <div>
+                    <a href="" @onclick="(()=>GoToLogin())">Vous avez déja un compte ?</a>
+                </div>
+            </div>
+            <div class="form-control">
+                <div>
+                    <button type="button" class="btn btn-primary" @onclick="(()=> ToSignIn(newUser))">Se connecter</button>
+                </div>
+                <div>
+                    <button type="reset" class="btn btn-danger">Se connecter</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code {
+
+    private UserModele? newUser;
+    public string resText = "";
+    public UserService userService = new UserService();
+    private bool isConditionsAcept = false;
+
+    private DateTime startDate = DateTime.Today;
+    private string formatedDate = "";
+
+    protected override void OnInitialized()
+    {
+        newUser = new UserModele();
+        string formatedDate = startDate.ToString("yyyy-MM-dd");
+    }
+
+    private void HandleDateinput(ChangeEventArgs e)
+    {
+        if(DateTime.TryParse(e.Value.ToString(), out DateTime selectedDate))
+        {
+            startDate = selectedDate;
+            formatedDate = startDate.ToString("yyyy-MM-dd");
+
+            if(DateTime.TryParse(formatedDate, out DateTime dateOfBirth))
+            {
+                newUser!.DateNaissance = dateOfBirth;
+            }
+        }
+    }
+
+    public async void ToSignIn(UserModele obj)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(obj, serviceProvider: null, items: null);
+
+        bool isValid = Validator.TryValidateObject(obj, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            if (isConditionsAcept)
+            {
+                var res = await userService.Signin(obj);
+
+
+                if (res is not null)
+                    resText = res.Message;
+
+                if (res!.Flag)
+                {
+                    GoToLogin();
+                }
+            }
+            else
+            {
+                resText = "Veuillez accepter les conditions générales d'utilisation.";
+            }
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
+        }
+    }
+
+    public void GoToLogin()
+    {
+        UserService.isLoginPage = false;
+        NavigationM.NavigateTo("/login");
+    }
+}

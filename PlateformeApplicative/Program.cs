@@ -43,9 +43,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+//builder.Services.AddAuthorization();
+
 // Identity
-builder.Services.AddIdentity<Utilisateur, IdentityRole<int>>()
-    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentity<Utilisateur, TypeE>()
+    .AddEntityFrameworkStores<DataContext>()
+    .AddRoles<TypeE>();
 
 // Sucurisation de swagger ui
 builder.Services.AddSwaggerGen(options =>
@@ -64,6 +67,12 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UEService>();
 builder.Services.AddScoped<TypeRepository>();
+builder.Services.AddScoped<TypeService>();
+builder.Services.AddScoped<PosteService>();
+builder.Services.AddScoped<SalleService>();
+builder.Services.AddScoped<SalleRepository>();
+builder.Services.AddScoped<EtablissementRepository>();
+builder.Services.AddScoped<PosteRepository>();
 
 // Ending *********************
 

@@ -4,19 +4,8 @@ using Shareds.Modeles;
 
 namespace Infrastructure.Services
 {
-    public class PosteService
+    public class PosteService(PosteRepository _repository, SalleRepository _salleRepository, TypeRepository _typeRepository)
     {
-        private readonly PosteRepository _repository;
-        private readonly SalleRepository _salleRepository;
-        private readonly TypeRepository _typeRepository;
-
-        public PosteService() 
-        {
-            _repository = new PosteRepository();
-            _salleRepository = new SalleRepository();
-            _typeRepository = new TypeRepository();
-        }
-
         public List<Poste> GetAll()
         { 
             return _repository.GetAll(); 

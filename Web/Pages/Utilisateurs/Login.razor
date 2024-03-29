@@ -29,20 +29,30 @@
                     <input type="checkbox" class="form-check-input" />
                     <label>Se souvenir de moi.</label>
                 </div>
+                <div>
+                    <a href="" @onclick="(()=>GoToRegister())">Vous n'avez pas encore de compte ?</a>
+                </div>
             </div>
             <div class="form-control">
                 <button type="button" class="btn btn-primary" @onclick="(()=> ToLogin(loginM))">Se connecter</button>
             </div>
         </form>
     </div>
-    <div>
-    </div>
+
+    @if (userEtabs.Count > 0)
+    {
+        <div>
+            <h3>Plusieurs</h3>
+        </div>
+    }
 </div>
 
 @code {
     private UserLoginModele? loginM;
     public string resText = "";
     public UserService? userService;
+    public UEService uEService = new UEService();
+    public List<UEModele> userEtabs = new();
 
     protected override void OnInitialized()
     {
@@ -71,8 +81,11 @@
             if (res is not null)
                 resText = res.Message;
 
-            if(res!.Flag)
-                NavigationM.NavigateTo("/dashboard");
+            if (res!.Flag)
+            {
+                GetUserEtabs();
+            }
+            NavigationM.NavigateTo("/dashboard");
         }
         else
         {
@@ -82,5 +95,17 @@
                 resText += result.ToString();
             }
         }
+    }
+
+    public async void GetUserEtabs()
+    {
+        int id = UserService.userSession!.Id ?? 0;
+        userEtabs = await uEService.GetAllByUserId(id);
+    }
+
+    public void GoToRegister()
+    {
+        UserService.isLoginPage = true;
+        NavigationM.NavigateTo("/register");
     }
 }

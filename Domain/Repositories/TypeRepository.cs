@@ -1,16 +1,11 @@
 ﻿using Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Domain.Repositories
 {
-    public class TypeRepository
+    public class TypeRepository(RoleManager<TypeE> roleManager, DataContext _dataContext)
     {
-        private readonly DataContext _dataContext;
-
-        public TypeRepository() 
-        {
-            _dataContext = new DataContext();
-        }
-
         public List<TypeE> GetAll() 
         {
             return _dataContext.Types.ToList();
@@ -22,16 +17,25 @@ namespace Domain.Repositories
             return _dataContext.Types.FirstOrDefault(t => t.Id == id)!;
         }
 
-        public void Add(TypeE type)
+        public async Task<GeneralResponse> Add(TypeE type)
         {
             try
             {
-                _dataContext.Types.Add(type);
-                _dataContext.SaveChanges();
+                var createType = await roleManager.CreateAsync(type);
+                if (!createType.Succeeded) return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
+
+                else
+                {
+                    return new GeneralResponse(true, "Compte crée avec succès");
+                }
+
+                //_dataContext.Types.Add(type);
+                //_dataContext.SaveChanges();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Shareds.Modeles;
+﻿using Newtonsoft.Json;
+using Shareds.Modeles;
 
 namespace Web.Services
 {
@@ -14,11 +15,14 @@ namespace Web.Services
 
         public async Task<List<EtablissementModele>> GetAll()
         {
-            List<EtablissementModele>? parcs = await _httpClient.GetFromJsonAsync<List<EtablissementModele>>(_URL + "/all");
+            var res = await _httpClient.GetAsync(_URL + "/all");
 
-            if (parcs != null)
+            if (res.IsSuccessStatusCode)
             {
-                return parcs;
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<EtablissementModele>>(jsonString);
+
+                return data!;
             }
             else
             {

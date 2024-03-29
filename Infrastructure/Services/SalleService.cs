@@ -6,19 +6,8 @@ using Shareds.Modeles;
 
 namespace Infrastructure.Services
 {
-    public class SalleService
+    public class SalleService(SalleRepository _repository, TypeRepository _typeRepository, EtablissementRepository _etablissementRepository)
     {
-        private readonly SalleRepository _repository;
-        private readonly EtablissementRepository _etablissementRepository;
-        private readonly TypeRepository _typeRepository;
-
-        public SalleService() 
-        {
-            _repository = new SalleRepository();
-            _etablissementRepository = new EtablissementRepository();
-            _typeRepository = new TypeRepository();
-        }
-
         public List<Salle> GetAll() 
         { 
             return _repository.GetAll(); 

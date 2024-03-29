@@ -148,12 +148,12 @@ namespace Domain.Repositories
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials);
 
-            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            //var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             // Ajouter le préfixe "Bearer" au token JWT (Norme OAuth 2.0) Mais Optionnel dans certains cas
-            var tokenWithBearer = "Bearer " + jwtToken;
+            //var tokenWithBearer = "Bearer " + jwtToken;
 
-            return tokenWithBearer;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 

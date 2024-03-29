@@ -4,6 +4,7 @@ using System.Text;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 
 namespace Web.Services
 {
@@ -25,15 +26,49 @@ namespace Web.Services
 
         public async Task<List<UserModele>> GetAll()
         {
-            List<UserModele>? res = await _httpClient.GetFromJsonAsync<List<UserModele>>(_URL + "/all");
-            if (res is not null)
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + "/all");
+
+            if (userToken is not null)
             {
-                return res;
+                request.Headers.Authorization = new AuthenticationHeaderValue("Beader", userToken);
+                var res = await _httpClient.SendAsync(request);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<UserModele>>(jsonString);
+                    return data!;
+                }
+                else
+                {
+                    return new List<UserModele>();
+                }
             }
             else
             {
                 return new List<UserModele>();
             }
+        }
+
+        // Pour addapter le contenu de la requete
+        private HttpContent SetRequestContent(Object obj)
+        {
+            string json = JsonConvert.SerializeObject(obj);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return content;
+        }
+
+        public async Task<LoginResponse> Signin(UserModele user)
+        {
+            var content = SetRequestContent(user);
+            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/create", content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var res = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
+            
+            return res;
         }
 
         public async Task<LoginResponse> Login(UserLoginModele loginM)
@@ -71,6 +106,10 @@ namespace Web.Services
             if (token.StartsWith("Bearer "))
             {
                 token = token.Substring("Bearer ".Length);
+                userToken = token;
+            }
+            else
+            {
                 userToken = token;
             }
 

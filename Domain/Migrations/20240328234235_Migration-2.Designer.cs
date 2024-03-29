@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Domain.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240317231032_Migration_18")]
-    partial class Migration_18
+    [Migration("20240328234235_Migration-2")]
+    partial class Migration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,6 +179,10 @@ namespace Domain.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Libelle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -190,6 +194,9 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Libelle")
+                        .IsUnique();
 
                     b.ToTable("TypeE");
                 });
@@ -219,6 +226,9 @@ namespace Domain.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("IdType")
+                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -259,6 +269,8 @@ namespace Domain.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdType");
 
                     b.ToTable("Utilisateur");
                 });
@@ -390,13 +402,13 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.Salle", "Salle")
                         .WithMany("Postes")
                         .HasForeignKey("IdSalle")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.TypeE", "TypeE")
                         .WithMany("Postes")
                         .HasForeignKey("IdType")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Salle");
@@ -415,10 +427,21 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.TypeE", "TypeE")
                         .WithMany("Salles")
                         .HasForeignKey("IdType")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Etablissement");
+
+                    b.Navigation("TypeE");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Utilisateur", b =>
+                {
+                    b.HasOne("Domain.Entities.TypeE", "TypeE")
+                        .WithMany("Utilisateurs")
+                        .HasForeignKey("IdType")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("TypeE");
                 });
@@ -428,13 +451,13 @@ namespace Domain.Migrations
                     b.HasOne("Domain.Entities.Etablissement", "Etablissement")
                         .WithMany("UtilisateurEtabs")
                         .HasForeignKey("IdEtablissement")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Utilisateur", "Utilisateur")
                         .WithMany("UtilisateurEtabs")
                         .HasForeignKey("IdUtilisateur")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Etablissement");
@@ -459,6 +482,8 @@ namespace Domain.Migrations
                     b.Navigation("Postes");
 
                     b.Navigation("Salles");
+
+                    b.Navigation("Utilisateurs");
                 });
 
             modelBuilder.Entity("Domain.Entities.Utilisateur", b =>

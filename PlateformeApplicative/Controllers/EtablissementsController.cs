@@ -22,7 +22,7 @@ namespace PlateformeApplicative.Controllers
         {
             var result = _service.GetAll();
             if (result.Count == 0)
-                return Ok("Aucun etablissement enregistre.");
+                return NotFound("Aucun etablissement enregistre.");
             return (result);
         }
 

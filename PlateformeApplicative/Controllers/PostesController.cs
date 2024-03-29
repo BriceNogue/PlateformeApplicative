@@ -8,15 +8,8 @@ namespace PlateformeApplicative.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PostesController : ControllerBase
+    public class PostesController(PosteService _service) : ControllerBase
     {
-        private readonly PosteService _service;
-
-        public PostesController()
-        {
-            _service = new PosteService();
-        }
-
         [HttpGet("all")]
         public ActionResult<List<Poste>> GetAll()
         {

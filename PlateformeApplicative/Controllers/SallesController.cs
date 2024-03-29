@@ -8,15 +8,8 @@ namespace PlateformeApplicative.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SallesController : ControllerBase
+    public class SallesController(SalleService _service) : ControllerBase
     {
-        private readonly SalleService _service;
-
-        public SallesController() 
-        {
-            _service = new SalleService();
-        }
-
         [HttpGet("all")]
         public ActionResult<List<Salle>> GetAll()
         {

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain.Entities
 {
-    public class TypeE
+    public class TypeE : IdentityRole<int>
     {
-        public int Id { get; set; }
-        public string Libelle { get; set; } = string.Empty; // Name
+        //public int Id { get; set; }
+        public string Libelle { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string Objet { get; set; } = string.Empty;
 
