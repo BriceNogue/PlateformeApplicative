@@ -13,7 +13,6 @@ namespace Web.Services
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/users";
 
-        
         public static string? userToken;
         public static UserSession? userSession;
 
@@ -26,7 +25,7 @@ namespace Web.Services
 
         public async Task<List<UserModele>> GetAllByParc()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _URL + "/users_parc");
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc");
 
             if (userToken is not null)
             {

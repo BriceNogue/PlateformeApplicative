@@ -35,6 +35,15 @@ namespace PlateformeApplicative.Controllers
             return Ok(result);
         }
 
+        [HttpGet("all/id")]
+        public ActionResult<List<Etablissement>> GetAllByUser(int id)
+        {
+            var result = _service.GetAllByUser(id);
+            if (result.Count == 0)
+                return NotFound("Aucun etablissement enregistre.");
+            return Ok(result);
+        }
+
         [HttpPost("create")]
         public ActionResult<Etablissement> Add(EtablissementModele item)
         {

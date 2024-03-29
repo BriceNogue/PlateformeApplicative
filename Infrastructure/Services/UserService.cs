@@ -33,15 +33,12 @@ namespace Infrastructure.Services
         public List<Utilisateur> GetAllByParc(int id)
         {
             var res = _ueRepository.GetAll().Where(u => u.IdEtablissement == id).ToList();
-            if (res != null)
+            if (res.Count != 0)
             {
                 var users = GetAll();
                 var data = new List<Utilisateur>();
-                
-                foreach (var userE in res)
-                {
-                    data = users.Where(u => u.Id == userE.IdUtilisateur).ToList();
-                }
+
+                data = users.Where(u => u.Id == res[0].IdUtilisateur).ToList();
 
                 return data;
             }

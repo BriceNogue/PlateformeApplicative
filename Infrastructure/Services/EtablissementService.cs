@@ -13,10 +13,12 @@ namespace Infrastructure.Services
     public class EtablissementService
     {
         private readonly EtablissementRepository _repository;
+        private readonly UERepository _ueRepository;
 
         public EtablissementService() 
         {
             _repository = new EtablissementRepository();
+            _ueRepository = new UERepository();
         }
 
         public List<Etablissement> GetAll()
@@ -27,6 +29,24 @@ namespace Infrastructure.Services
         public Etablissement Get(int id)
         {
             return _repository.Get(id);
+        }
+
+        public List<Etablissement> GetAllByUser(int id)
+        {
+            var res = _ueRepository.GetAll().Where(u => u.IdUtilisateur == id).ToList();
+            if (res.Count != 0)
+            {
+                var etabs = GetAll();
+                var data = new List<Etablissement>();
+                
+                data = etabs.Where(u => u.Id == res[0].IdUtilisateur).ToList();
+
+                return data;
+            }
+            else
+            {
+                return new List<Etablissement>();
+            }
         }
 
         public bool Add(EtablissementModele etab)
