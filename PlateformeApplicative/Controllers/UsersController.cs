@@ -21,7 +21,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin")]
         public ActionResult<List<Utilisateur>> GetAll()
         {
             var users = new List<Utilisateur>();
@@ -32,7 +32,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Utilisateur> GetBy(int id)
         {
             var user = _userService.Get(id);
@@ -42,7 +42,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("usersparc/id")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAllByParc(int id)
         {
             var usersParc = new List<Utilisateur>();
@@ -52,12 +52,17 @@ namespace PlateformeApplicative.Controllers
             return Ok(usersParc);
         }
 
-        [HttpPost("create")]
+        [HttpPost("add")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Add(UserModele user) 
         {
             if (user is null)
             {
                 return BadRequest(new GeneralResponse(false, "Aucune donnée."));
+            }
+            else if (user.IdType == 0)
+            {
+                return BadRequest(new GeneralResponse(false, "Role manquant."));
             }
             else
             {
@@ -99,6 +104,27 @@ namespace PlateformeApplicative.Controllers
             var res = await _userService.Login(loginM);
 
             return Ok(res);
+        }
+
+        [HttpPost("signin")]
+        public async Task<IActionResult> SignIn(UserModele user)
+        {
+            if (user is null)
+            {
+                return BadRequest(new GeneralResponse(false, "Aucune donnée."));
+            }
+            else
+            {
+                var res = await _userService.Add(user);
+                if (res.Flag)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest(res);
+                }
+            }
         }
     }
 }
