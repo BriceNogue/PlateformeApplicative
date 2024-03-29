@@ -41,7 +41,7 @@ namespace PlateformeApplicative.Controllers
             return Ok(user);
         }
 
-        [HttpGet("usersparc/id")]
+        [HttpGet("users_parc/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAllByParc(int id)
         {

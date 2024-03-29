@@ -24,9 +24,9 @@ namespace Web.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<UserModele>> GetAll()
+        public async Task<List<UserModele>> GetAllByParc()
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _URL + "/all");
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + "/users_parc");
 
             if (userToken is not null)
             {
@@ -62,7 +62,7 @@ namespace Web.Services
         public async Task<LoginResponse> Signin(UserModele user)
         {
             var content = SetRequestContent(user);
-            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/create", content);
+            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/signin", content);
 
             string responseBody = await response.Content.ReadAsStringAsync();
 
