@@ -66,11 +66,13 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UEService>();
+builder.Services.AddScoped<UERepository>();
 builder.Services.AddScoped<TypeRepository>();
 builder.Services.AddScoped<TypeService>();
 builder.Services.AddScoped<PosteService>();
 builder.Services.AddScoped<SalleService>();
 builder.Services.AddScoped<SalleRepository>();
+builder.Services.AddScoped<EtablissementService>();
 builder.Services.AddScoped<EtablissementRepository>();
 builder.Services.AddScoped<PosteRepository>();
 

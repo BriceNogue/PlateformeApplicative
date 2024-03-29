@@ -9,19 +9,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class UEService
+    public class UEService(UERepository _ueRepository, UserService _userService, EtablissementService _etablissementService)
     {
-        private readonly UERepository _ueRepository;
-        private readonly UserService _userService;
-        private readonly EtablissementService _etablissementService;
-
-        public UEService(UserService userService)
-        {
-            _ueRepository = new UERepository();
-            _userService = userService;
-            _etablissementService = new EtablissementService();
-        }
-
         public List<UtilisateurEtablissement> GetAll()
         {
             return _ueRepository.GetAll();

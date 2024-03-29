@@ -16,16 +16,39 @@ namespace Infrastructure.Services
     {
         private readonly UserRepository _userRepository;
         private readonly TypeRepository _typeRepository;
+        private readonly UERepository _ueRepository;
 
-        public UserService(UserRepository userRepository,TypeRepository typeRepository)
+        public UserService(UserRepository userRepository,TypeRepository typeRepository, UERepository ueRepository)
         {
             _userRepository = userRepository;
             _typeRepository = typeRepository;
+            _ueRepository = ueRepository;
         }
 
         public List<Utilisateur> GetAll()
         {
             return _userRepository.GetAll();
+        }
+
+        public List<Utilisateur> GetAllByParc(int id)
+        {
+            var res = _ueRepository.GetAll().Where(u => u.IdEtablissement == id).ToList();
+            if (res != null)
+            {
+                var users = GetAll();
+                var data = new List<Utilisateur>();
+                
+                foreach (var userE in res)
+                {
+                    data = users.Where(u => u.Id == userE.IdUtilisateur).ToList();
+                }
+
+                return data;
+            }
+            else
+            {
+                return new List<Utilisateur>();
+            }
         }
 
         public Utilisateur Get(int id)

@@ -32,13 +32,24 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
-        public ActionResult<Utilisateur> Get(int id)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
+        public ActionResult<Utilisateur> GetBy(int id)
         {
             var user = _userService.Get(id);
             if (user is null)
                 return NotFound("Utilisateur inexistant.");
             return Ok(user);
+        }
+
+        [HttpGet("usersparc/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        public ActionResult<List<Utilisateur>> GetAllByParc(int id)
+        {
+            var usersParc = new List<Utilisateur>();
+            usersParc = _userService.GetAllByParc(id);
+            if (usersParc.Count == 0)
+                return NoContent();
+            return Ok(usersParc);
         }
 
         [HttpPost("create")]
