@@ -21,7 +21,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         public ActionResult<List<Utilisateur>> GetAll()
         {
             var users = new List<Utilisateur>();
@@ -32,7 +32,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
-        [Authorize(Roles = "SuperAdmin,Admin,User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Utilisateur> Get(int id)
         {
             var user = _userService.Get(id);

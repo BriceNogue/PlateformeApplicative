@@ -11,21 +11,8 @@ using static Shareds.Modeles.ResponsesModels;
 
 namespace Domain.Repositories
 {
-    public class UserRepository
+    public class UserRepository(DataContext _dataContext, UserManager<Utilisateur> _userManager, IConfiguration config)
     {
-        private readonly DataContext _dataContext;
-        private UserManager<Utilisateur> _userManager;
-        private TypeRepository _typeRepository;
-        private IConfiguration config;
-
-        public UserRepository(UserManager<Utilisateur> userManager, TypeRepository typeRepository, IConfiguration iconfig) 
-        { 
-            _dataContext = new DataContext();
-            _userManager = userManager;
-            _typeRepository = typeRepository;
-            config = iconfig;
-        }
-
         public List<Utilisateur> GetAll()
         {
             try
@@ -123,8 +110,8 @@ namespace Domain.Repositories
             if (!checkUserPasswords)
                 return new LoginResponse(false, null, "Email ou mot de passe invalide");
 
-            var userRole = _typeRepository.Get(existUser.IdType);
-            var userSession = new UserSession(existUser.Id, existUser.Nom, existUser.Email, userRole.Libelle);
+            var userRole = await _userManager.GetRolesAsync(existUser);
+            var userSession = new UserSession(existUser.Id, existUser.Nom, existUser.Email, userRole.First());
             string token = GenerateToken(userSession);
 
             return new LoginResponse(true, token, "login completed");
@@ -148,12 +135,12 @@ namespace Domain.Repositories
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: credentials);
 
-            //var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
-            // Ajouter le préfixe "Bearer" au token JWT (Norme OAuth 2.0) Mais Optionnel dans certains cas
-            //var tokenWithBearer = "Bearer " + jwtToken;
+            //Ajouter le préfixe "Bearer" au token JWT (Norme OAuth 2.0) Mais Optionnel dans certains cas
+            var tokenWithBearer = "Bearer " + jwtToken;
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return tokenWithBearer;
         }
     }
 
