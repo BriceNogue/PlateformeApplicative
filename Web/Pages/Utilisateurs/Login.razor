@@ -51,12 +51,13 @@
     private UserLoginModele? loginM;
     public string resText = "";
     public UserService? userService;
-    public UEService uEService = new UEService();
-    public List<UEModele> userEtabs = new();
+    public ParcService? parcService;
+    public List<EtablissementModele> userEtabs = new();
 
     protected override void OnInitialized()
     {
         userService = new UserService();
+        parcService = new ParcService();
         loginM = new UserLoginModele();
 
         if (UserService.userSession is not null)
@@ -83,7 +84,7 @@
 
             if (res!.Flag)
             {
-                GetUserEtabs();
+                GetUserParcs();
             }
             NavigationM.NavigateTo("/dashboard");
         }
@@ -97,10 +98,10 @@
         }
     }
 
-    public async void GetUserEtabs()
+    public async void GetUserParcs()
     {
         int id = UserService.userSession!.Id ?? 0;
-        userEtabs = await uEService.GetAllByUserId(id);
+        userEtabs = await parcService!.GetAllByUser(id);
     }
 
     public void GoToRegister()

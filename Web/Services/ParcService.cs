@@ -29,5 +29,22 @@ namespace Web.Services
                 return new List<EtablissementModele>();
             }
         }
+
+        public async Task<List<EtablissementModele>> GetAllByUser(int id)
+        {
+            var res = await _httpClient.GetAsync(_URL + $"/all/id?id={id}");
+
+            if (res.IsSuccessStatusCode)
+            {
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<EtablissementModele>>(jsonString);
+
+                return data!;
+            }
+            else
+            {
+                return new List<EtablissementModele>();
+            }
+        }
     }
 }
