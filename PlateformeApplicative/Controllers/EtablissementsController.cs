@@ -8,15 +8,8 @@ namespace PlateformeApplicative.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EtablissementsController : ControllerBase
+    public class EtablissementsController(EtablissementService _service) : ControllerBase
     {
-        private readonly EtablissementService _service;
-
-        public EtablissementsController() 
-        {
-            _service = new EtablissementService();
-        }
-
         [HttpGet("all")]
         public ActionResult<List<Etablissement>> GetAll()
         {
@@ -44,10 +37,10 @@ namespace PlateformeApplicative.Controllers
             return Ok(result);
         }
 
-        [HttpPost("create")]
-        public ActionResult<Etablissement> Add(EtablissementModele item)
+        [HttpPost("create/id")]
+        public ActionResult<Etablissement> Add(EtablissementModele etab, int userId)
         {
-            var result = _service.Add(item);
+            var result = _service.Add(etab, userId);
             if (result)
                 return Ok("Etablissement enregistre avec succes.");
             return BadRequest("Impossible d'enregistrer l'etablissement.");

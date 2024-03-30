@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class EtablissementService(EtablissementRepository _repository, UERepository _ueRepository, UEService _ueService)
+    public class EtablissementService(EtablissementRepository _repository, UEService _ueService, UserService _userService)
     {
         public List<Etablissement> GetAll()
         {
@@ -24,7 +24,7 @@ namespace Infrastructure.Services
 
         public List<Etablissement> GetAllByUser(int id)
         {
-            var res = _ueRepository.GetAll().Where(u => u.IdUtilisateur == id).ToList();
+            var res = _ueService.GetAll().Where(u => u.IdUtilisateur == id).ToList();
             if (res.Count != 0)
             {
                 var etabs = GetAll();
@@ -56,6 +56,10 @@ namespace Infrastructure.Services
 
         public bool Add(EtablissementModele etab, int userId)
         {
+            var user = _userService.Get(userId);
+            if (user is null)
+                return false;
+
             var etabs = GetAll();
             if (etab.Id > 0 || etabs.Any(e => e.Nom == etab.Nom) || etabs.Any(e => e.Email == etab.Email) || etabs.Any(e => e.Telephone == etab.Telephone))
             {

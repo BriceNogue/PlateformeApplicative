@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class UEService(UERepository _ueRepository, UserService _userService, EtablissementService _etablissementService)
+    public class UEService(UERepository _ueRepository)
     {
         public List<UtilisateurEtablissement> GetAll()
         {
@@ -23,9 +23,7 @@ namespace Infrastructure.Services
 
         public bool Add(UEModele ue)
         {
-            var user = _userService.Get(ue.IdUtilisateur);
-            var etab = _etablissementService.Get(ue.IdEtablissement);
-            if (ue.Id > 0 || user is null || etab is null)
+            if (ue.Id > 0)
             {
                 return false;
             }
@@ -34,7 +32,7 @@ namespace Infrastructure.Services
                 var newUE = new UtilisateurEtablissement()
                 {
                     Statut = ue.status,
-                    DateCreation = DateTime.Now,
+                    DateCreation = ue.DateCreation,
                     IdUtilisateur = ue.IdUtilisateur,
                     IdEtablissement = ue.IdEtablissement,
                 };
