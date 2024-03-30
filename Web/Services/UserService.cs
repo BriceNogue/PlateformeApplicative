@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace Web.Services
 {
@@ -87,7 +88,7 @@ namespace Web.Services
 
                 if (userLogin.Flag)
                 {
-                    SetUserSession(userLogin.Token!);
+                    userToken = userLogin.Token!;
                 }
 
                 return userLogin;
@@ -100,33 +101,32 @@ namespace Web.Services
             }
         }
 
-        public void SetUserSession(string token)
+        public void SetUserSession()
         {
-            if (token.StartsWith("Bearer "))
+            if (userToken is not null)
             {
-                token = token.Substring("Bearer ".Length);
-                userToken = token;
-            }
-            else
-            {
-                userToken = token;
-            }
+                if (userToken.StartsWith("Bearer "))
+                {
+                    string token = userToken.Substring("Bearer ".Length);
+                    userToken = token;
+                }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenHandler = new JwtSecurityTokenHandler();
 
-            var tokenDecoded = tokenHandler.ReadJwtToken(token);
+                var tokenDecoded = tokenHandler.ReadJwtToken(userToken);
 
-            // Accès aux revendications (données) du token JWT et èxtraction des infos
-            var claims = tokenDecoded.Claims;
+                // Accès aux revendications (données) du token JWT et èxtraction des infos
+                var claims = tokenDecoded.Claims;
 
-            if (claims is not null)
-            {
-                string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
-                string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
-                string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
-                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+                if (claims is not null)
+                {
+                    string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
+                    string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+                    string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
+                    string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
 
-                userSession = new UserSession(int.Parse(id), name, email, role);
+                    userSession = new UserSession(int.Parse(id), name, email, role);
+                }
             }
         }
 

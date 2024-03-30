@@ -15,7 +15,7 @@ namespace PlateformeApplicative.Controllers
         {
             var postes = _service.GetAll();
             if(postes.Count == 0)
-                return NoContent();
+                return NotFound(new List<Poste>());
             return Ok(postes);
         }
 

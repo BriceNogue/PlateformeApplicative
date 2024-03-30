@@ -1,4 +1,5 @@
 ﻿using Shareds.Modeles;
+using System.Text.Json;
 
 namespace Web.Services
 {
@@ -14,11 +15,14 @@ namespace Web.Services
 
         public async Task<List<PosteModele>> GetAll()
         {
-            List<PosteModele>? postes = await _httpClient.GetFromJsonAsync<List<PosteModele>>(_URL + "/all");
+            var res = await _httpClient.GetAsync(_URL + "/all");
             
-            if (postes != null) 
+            if (res.IsSuccessStatusCode) 
             {
-                return postes;
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonSerializer.Deserialize<List<PosteModele>>(jsonString);
+
+                return data!;
             }
             else
             {

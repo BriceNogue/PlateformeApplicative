@@ -2,61 +2,82 @@
 @using Shareds.Modeles
 @using Services;
 @using System.ComponentModel.DataAnnotations
+@using System.IdentityModel.Tokens.Jwt
+@using System.Security.Claims
 
 @inject NavigationManager NavigationM
 
 <PageTitle>Se connecter</PageTitle>
 
 <div class="container">
-    <div class="form login-form">
-        <form>
-            <div class="form-header">
-                <h3>Connexion</h3>
-            </div>
-           <div>
-                <p>@resText</p>
-           </div>
-            <div class="form-body">
-                <div class="form-group">
-                    <label for="email" class="form-label">Email :</label>
-                    <input type="email" id="email" @bind="loginM!.Email" class="form-input" />
-                </div>
-                <div class="form-group">
-                    <label for="password" class="form-label">Mot de passe :</label>
-                    <input type="password" id="password" @bind="loginM.Password" class="form-input" />
-                </div>
-                <div>
-                    <input type="checkbox" class="form-check-input" />
-                    <label>Se souvenir de moi.</label>
-                </div>
-                <div>
-                    <a href="" @onclick="(()=>GoToRegister())">Vous n'avez pas encore de compte ?</a>
-                </div>
-            </div>
-            <div class="form-control">
-                <button type="button" class="btn btn-primary" @onclick="(()=> ToLogin(loginM))">Se connecter</button>
-            </div>
-        </form>
-    </div>
+   
+    
+        <div class="form login-form">
+            <form>
+                @if (!hasMultiParcs)
+                {
+                    <div class="form-header">
+                        <h3>Connexion</h3>
+                    </div>
+                    <div>
+                        <p>@resText</p>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email :</label>
+                            <input type="email" id="email" @bind="loginM!.Email" class="form-input" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="form-label">Mot de passe :</label>
+                            <input type="password" id="password" @bind="loginM.Password" class="form-input" />
+                        </div>
+                        <div>
+                            <input type="checkbox" class="form-check-input" @bind="remember" />
+                            <label>Se souvenir de moi.</label>
+                        </div>
+                        <div>
+                            <a href="" @onclick="@(() => GoToRegister())">Vous n'avez pas encore de compte ?</a>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        <button type="button" class="btn btn-primary" @onclick="(()=> ToLogin(loginM))">Se connecter</button>
+                    </div>
+                }
 
-    @if (userEtabs.Count > 0)
-    {
-        <div>
-            <h3>Plusieurs</h3>
+                @if (hasMultiParcs)
+                {
+                    <div class="select-parc-form">
+                        <h3>Vos établissements</h3>
+                        <p>Vous possédez plusieurs établissements, veillez sélectionner celui sur lequel vous souhaitez vous connecter.</p>
+                        <select class="form-select">
+                            @foreach (var parc in userParcs)
+                            {
+                                <option class="select-item">Alpha 1</option>
+                            }
+                        </select>
+                        <div class="btns">
+                            <button type="button" class="btn btn-primary">Valider</button>
+                            <button type="reset" class="btn btn-danger" @onclick="(() => CancelLogin())">Annuler</button>
+                        </div>
+                    </div>
+                }
+            </form>
         </div>
-    }
 </div>
 
 @code {
     private UserLoginModele? loginM;
     public string resText = "";
-    public UserService? userService;
+    public UserService userService = new UserService();
     public ParcService? parcService;
-    public List<EtablissementModele> userEtabs = new();
+    public List<EtablissementModele> userParcs = new();
+
+    private bool hasMultiParcs = false;
+    private bool remember = false;
 
     protected override void OnInitialized()
     {
-        userService = new UserService();
+        //userService = new UserService();
         parcService = new ParcService();
         loginM = new UserLoginModele();
 
@@ -66,7 +87,7 @@
         }
     }
 
-    public async void ToLogin(UserLoginModele obj)
+    public async Task ToLogin(UserLoginModele obj)
     {
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(obj, serviceProvider: null, items: null);
@@ -75,18 +96,28 @@
 
         if (isValid)
         {
-            //resText = "";
-            var res = await userService!.Login(obj);
-
+            var res = await userService.Login(obj);
 
             if (res is not null)
                 resText = res.Message;
 
             if (res!.Flag)
             {
-                GetUserParcs();
+                int userId = GetUserId(res.Token!);
+                userParcs = await GetUserParcs(userId);
+                loginM = new UserLoginModele();
+                resText = "";
+
+                if (userParcs.Count < 1)
+                {
+                    hasMultiParcs = true;
+                }else
+                {
+                    hasMultiParcs = false;
+                    userService.SetUserSession();
+                    NavigationM.NavigateTo("/dashboard");
+                }
             }
-            NavigationM.NavigateTo("/dashboard");
         }
         else
         {
@@ -98,15 +129,45 @@
         }
     }
 
-    public async void GetUserParcs()
+    public int GetUserId(string token)
     {
-        int id = UserService.userSession!.Id ?? 0;
-        userEtabs = await parcService!.GetAllByUser(id);
+        int userId = 0;
+        string userToken = "";
+        if (token.StartsWith("Bearer "))
+        {
+            token = token.Substring("Bearer ".Length);
+            userToken = token;
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var tokenDecoded = tokenHandler.ReadJwtToken(userToken);
+
+        var claims = tokenDecoded.Claims;
+
+        if (claims is not null)
+        {
+            string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+            userId = int.Parse(id);
+        }
+
+        return userId;
+    }
+
+    public Task<List<EtablissementModele>> GetUserParcs(int id)
+    {
+        var res = parcService!.GetAllByUser(id);
+        return res;
     }
 
     public void GoToRegister()
     {
         UserService.isLoginPage = true;
         NavigationM.NavigateTo("/register");
+    }
+
+    public void CancelLogin()
+    {
+        hasMultiParcs = false;
     }
 }
