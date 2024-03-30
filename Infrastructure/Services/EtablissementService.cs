@@ -10,17 +10,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Services
 {
-    public class EtablissementService
+    public class EtablissementService(EtablissementRepository _repository, UERepository _ueRepository, UEService _ueService)
     {
-        private readonly EtablissementRepository _repository;
-        private readonly UERepository _ueRepository;
-
-        public EtablissementService() 
-        {
-            _repository = new EtablissementRepository();
-            _ueRepository = new UERepository();
-        }
-
         public List<Etablissement> GetAll()
         {
             return _repository.GetAll();
@@ -49,7 +40,21 @@ namespace Infrastructure.Services
             }
         }
 
-        public bool Add(EtablissementModele etab)
+        public Etablissement GetByName(string name)
+        {
+            var res = _repository.GetAll().FirstOrDefault(e => e.Nom == name);
+            if (res is not null)
+            {
+                return res;
+            }
+            else
+            {
+                return null!;
+            }
+
+        }
+
+        public bool Add(EtablissementModele etab, int userId)
         {
             var etabs = GetAll();
             if (etab.Id > 0 || etabs.Any(e => e.Nom == etab.Nom) || etabs.Any(e => e.Email == etab.Email) || etabs.Any(e => e.Telephone == etab.Telephone))
@@ -70,8 +75,25 @@ namespace Infrastructure.Services
                     LibelleRue = etab.LibelleRue,
                     DateCreation = DateTime.Now,
                 };
-                _repository.Add(newEtab);
-                return true;          
+                var res = _repository.Add(newEtab);
+                if (res)
+                {
+                    var addedEtab = GetByName(etab.Nom);
+                    UEModele newUE = new UEModele()
+                    {
+                        IdUtilisateur = userId,
+                        IdEtablissement = addedEtab.Id,
+                        DateCreation = addedEtab.DateCreation,
+                        status = true
+                    };
+                    var isUEAdded = _ueService.Add(newUE);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
             }
         }
 

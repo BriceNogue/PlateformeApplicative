@@ -35,16 +35,18 @@ namespace Domain.Repositories
             }
         }
 
-        public void Add(Etablissement e)
+        public bool Add(Etablissement e)
         {
             try
             {
                 _dataContext.Etablissements.Add(e);
                 _dataContext.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return false;
             }
         }
 
