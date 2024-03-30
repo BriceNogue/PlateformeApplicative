@@ -89,6 +89,7 @@ namespace Web.Services
                 if (userLogin.Flag)
                 {
                     userToken = userLogin.Token!;
+                    SetUserSession();
                 }
 
                 return userLogin;

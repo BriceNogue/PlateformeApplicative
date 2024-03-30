@@ -11,7 +11,7 @@ using static Shareds.Modeles.ResponsesModels;
 
 namespace Domain.Repositories
 {
-    public class UserRepository(DataContext _dataContext, UserManager<Utilisateur> _userManager, IConfiguration config)
+    public class UserRepository(DataContext _dataContext, UserManager<Utilisateur> _userManager, TypeRepository typeRepository, IConfiguration config)
     {
         public List<Utilisateur> GetAll()
         {
@@ -110,8 +110,8 @@ namespace Domain.Repositories
             if (!checkUserPasswords)
                 return new LoginResponse(false, null, "Email ou mot de passe invalide");
 
-            var userRole = await _userManager.GetRolesAsync(existUser);
-            var userSession = new UserSession(existUser.Id, existUser.Nom, existUser.Email, userRole.First());
+            var userRole = typeRepository.Get(existUser.IdType);
+            var userSession = new UserSession(existUser.Id, existUser.Nom, existUser.Email, userRole.Libelle);
             string token = GenerateToken(userSession);
 
             return new LoginResponse(true, token, "login completed");

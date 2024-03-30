@@ -3,6 +3,7 @@ using Shareds.Modeles;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlateformeApplicative.Controllers
 {
@@ -11,6 +12,7 @@ namespace PlateformeApplicative.Controllers
     public class EtablissementsController(EtablissementService _service) : ControllerBase
     {
         [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Etablissement>> GetAll()
         {
             var result = _service.GetAll();
@@ -20,6 +22,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Etablissement> Get(int id)
         {
             var result = _service.Get(id);
@@ -29,6 +32,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Etablissement>> GetAllByUser(int id)
         {
             var result = _service.GetAllByUser(id);
@@ -38,6 +42,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPost("create/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<Etablissement> Add(EtablissementModele etab, int userId)
         {
             var result = _service.Add(etab, userId);
@@ -47,6 +52,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _service.Delete(id);
@@ -56,6 +62,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Update(EtablissementModele item)
         {
             var result = _service.Update(item);

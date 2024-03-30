@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Shareds.Modeles;
+using System.Net.Http.Headers;
 
 namespace Web.Services
 {
@@ -32,14 +33,23 @@ namespace Web.Services
 
         public async Task<List<EtablissementModele>> GetAllByUser(int id)
         {
-            var res = await _httpClient.GetAsync(_URL + $"/all/id?id={id}");
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/all/id?id={id}");
 
-            if (res.IsSuccessStatusCode)
+            if (UserService.userToken is not null)
             {
-                var jsonString = await res.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<EtablissementModele>>(jsonString);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Beader", UserService.userToken);
+                var res = await _httpClient.SendAsync(request);
 
-                return data!;
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<EtablissementModele>>(jsonString);
+                    return data!;
+                }
+                else
+                {
+                    return new List<EtablissementModele>();
+                }
             }
             else
             {

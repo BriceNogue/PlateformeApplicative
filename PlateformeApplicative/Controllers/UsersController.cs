@@ -21,7 +21,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("all")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAll()
         {
             var users = new List<Utilisateur>();
