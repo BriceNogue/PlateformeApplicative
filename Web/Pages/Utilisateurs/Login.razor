@@ -36,11 +36,11 @@
                             <label>Se souvenir de moi.</label>
                         </div>
                         <div>
-                            <a href="" @onclick="@(() => GoToRegister())">Vous n'avez pas encore de compte ?</a>
+                            <a href="" @onclick="(() => GoToRegister())">Vous n'avez pas encore de compte ?</a>
                         </div>
                     </div>
                     <div class="form-control">
-                        <button type="button" class="btn btn-primary" @onclick="(()=> ToLogin(loginM))">Se connecter</button>
+                        <button type="button" class="btn btn-primary" @onclick="@(()=> ToLogin(loginM))">Se connecter</button>
                     </div>
                 }
 
@@ -108,13 +108,17 @@
                 loginM = new UserLoginModele();
                 resText = "";
 
-                if (userParcs.Count < 1)
+                if (userParcs.Count > 1)
                 {
                     hasMultiParcs = true;
                 }else
                 {
                     hasMultiParcs = false;
                     userService.SetUserSession();
+                    if(userParcs.Count != 0)
+                    {
+                        parcService!.SetParcSession(userParcs[0].Id);
+                    }
                     NavigationM.NavigateTo("/dashboard");
                 }
             }

@@ -2,31 +2,134 @@
 
 @using Services;
 @using Shareds.Modeles;
+@using System.ComponentModel.DataAnnotations
 
 <PageTitle>Parcs</PageTitle>
 
-<h3>Index Parcs</h3>
-
-@if(parcs.Count == 0)
+@if(parc is null)
 {
-    <h1>Liste vide.</h1>
+    <div class="container">
+        <div>
+            <h3>Votre établissement</h3>
+            <p>Vous ne possédez actuellement aucun établissement.</p>
+
+            <button class="btn btn-primary" @onclick="(() => DisplayParcForm())">Créer un établissement</button>
+        </div>
+        <div class="form @form_class">
+            <form>
+                <div class="form-header">
+                    <h3>Nouvel établissement</h3>
+                </div>
+                <div>
+                    <p>@resText</p>
+                </div>
+                <div class="form-body">
+                    <div class="form-group">
+                        <label for="nom" class="form-label">Nom :</label>
+                        <input type="text" id="nom" @bind="newEtab!.Nom" placeholder="Nom de l'établissement" class="form-input" requirer />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone" class="form-label">Télephone :</label>
+                        <input type="phone" id="phone" @bind="newEtab!.Telephone" placeholder="Téléphone" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email :</label>
+                        <input type="email" id="email" @bind="newEtab!.Email" placeholder="Email" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="pays" class="form-label">Pays :</label>
+                        <input type="text" id="pays" value="formatedDate" placeholder="Pays" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode" class="form-label">Code postal :</label>
+                        <input type="number" id="postalCode" @bind="newEtab!.CodePostal" placeholder="Code postal" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ville" class="form-label">Ville :</label>
+                        <input type="text" id="ville" @bind="newEtab!.Ville" placeholder="Ville" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="numRue" class="form-label">Numéro de rue :</label>
+                        <input type="number" id="numRue" @bind="newEtab!.NumeroRue" placeholder="Numéro de la rue" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="libelleRue" class="form-label">Libellé de la rue :</label>
+                        <input type="text" id="libelleRue" @bind="newEtab!.LibelleRue" placeholder="Libellé de la rue" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" class="form-check-input" @bind="isConditionsAcept" />
+                        <label>Je reconnais avoir pris connaissance des <a href="">Conditions générales d'utilisation.</a></label>
+                    </div>
+                </div>
+                <div class="form-control">
+                    <div>
+                        <button type="button" class="btn btn-primary" @onclick="(()=> CreateNewParc(newEtab))">Créer</button>
+                    </div>
+                    <div>
+                        <button type="reset" class="btn btn-danger">Annuler</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 }
 else
 {
-    <ul>
-        @foreach(var parc in parcs)
-        {
-            <li>@parc.Nom</li>
-        }
-    </ul>
+    <h1>@parc.Nom</h1>
 }
 
 @code {
     private ParcService parcService = new ParcService();
-    private List<EtablissementModele> parcs = new List<EtablissementModele>();
+    //private List<EtablissementModele> parcs = new List<EtablissementModele>();
+    private EtablissementModele parc = new EtablissementModele();
+    private EtablissementModele? newEtab;
+    private string resText = "";
+    private bool isConditionsAcept = false;
+    private string form_class = "parc-form";
 
     protected override async Task OnInitializedAsync()
     {
-        parcs = await parcService.GetAll();
+        //parcs = await parcService.GetAll();
+        parc = await GetUserParc();
+        newEtab = new EtablissementModele();
+    }
+
+    public async Task<EtablissementModele> GetUserParc()
+    {
+        if(ParcService.parcSession is not null)
+        {
+            int parcId = ParcService.parcSession.Id;
+            var res = await parcService!.Get(parcId);
+
+            return res;
+        }else
+        {
+            return null!;
+        }
+
+    }
+
+    private void DisplayParcForm()
+    {
+        if (form_class == "parc-form")
+        {
+            form_class = "parc-form-open";
+        }else
+        {
+            form_class = "parc-form";
+        }
+    }
+
+    private async Task CreateNewParc(EtablissementModele etab)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(etab, serviceProvider: null, items: null);
+
+        bool isValid = Validator.TryValidateObject(etab, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            
+        }
     }
 }

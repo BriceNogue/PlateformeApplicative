@@ -1,0 +1,87 @@
+﻿
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.parc-form {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px gray;
+}
+
+.parc-form-open {
+    width: 40rem;
+    height: auto;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px gray;
+    transition: 0.3s;
+}
+
+.form-header {
+    display: flex;
+    justify-content: center;
+}
+
+.form-body {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2rem 0 2rem 0;
+}
+
+.form-group {
+    width: 50%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input {
+    display: flex;
+    height: 45px;
+    border-radius: 10px;
+    padding: 0 15px 0 15px;
+    border: solid 1px gray;
+}
+
+    .form-input:focus {
+        border: none;
+        outline: 1px solid;
+        outline-color: dodgerblue;
+        box-shadow: 1px 1px 5px skyblue;
+    }
+
+
+.form-check-input {
+    margin-right: 10px;
+}
+
+.form-control {
+    border: none;
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+    .form-control div {
+        width: 50%;
+    }
+
+.btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background: dodgerblue;
+}
