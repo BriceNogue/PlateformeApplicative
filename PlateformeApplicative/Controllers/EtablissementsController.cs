@@ -31,6 +31,16 @@ namespace PlateformeApplicative.Controllers
             return Ok(result);
         }
 
+        [HttpGet("name")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
+        public ActionResult<Etablissement> GetByName(string name)
+        {
+            var result = _service.GetByName(name);
+            if (result is null)
+                return NotFound("Etablissement inexistant.");
+            return Ok(result);
+        }
+
         [HttpGet("all/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Etablissement>> GetAllByUser(int id)

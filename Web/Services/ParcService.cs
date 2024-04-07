@@ -87,6 +87,32 @@ namespace Web.Services
             }
         }
 
+        public async Task<EtablissementModele> GetByName(string name)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/name?name={name}");
+
+            if (UserService.userToken is not null)
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+                var res = await _httpClient.SendAsync(request);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<EtablissementModele>(jsonString);
+                    return data!;
+                }
+                else
+                {
+                    return null!;
+                }
+            }
+            else
+            {
+                return null!;
+            }
+        }
+
         // Pour addapter le contenu de la requete
         private HttpContent SetRequestContent(Object obj)
         {
@@ -120,7 +146,7 @@ namespace Web.Services
         {
             var res = await Get(idParc);
 
-            parcSession = new ParcSession(res.Id, res.Nom); 
+            parcSession = new ParcSession(res.Id, res.Nom);
         }
     }
 }

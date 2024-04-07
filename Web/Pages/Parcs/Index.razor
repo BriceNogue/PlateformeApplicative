@@ -145,7 +145,15 @@ else
                         resText = res.Message;
 
                         if (res!.Flag)
-                            NavigationM.NavigateTo("/dashboard");
+                        {
+                            var e = await parcService.GetByName(newEtab!.Nom);
+
+                            if(e is not null)
+                            {
+                                parcService.SetParcSession(e.Id);
+                                NavigationM.NavigateTo("/dashboard");
+                            }                          
+                        }
                     }                    
                 }
             }
