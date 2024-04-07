@@ -1,5 +1,9 @@
-﻿using Shareds.Modeles;
+﻿using Newtonsoft.Json;
+using Shareds.Modeles;
+using System.Data;
+using System.Net.Http.Headers;
 using System.Text;
+using static Shareds.Modeles.ResponsesModels;
 
 namespace Web.Services
 {
@@ -15,6 +19,11 @@ namespace Web.Services
 
         public async Task<List<SalleModele>> GetAll()
         {
+            if (UserService.userToken is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+            }
+
             List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + "/all");
 
             if (salles != null)
@@ -30,31 +39,46 @@ namespace Web.Services
 
         public async Task<SalleModele> GetById(int id)
         {
-            SalleModele? salle = await _httpClient.GetFromJsonAsync<SalleModele>(_URL + $"/id?id={id}");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
 
-            if (salle != null)
+            var res = await _httpClient.GetFromJsonAsync<SalleModele>(_URL + $"/id?id={id}");
+
+            if (res != null)
             {
-                return salle;
+                return res;
             }
             else
             {
-                return new SalleModele();
+                return null!;
             }
 
         }
 
-        public async Task<bool> Create(SalleModele salle)
+        private HttpContent SetRequestContent(Object obj)
         {
-            HttpResponseMessage res = await _httpClient.PostAsJsonAsync(_URL, salle);
+            string json = JsonConvert.SerializeObject(obj);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return content;
+        }
+
+        public async Task<GeneralResponse> Create(SalleModele salle)
+        {
+            var content = SetRequestContent(salle);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+
+            HttpResponseMessage res = await _httpClient.PostAsJsonAsync(_URL + "/create", content);
+
             if (res.IsSuccessStatusCode)
             {
-                return true;
+                return new GeneralResponse(true, "Salle créer avec succès."); ;
             }
             else
             {
 
-                return false;
+                return new GeneralResponse(false, "Une erreur est survenue.");
             }
         }
+
     }
 }

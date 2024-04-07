@@ -53,12 +53,12 @@
     border: solid 1px gray;
 }
 
-    .form-input:focus {
-        border: none;
-        outline: 1px solid;
-        outline-color: dodgerblue;
-        box-shadow: 1px 1px 5px skyblue;
-    }
+.form-input:focus {
+    border: none;
+    outline: 1px solid;
+    outline-color: dodgerblue;
+    box-shadow: 1px 1px 5px skyblue;
+}
 
 
 .form-check-input {

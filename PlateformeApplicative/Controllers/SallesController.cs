@@ -3,6 +3,7 @@ using Shareds.Modeles;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlateformeApplicative.Controllers
 {
@@ -11,6 +12,7 @@ namespace PlateformeApplicative.Controllers
     public class SallesController(SalleService _service) : ControllerBase
     {
         [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Salle>> GetAll()
         {
             var result = _service.GetAll();
@@ -20,6 +22,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Salle> Get(int id)
         {
             var result = _service.Get(id);
@@ -28,7 +31,18 @@ namespace PlateformeApplicative.Controllers
             return result;
         }
 
+        [HttpGet("all/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
+        public ActionResult<List<Salle>> GetAllByParc(int id)
+        {
+            var result = _service.GetAllByParc(id);
+            if (result is null)
+                return NoContent();
+            return result;
+        }
+
         [HttpPost("create")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Add(SalleModele salle)
         {
             var result = _service.Add(salle);
@@ -38,6 +52,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _service.Delete(id);
@@ -47,6 +62,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Update(SalleModele salle)
         {
             var result = _service.Update(salle);

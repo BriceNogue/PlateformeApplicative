@@ -1,37 +1,117 @@
 ﻿@page "/salles"
 @using Shareds.Modeles
+@using System.ComponentModel.DataAnnotations
 @using Web.Services
 
 @inject NavigationManager NavigationM
 
 <PageTitle>Salles</PageTitle>
 
-<h3>Index</h3>
+<div class="container">
+    <div class="top-div">
+        <div>
+            <h3>Salles du parc</h3>
+        </div>
+        <div>
+            <button class="btn btn-primary" @onclick="(() => ToggleModal())">Créer une salle +</button>
+        </div>
+    </div>
 
-@if (salles is null)
-{
-    <span>Chargement...</span>
-}
-else if (salles.Count == 0)
-{
-    <span>Liste vide!</span>
-}
-else
-{
-    <ul>
-        @foreach (var salle in salles)
-        {
-            <li @onclick="(()=> GetSalleDetails(salle.Id))">@salle.Numero</li>
-        }
-    </ul>
-}
+    <div class="list-salles-div">
+        <div class="search-div">
+            <div class="form-group">
+                <label for="search_salle" class="form-label">Recherche </label>
+                <input type="search" class="form-input" id="search_salle" placeholder="Rechercher une salle" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary">
+                    Recherche
+                </button>
+            </div>
+        </div>
+        <div class="list-salles">
+            @if (salles.Count == 0)
+            {
+                <p class="empty-list">Vous ne possédez actuellement aucun établissement.</p>
+            }
+            else
+            {
+                foreach(SalleModele salle in salles)
+                {
+                    <h1>@salle.Numero</h1>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay">
+        <div class="modal-dialog-centered" role="document">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nouvelle salle</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
+                        </button>
+                    </div>
+                    <form>
+                        <div class="form-header">
+                            <h3>Nouvel établissement</h3>
+                        </div>
+                        <div>
+                            <p>@resText</p>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="number" class="form-label">Numéro :</label>
+                                <input type="number" id="number" @bind="newSalle!.Numero" placeholder="Numéro" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="capacity" class="form-label">Capacité :</label>
+                                <input type="capacity" id="capacity" @bind="newSalle!.Capacite" placeholder="Capacité" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="type" class="form-label">Type de salle :</label>
+                                <select class="form-select">
+                                    <option disabled selected>Sélectionnez le type de salle</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <div>
+                                <button type="button" class="btn btn-primary" @onclick="@(()=> CreateNewSalle(newSalle))">Créer</button>
+                            </div>
+                            <div>
+                                <button type="reset" class="btn btn-danger">Annuler</button>
+                            </div>
+                        </div>
+                    </form>                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if(ShowBackdrop)
+    {
+        <div class="modal-backdrop fade show"></div>
+    }
+</div>
 
 @code {
     private SalleService salleService = new SalleService();
     private List<SalleModele> salles = new List<SalleModele>();
+    private SalleModele? newSalle;
+    private string resText = "";
+
+    private string modalDisplay = "none";
+    private string modalClass = "";
+    private bool ShowBackdrop = false;
+
+    private string form_class = "parc-form";
 
     protected override async Task OnInitializedAsync()
     {
+        newSalle = new SalleModele();
+
         await Task.Delay(1000);
 
         salles = await salleService.GetAll();
@@ -41,5 +121,73 @@ else
     {
         var url = $"salles/details/{id}";
         NavigationM.NavigateTo(url);
+    }
+
+    private void DisplayParcForm()
+    {
+        if (form_class == "parc-form")
+        {
+            form_class = "parc-form-open";
+        }
+        else
+        {
+            form_class = "parc-form";
+        }
+    }
+
+    private void ToggleModal()
+    {
+        if (modalClass == "show")
+        {
+            modalDisplay = "none";
+            modalClass = "";
+            ShowBackdrop = false;
+        }
+        else
+        {
+            modalDisplay = "block";
+            modalClass = "show";
+            ShowBackdrop = true;
+        }
+
+        //StateHasChanged();
+    }
+
+    private async Task CreateNewSalle(SalleModele salle)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(salle, serviceProvider: null, items: null);
+
+        bool isValid = Validator.TryValidateObject(salle, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            resText = "";
+
+            if (ParcService.parcSession != null)
+            {
+                int parcId = ParcService.parcSession.Id;
+                newSalle!.IdEtablissement = parcId;
+                var res = await salleService.Create(newSalle!);
+
+                if (res is not null)
+                {
+                    resText = res.Message;
+                    
+                    if(res.Flag)
+                    {
+                        form_class = "parc-form";
+                    }
+                }
+            }
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
+        }
     }
 }

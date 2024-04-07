@@ -17,12 +17,19 @@ namespace Infrastructure.Services
         {
             return _repository.Get(id);
         }
-        
+
+        public List<Salle> GetAllByParc(int idEtab)
+        {
+            var res = _repository.GetAll().Where(e => e.IdEtablissement == idEtab).ToList();
+            return res;
+        }
+
         public bool Add(SalleModele salle)
         {
             var etab = _etablissementRepository.Get(salle.IdEtablissement);
+            var hasSameNumber = GetAllByParc(salle.IdEtablissement).Any(s => s.Numero == salle.Numero);
             var type = _typeRepository.Get(salle.IdType);
-            if (salle.Id > 0 || etab is null || type is null || salle.Numero <= 0)
+            if (salle.Id > 0 || etab is null || type is null || salle.Numero <= 0 || hasSameNumber)
             {
                 return false;
             }
