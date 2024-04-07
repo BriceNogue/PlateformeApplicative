@@ -37,6 +37,26 @@ namespace Web.Services
 
         }
 
+        public async Task<List<SalleModele>> GetAllByParc(int idParc)
+        {
+            if (UserService.userToken is not null)
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+            }
+
+            List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={idParc}");
+
+            if (salles != null)
+            {
+                return salles;
+            }
+            else
+            {
+                return new List<SalleModele>();
+            }
+
+        }
+
         public async Task<SalleModele> GetById(int id)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
@@ -71,7 +91,7 @@ namespace Web.Services
 
             if (res.IsSuccessStatusCode)
             {
-                return new GeneralResponse(true, "Salle créer avec succès."); ;
+                return new GeneralResponse(true, "Salle créer avec succès.");
             }
             else
             {

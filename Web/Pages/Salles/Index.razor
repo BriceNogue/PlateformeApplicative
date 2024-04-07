@@ -114,7 +114,20 @@
 
         await Task.Delay(1000);
 
-        salles = await salleService.GetAll();
+        salles = await GetParcSalles();
+    }
+
+    private async Task<List<SalleModele>> GetParcSalles()
+    {
+        var res = new List<SalleModele>();
+
+        if (ParcService.parcSession != null)
+        {
+            var parcId = ParcService.parcSession.Id;
+            res = await salleService.GetAllByParc(parcId);
+        }
+
+        return res;
     }
 
     private void GetSalleDetails(int id)
