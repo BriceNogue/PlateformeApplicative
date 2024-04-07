@@ -54,9 +54,6 @@
                         </button>
                     </div>
                     <form>
-                        <div class="form-header">
-                            <h3>Nouvel établissement</h3>
-                        </div>
                         <div>
                             <p>@resText</p>
                         </div>
@@ -67,12 +64,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="capacity" class="form-label">Capacité :</label>
-                                <input type="capacity" id="capacity" @bind="newSalle!.Capacite" placeholder="Capacité" class="form-input" />
+                                <input type="number" id="capacity" @bind="newSalle!.Capacite" placeholder="Capacité" class="form-input" />
                             </div>
                             <div class="form-group">
                                 <label for="type" class="form-label">Type de salle :</label>
                                 <select class="form-select">
                                     <option disabled selected>Sélectionnez le type de salle</option>
+                                    @foreach(var type in types)
+                                    {
+                                        <option class="select-item" value="@type.Id">@type.Libelle</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -98,10 +99,14 @@
 
 @code {
     private SalleService salleService = new SalleService();
-    private List<SalleModele> salles = new List<SalleModele>();
-    private SalleModele? newSalle;
-    private string resText = "";
+    private TypeService typeService = new TypeService();
 
+    private List<SalleModele> salles = new List<SalleModele>();
+    private List<TypeModele> types = new List<TypeModele>();
+
+    private SalleModele? newSalle;
+
+    private string resText = "";
     private string modalDisplay = "none";
     private string modalClass = "";
     private bool ShowBackdrop = false;
@@ -112,7 +117,8 @@
     {
         newSalle = new SalleModele();
 
-        await Task.Delay(1000);
+        var resTypes = await typeService.GetAll(); 
+        types = resTypes.Where(t => t.Objet == "Salle").ToList();
 
         salles = await GetParcSalles();
     }

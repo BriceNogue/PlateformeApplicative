@@ -1,5 +1,5 @@
-﻿using Shareds.Modeles;
-using System.Text.Json;
+﻿using Newtonsoft.Json;
+using Shareds.Modeles;
 
 namespace Web.Services
 {
@@ -19,7 +19,7 @@ namespace Web.Services
             if (res.IsSuccessStatusCode)
             {
                 var jsonString = await res.Content.ReadAsStringAsync();
-                var data = JsonSerializer.Deserialize<List<TypeModele>>(jsonString);
+                var data = JsonConvert.DeserializeObject<List<TypeModele>>(jsonString);
                 return data!;
             }
             else
@@ -35,7 +35,7 @@ namespace Web.Services
             if (res.IsSuccessStatusCode)
             {
                 var jsonString = await res.Content.ReadAsStringAsync();
-                var data = JsonSerializer.Deserialize<TypeModele>(jsonString);
+                var data = JsonConvert.DeserializeObject<TypeModele>(jsonString);
                 return data!;
             }
             else
