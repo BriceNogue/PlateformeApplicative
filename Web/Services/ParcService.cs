@@ -120,7 +120,7 @@ namespace Web.Services
         {
             var res = await Get(idParc);
 
-            parcSession = new ParcSession(res.Id, res.Nom);
+            parcSession = new ParcSession(res.Id, res.Nom); 
         }
     }
 }
