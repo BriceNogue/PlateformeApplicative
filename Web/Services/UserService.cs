@@ -88,7 +88,14 @@ namespace Web.Services
 
                 if (userLogin.Flag)
                 {
-                    userToken = userLogin.Token!;
+                    if (userLogin.Token!.StartsWith("Bearer "))
+                    {
+                        userToken = userLogin.Token!.Substring("Bearer ".Length);      
+                    }
+                    else
+                    {
+                        userToken = userLogin.Token;
+                    }
                     //SetUserSession();
                 }
 
@@ -106,12 +113,6 @@ namespace Web.Services
         {
             if (userToken is not null)
             {
-                if (userToken.StartsWith("Bearer "))
-                {
-                    string token = userToken.Substring("Bearer ".Length);
-                    userToken = token;
-                }
-
                 var tokenHandler = new JwtSecurityTokenHandler();
 
                 var tokenDecoded = tokenHandler.ReadJwtToken(userToken);
@@ -136,6 +137,8 @@ namespace Web.Services
             userToken = null;
             userSession = null;
             isLoginPage = true;
+
+            ParcService.parcSession = null;
         }
     }
 }

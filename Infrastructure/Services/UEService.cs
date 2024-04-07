@@ -48,7 +48,7 @@ namespace Infrastructure.Services
             if (existingUE is null)
                 return false;
             _ueRepository.Delete(id);
-            return true;
+                return true;
         }
 
         public bool Update(UEModele obj)

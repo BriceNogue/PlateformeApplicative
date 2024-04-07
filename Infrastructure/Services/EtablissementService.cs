@@ -27,10 +27,13 @@ namespace Infrastructure.Services
             var res = _ueService.GetAll().Where(u => u.IdUtilisateur == id).ToList();
             if (res.Count != 0)
             {
-                var etabs = GetAll();
                 var data = new List<Etablissement>();
-                
-                data = etabs.Where(u => u.Id == res[0].IdUtilisateur).ToList();
+
+                for(int i = 0; i < res.Count; i++)
+                {
+                    var etab = Get(res[i].IdEtablissement);
+                    data.Add(etab);
+                }
 
                 return data;
             }
@@ -107,7 +110,7 @@ namespace Infrastructure.Services
             if (etab is null)
                 return false;
             _repository.Delete(id);
-            return true;
+                return true;
         }
 
         public bool Update(EtablissementModele etab)

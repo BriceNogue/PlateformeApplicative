@@ -49,14 +49,15 @@
                     <div class="select-parc-form">
                         <h3>Vos établissements</h3>
                         <p>Vous possédez plusieurs établissements, veillez sélectionner celui sur lequel vous souhaitez vous connecter.</p>
-                        <select class="form-select">
+                    <select class="form-select" @onchange="HandleOnChangeSelectedParc">
+                        <option class="select-item" disabled selected>Selectionez un établissement</option>
                             @foreach (var parc in userParcs)
                             {
-                                <option class="select-item">Alpha 1</option>
+                                <option class="select-item" value="@parc.Id">@parc.Nom</option>
                             }
                         </select>
                         <div class="btns">
-                            <button type="button" class="btn btn-primary">Valider</button>
+                        <button type="button" class="btn btn-primary" @onclick="(() => SetSelectedParcSession(parcId))">Valider</button>
                             <button type="reset" class="btn btn-danger" @onclick="(() => CancelLogin())">Annuler</button>
                         </div>
                     </div>
@@ -71,6 +72,7 @@
     public UserService userService = new UserService();
     public ParcService? parcService;
     public List<EtablissementModele> userParcs = new();
+    private int parcId = 0;
 
     private bool hasMultiParcs = false;
     private bool remember = false;
@@ -111,6 +113,7 @@
                 if (userParcs.Count > 1)
                 {
                     hasMultiParcs = true;
+
                 }else
                 {
                     hasMultiParcs = false;
@@ -173,5 +176,26 @@
     public void CancelLogin()
     {
         hasMultiParcs = false;
+    }
+
+    private void HandleOnChangeSelectedParc(ChangeEventArgs args)
+    {
+        var id = args.Value!.ToString();
+
+        parcId = int.Parse(id!);
+    }
+
+    private void SetSelectedParcSession(int parcId)
+    {
+        if(parcId != 0)
+        {
+            parcService!.SetParcSession(parcId);
+        }
+
+        if(ParcService.parcSession is not null)
+        {
+            userService.SetUserSession();
+            NavigationM.NavigateTo("/dashboard");
+        }
     }
 }

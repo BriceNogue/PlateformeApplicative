@@ -43,9 +43,9 @@ namespace PlateformeApplicative.Controllers
 
         [HttpPost("create/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
-        public ActionResult<Etablissement> Add(EtablissementModele etab, int userId)
+        public ActionResult<Etablissement> Add(EtablissementModele etab, int id)
         {
-            var result = _service.Add(etab, userId);
+            var result = _service.Add(etab, id);
             if (result)
                 return Ok("Etablissement enregistre avec succes.");
             return BadRequest("Impossible d'enregistrer l'etablissement.");

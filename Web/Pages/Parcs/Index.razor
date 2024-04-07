@@ -2,7 +2,9 @@
 
 @using Services;
 @using Shareds.Modeles;
-@using System.ComponentModel.DataAnnotations
+@using System.ComponentModel.DataAnnotations;
+
+@inject NavigationManager NavigationM;
 
 <PageTitle>Parcs</PageTitle>
 
@@ -38,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="pays" class="form-label">Pays :</label>
-                        <input type="text" id="pays" value="formatedDate" placeholder="Pays" class="form-input" />
+                        <input type="text" id="pays" @bind="newEtab!.Pays" placeholder="Pays" class="form-input" />
                     </div>
                     <div class="form-group">
                         <label for="postalCode" class="form-label">Code postal :</label>
@@ -63,7 +65,7 @@
                 </div>
                 <div class="form-control">
                     <div>
-                        <button type="button" class="btn btn-primary" @onclick="(()=> CreateNewParc(newEtab))">Créer</button>
+                        <button type="button" class="btn btn-primary" @onclick="@(()=> CreateNewParc(newEtab))">Créer</button>
                     </div>
                     <div>
                         <button type="reset" class="btn btn-danger">Annuler</button>
@@ -75,7 +77,7 @@
 }
 else
 {
-    <h1>@parc.Nom</h1>
+    <h1>Nom: @parc.Nom</h1>
 }
 
 @code {
@@ -129,7 +131,36 @@ else
 
         if (isValid)
         {
-            
+            resText = "";
+
+            if (isConditionsAcept)
+            {
+                if (UserService.userSession != null)
+                {
+                    int userId = UserService.userSession.Id ?? 0;
+                    var res = await parcService.Create(newEtab!, userId);
+
+                    if (res is not null)
+                    {
+                        resText = res.Message;
+
+                        if (res!.Flag)
+                            NavigationM.NavigateTo("/dashboard");
+                    }                    
+                }
+            }
+            else
+            {
+                resText = "Veuillez accepter les conditions générales d'utilisation.";
+            }
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
         }
     }
 }

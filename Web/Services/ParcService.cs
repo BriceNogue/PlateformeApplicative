@@ -41,7 +41,7 @@ namespace Web.Services
 
             if (UserService.userToken is not null)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Beader", UserService.userToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
                 var res = await _httpClient.SendAsync(request);
 
                 if (res.IsSuccessStatusCode)
@@ -67,7 +67,7 @@ namespace Web.Services
 
             if (UserService.userToken is not null)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Beader", UserService.userToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
                 var res = await _httpClient.SendAsync(request);
 
                 if (res.IsSuccessStatusCode)
@@ -96,16 +96,24 @@ namespace Web.Services
             return content;
         }
 
-        public async Task<GeneralResponse> Create(EtablissementModele etab)
+        public async Task<GeneralResponse> Create(EtablissementModele etab, int userId)
         {
             var content = SetRequestContent(etab);
-            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/signin", content);
 
-            string responseBody = await response.Content.ReadAsStringAsync();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+            
+            var res = await _httpClient.PostAsync(_URL + $"/create/id?id={userId}", content);
 
-            var res = JsonConvert.DeserializeObject<GeneralResponse>(responseBody)!;
+            //res.EnsureSuccessStatusCode();
 
-            return res;
+            if (res.IsSuccessStatusCode)
+            {
+                return new GeneralResponse(true, "Etablissement créer avec succès.");
+            }
+            else
+            {
+                return new GeneralResponse(false, "Une erreur est survenue.");
+            }
         }
 
         public async void SetParcSession(int idParc)
