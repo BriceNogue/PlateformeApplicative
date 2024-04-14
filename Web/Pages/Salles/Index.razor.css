@@ -23,9 +23,10 @@
 .form-group {
     display: flex;
     flex-direction: column;
+    padding-top: 15px;
 }
 
-.form-input {
+.form-input, .form-select {
     display: flex;
     height: 40px;
     border-radius: 5px;
@@ -40,6 +41,95 @@
     box-shadow: 1px 1px 5px skyblue;
 }
 
+.form-action {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+}
+
+.btn-create, .btn-cancel {
+    width: 150px;
+    font-size: 16px;
+}
+
+.btn-create {
+    background: dodgerblue;
+    color: white;
+}
+
+/************** Start switch ***************/
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #CCC;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "0";
+    text-align: center;
+    color: gray;
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+#status:checked + .slider {
+    background-color: forestgreen;
+}
+
+#status + .slider {
+    background-color: red;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(28px);
+    -ms-transform: translateX(28px);
+    transform: translateX(30px);
+    content: "|";
+}
+
+.slider.round {
+    border-radius: 50px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/************** End switch ***************/
+
 .list-salles {
     width: 100%;
     padding-top: 2rem;
@@ -52,4 +142,23 @@
 
 .modal-dialog {
     width: 30rem;
+}
+
+.table-container {
+    width: 600px;
+    max-height: 400px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px gray;
+}
+
+.table-action {
+    display: flex;
+    gap: 30px;
+}
+
+.oi-pencil {
+    color: dodgerblue;
 }

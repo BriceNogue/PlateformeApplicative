@@ -36,13 +36,51 @@
             }
             else
             {
-                foreach(SalleModele salle in salles)
-                {
-                    <h1>@salle.Numero</h1>
-                }
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead class="table-header">
+                            <tr class="d-table-row">
+                                <th class="d-table-cell">Numéro</th>
+                                <th class="d-table-cell">Capacité</th>
+                                <th class="d-table-cell">Statut</th>
+                                <th class="d-table-cell">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(SalleModele salle in salles)
+                            {
+                                <tr>
+                                    <td>@salle.Numero</td>
+                                    <td>@salle.Capacite</td>
+                                    @if (salle.Status)
+                                    {
+                                        <td>Disponible</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Indisponible</td>
+                                    }
+                                    <td class="table-action">
+                                        <div>
+                                            <label class="switch status">
+                                                <input type="checkbox" id="status" @bind="salle.Status"/>
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <span class="oi oi-pencil" aria-hidden="true"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </div>
     </div>
+
+    @******************* Modal ********************@
 
     <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay">
         <div class="modal-dialog-centered" role="document">
@@ -53,9 +91,9 @@
                         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
                         </button>
                     </div>
-                    <form>
+                    <form class="form modal-body">
                         <div>
-                            <p>@resText @typeId</p>
+                            <p>@resText</p>
                         </div>
                         <div class="form-body">
                             <div class="form-group">
@@ -65,6 +103,13 @@
                             <div class="form-group">
                                 <label for="capacity" class="form-label">Capacité :</label>
                                 <input type="number" id="capacity" @bind="newSalle!.Capacite" placeholder="Capacité" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="form-label">Statut : @salleStatus</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="status" @bind="newSalle!.Status" @onclick="(() => SetSalleStatus())" />
+                                    <span class="slider round"></span>
+                                </label>
                             </div>
                             <div class="form-group">
                                 <label for="type" class="form-label">Type de salle :</label>
@@ -77,12 +122,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-footer">
+                        <div class="form-action">
                             <div>
-                                <button type="button" class="btn btn-primary" @onclick="@(()=> CreateNewSalle(newSalle))">Créer</button>
+                                <button type="button" class="btn btn-create" @onclick="@(()=> CreateNewSalle(newSalle))">Créer</button>
                             </div>
                             <div>
-                                <button type="reset" class="btn btn-danger" @onclick="(() => ToggleModal())">Annuler</button>
+                                <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
                             </div>
                         </div>
                     </form>                   
@@ -110,6 +155,7 @@
     private string resText = "";
     private string modalDisplay = "none";
     private string modalClass = "";
+    private string salleStatus = "Indisponible";
     private bool ShowBackdrop = false;
 
     protected override async Task OnInitializedAsync()
@@ -148,6 +194,7 @@
             modalDisplay = "none";
             modalClass = "";
             ShowBackdrop = false;
+            newSalle = new SalleModele();
         }
         else
         {
@@ -159,6 +206,20 @@
         typeId = 0;
 
         //StateHasChanged();
+    }
+
+    private void SetSalleStatus()
+    {
+        if (!newSalle!.Status)
+        {
+            salleStatus = "Disponible";
+            newSalle!.Status = true;
+        }
+        else
+        {
+            salleStatus = "Indisponible";
+            newSalle!.Status = false;
+        }
     }
 
     private void HandleOnChangeSelectedParc(ChangeEventArgs args)
@@ -193,6 +254,7 @@
                     if(res.Flag)
                     {
                         salles = await GetParcSalles();
+                        newSalle = new SalleModele();
                     }
                 }
             }

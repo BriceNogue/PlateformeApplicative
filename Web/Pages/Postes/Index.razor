@@ -9,74 +9,89 @@
 
 <h3>Postes</h3>
 
-@if(postes.Count == 0)
-{
-    <h1>Liste vide.</h1>
-}
-else
-{
-    <div class="container">
+<div class="container">
+    <div class="top-div">
         <div>
+            <h3>Salles du parc</h3>
         </div>
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Numéro</th>
-                        <th>Marque</th>
-                        <th>Adresse IP</th>
-                        <th>Adresse MAC</th>
-                        <th>SE</th>
-                        <th>ROM</th>
-                        <th>RAM</th>
-                        <th>Salle</th>
-                        <th>Type</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var poste in postes)
-                    {
-                        <tr @onclick="(()=> GetPosteDetails(poste.Id))">
-                            <td>@poste.Id</td>
-                            <td>Poste @poste.Numero</td>
-                            <td>@poste.Marque</td>
-                            <td>@poste.AdresseIP</td>
-                            <td>@poste.AdresseMAC</td>
-                            <td>@poste.SE</td>
-                            <td>@poste.ROM</td>
-                            <td>@poste.RAM</td>
-
-                            @{
-                                var salle = salles.Where(s => s.Id == poste.IdSalle);
-                                foreach (var s in salle)
-                                {
-                                    <td>@s.Numero</td>
-                                }
-
-                                var type = types.Where(t => t.Id == poste.IdType);
-                                foreach (var t in type)
-                                {
-                                    <td>@t.Libelle</td>
-                                }
-                            }
-
-                            @if (poste.Statut == true)
-                            {
-                                <td>Connecté</td>
-                            }
-                            else
-                            {
-                                <td>Déconnecté</td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="form-group">
+            <label for="Salles" class="form-label">Salle :</label>
+            <select class="form-select" @onchange="HandleOnChangeSelectedParc">
+                <option disabled selected>Sélectionnez le type de salle</option>
+                @foreach (var type in types)
+                {
+                    <option class="select-item" value="@type.Id">@type.Libelle</option>
+                }
+            </select>
         </div>
     </div>
-}
+
+    <div>
+    @if (postes.Count == 0)
+    {
+        <h1>Liste vide.</h1>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Numéro</th>
+                    <th>Marque</th>
+                    <th>Adresse IP</th>
+                    <th>Adresse MAC</th>
+                    <th>SE</th>
+                    <th>ROM</th>
+                    <th>RAM</th>
+                    <th>Salle</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var poste in postes)
+                {
+                    <tr @onclick="(()=> GetPosteDetails(poste.Id))">
+                        <td>@poste.Id</td>
+                        <td>Poste @poste.Numero</td>
+                        <td>@poste.Marque</td>
+                        <td>@poste.AdresseIP</td>
+                        <td>@poste.AdresseMAC</td>
+                        <td>@poste.SE</td>
+                        <td>@poste.ROM</td>
+                        <td>@poste.RAM</td>
+
+                        @{
+                            var salle = salles.Where(s => s.Id == poste.IdSalle);
+                            foreach (var s in salle)
+                            {
+                                <td>@s.Numero</td>
+                            }
+
+                            var type = types.Where(t => t.Id == poste.IdType);
+                            foreach (var t in type)
+                            {
+                                <td>@t.Libelle</td>
+                            }
+                        }
+
+                        @if (poste.Statut == true)
+                        {
+                            <td>Connecté</td>
+                        }
+                        else
+                        {
+                            <td>Déconnecté</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    </div>
+</div>
+
 
 @code {
     private List<PosteModele> postes = new List<PosteModele>();
@@ -101,5 +116,12 @@ else
     {
         var url = $"postes/details/{id}";
         NavigationM.NavigateTo(url);
+    }
+
+    private void HandleOnChangeSelectedParc(ChangeEventArgs args)
+    {
+        var id = args.Value!.ToString();
+
+        //typeId = int.Parse(id!);
     }
 }
