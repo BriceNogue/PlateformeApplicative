@@ -145,7 +145,7 @@ input:checked + .slider:before {
 }
 
 .table-container {
-    width: 600px;
+    width: 700px;
     max-height: 400px;
     overflow-y: scroll;
     scrollbar-width: thin;

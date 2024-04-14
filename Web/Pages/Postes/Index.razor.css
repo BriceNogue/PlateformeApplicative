@@ -3,4 +3,42 @@
     width: 100%;
     display: inline-flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.list-postes {
+    width: 100%;
+    padding-top: 2rem;
+}
+
+.list-postes-div {
+    width: 100%;
+}
+
+.search-div {
+    width: 30%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 2rem;
+}
+
+.form-input {
+    display: flex;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 15px 0 15px;
+    border: solid 1px gray;
+}
+
+    .form-input:focus {
+        border: none;
+        outline: 1px solid;
+        outline-color: dodgerblue;
+        box-shadow: 1px 1px 5px skyblue;
+    }
+
+.empty-list {
+    text-align: center;
+    padding-top: 10rem;
 }
