@@ -32,7 +32,7 @@
         <div class="list-salles">
             @if (salles.Count == 0)
             {
-                <p class="empty-list">Vous ne possédez actuellement aucun établissement.</p>
+                <p class="empty-list">Cet établissement ne contient actuellement aucune salle.</p>
             }
             else
             {
@@ -192,7 +192,7 @@
                     
                     if(res.Flag)
                     {
-                        //salles = await GetParcSalles();
+                        salles = await GetParcSalles();
                     }
                 }
             }

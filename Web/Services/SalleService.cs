@@ -87,7 +87,7 @@ namespace Web.Services
             var content = SetRequestContent(salle);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
 
-            HttpResponseMessage res = await _httpClient.PostAsJsonAsync(_URL + "/create", content);
+            HttpResponseMessage res = await _httpClient.PostAsync(_URL + "/create", content);
 
             if (res.IsSuccessStatusCode)
             {
