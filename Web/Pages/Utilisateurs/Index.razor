@@ -21,12 +21,100 @@ else
     </ul>
 }
 
+<div class="container">
+    <div class="top-div">
+        <div>
+            @if (users.Count == 0 || users.Count == 1)
+            {
+                <h3>@users.Count utilisateur</h3>
+            }
+            else
+            {
+                <h3>@users.Count utilisateurs</h3>
+            }
+        </div>
+        <div class="form-group">
+            <label for="Salles" class="form-label">Filtre par salle</label>
+            <select class="form-select" @onchange="HandleOnChangeSelectedRole">
+                <option disabled selected>Sélectionnez le type de salle</option>
+                @foreach (var type in types)
+                {
+                    <option class="select-item" value="@type.Id">@type.Libelle</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="list-postes-div">
+        <div class="search-div">
+            <div class="form-group">
+                <label for="search" class="form-label">Recherche </label>
+                <input type="search" class="form-input" id="search" placeholder="Rechercher un utilisateur" />
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary">
+                    Recherche
+                </button>
+            </div>
+        </div>
+        <div class="list-postes">
+            @if (users.Count == 0)
+            {
+                <p class="empty-list">Cette salle ne contient actuellement aucun poste.</p>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in users)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>@user.Nom</td>
+                                <td>@user.Prenom</td>
+                                <td>@user.Telephone</td>
+                                <td>@user.Email</td>
+                                @{
+                                    var type = types.FirstOrDefault(t => t.Id == user.IdType);
+                                    if(type is not null){
+                                        <td>@type!Libelle</td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
 @code {
     private List<UserModele> users = new List<UserModele>();
     private UserService userService = new UserService();
+    private UserModele? newUser;
+
+    private List<TypeModele> types = new List<TypeModele>();
 
     protected override async Task OnInitializedAsync()
     {
         //users = await userService.GetAll();
+    }
+
+    private void HandleOnChangeSelectedRole(ChangeEventArgs args)
+    {
+        var id = args.Value!.ToString();
+
+        //typeId = int.Parse(id!);
     }
 }
