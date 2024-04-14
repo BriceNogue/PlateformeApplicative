@@ -16,13 +16,15 @@ namespace Infrastructure.Services
     {
         private readonly UserRepository _userRepository;
         private readonly TypeRepository _typeRepository;
-        private readonly UERepository _ueRepository;
+        private readonly UEService _ueService;
+        private readonly EtablissementRepository _etabRepository;
 
-        public UserService(UserRepository userRepository,TypeRepository typeRepository, UERepository ueRepository)
+        public UserService(UserRepository userRepository,TypeRepository typeRepository, UEService ueService, EtablissementRepository etabRepository)
         {
             _userRepository = userRepository;
             _typeRepository = typeRepository;
-            _ueRepository = ueRepository;
+            _ueService = ueService;
+            _etabRepository = etabRepository;
         }
 
         public List<Utilisateur> GetAll()
@@ -32,7 +34,7 @@ namespace Infrastructure.Services
 
         public List<Utilisateur> GetAllByParc(int id)
         {
-            var res = _ueRepository.GetAll().Where(u => u.IdEtablissement == id).ToList();
+            var res = _ueService.GetAll().Where(u => u.IdEtablissement == id).ToList();
             if (res.Count != 0)
             {
                 var users = GetAll();
@@ -53,35 +55,20 @@ namespace Infrastructure.Services
             return _userRepository.Get(id);
         }
 
-        /*public bool Add(UserModele user)
+        public Utilisateur GetByMail(string mail)
         {
-            var users = GetAll();
-            var userType = _typeRepository.Get(user.IdType);
-            if ((user.Id > 0) || users.Any(x => (x.Email == user.Email) || x.PhoneNumber == user.Telephone) || userType is null)
+            var res = GetAll().FirstOrDefault(u => u.Email == mail);
+            if(res != null)
             {
-                return false;
+                return res;
             }
             else
             {
-                string hashedPWD = HashPassword(user.MotDePasse);
-                var newUser = new Utilisateur()
-                {
-                    Nom = user.Nom,
-                    Prenom = user.Prenom,
-                    DateNaissance = user.DateNaissance,
-                    PhoneNumber = user.Telephone,
-                    Email = user.Email,
-                    PasswordHash = hashedPWD,
-                    DateInscription = DateTime.Now,
-                    IdType = user.IdType
-                };
-                _userRepository.Add(newUser);
-                return true;
+                return null!;
             }
-        }*/
+        }
 
-
-        public async Task<GeneralResponse> Add(UserModele user)
+        public async Task<GeneralResponse> Register(UserModele user)
         {
             var users = GetAll();
             
@@ -89,7 +76,7 @@ namespace Infrastructure.Services
             {
                 return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
-            else if (users.Any(x => (x.PhoneNumber == user.Telephone)))
+            else if (users.Any(x => (x.PhoneNumber == user.PhoneNumber)))
             {
                 return new GeneralResponse(false, "Numéro de téléphone déja utilisé.");
             }
@@ -100,7 +87,7 @@ namespace Infrastructure.Services
                     Nom = user.Nom,
                     Prenom = user.Prenom,
                     DateNaissance = user.DateNaissance,
-                    PhoneNumber = user.Telephone,
+                    PhoneNumber = user.PhoneNumber,
                     Email = user.Email,
                     PasswordHash = user.MotDePasse,
                     DateInscription = DateTime.Now,
@@ -115,6 +102,57 @@ namespace Infrastructure.Services
                     newUser.IdType = userType!.Id;
                 }
                 var res = await _userRepository.Add(newUser, user.ConfirmeMotDePasse);
+                return res;
+            }
+        }
+
+        // Pour ajouter un utilisateur a un parc
+        public async Task<GeneralResponse> Add(UserModele user, int idParc)
+        {
+            var users = GetAll();
+            var etb = _etabRepository.Get(idParc);
+            var type = _typeRepository.Get(user.IdType);
+
+            if ((user.Id > 0) || etb is null || type is null)
+            {
+                return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
+            }
+            else if (users.Any(x => (x.PhoneNumber == user.PhoneNumber)))
+            {
+                return new GeneralResponse(false, "Numéro de téléphone déja utilisé.");
+            }
+            else
+            {
+                var newUser = new Utilisateur()
+                {
+                    Nom = user.Nom,
+                    Prenom = user.Prenom,
+                    DateNaissance = user.DateNaissance,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    PasswordHash = user.MotDePasse,
+                    DateInscription = DateTime.Now,
+                    IdType = user.IdType,
+                    UserName = user.Email
+                };
+
+                var res = await _userRepository.Add(newUser, user.ConfirmeMotDePasse);
+                if (res.Flag)
+                {
+                    var addedUser = GetByMail(newUser.Email);
+                    if (addedUser != null)
+                    {
+                        UEModele neuUE = new UEModele()
+                        {
+                            IdEtablissement = idParc,
+                            IdUtilisateur = addedUser.Id,
+                            status = true,
+                            DateCreation = DateTime.Now,
+                        };
+
+                        var isAdded = _ueService.Add(neuUE);
+                    }
+                }
                 return res;
             }
         }
@@ -145,7 +183,7 @@ namespace Infrastructure.Services
                 oldUser.Nom = user.Nom;
                 oldUser.Prenom = user.Prenom;
                 oldUser.DateNaissance = user.DateNaissance;
-                oldUser.PhoneNumber = user.Telephone;
+                oldUser.PhoneNumber = user.PhoneNumber;
                 oldUser.Email = user.Email;
                 oldUser.IdType = user.IdType;
 

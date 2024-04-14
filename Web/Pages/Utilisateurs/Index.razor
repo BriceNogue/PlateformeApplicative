@@ -5,22 +5,6 @@
 
 <PageTitle>Utilisateurs</PageTitle>
 
-<h3>Index</h3>
-
-@if(users.Count == 0)
-{
-    <h1>Liste vide.</h1>
-}
-else
-{
-    <ul>
-        @foreach(var user in users)
-        {
-            <li>@user.Nom</li>
-        }
-    </ul>
-}
-
 <div class="container">
     <div class="top-div">
         <div>
@@ -45,7 +29,7 @@ else
         </div>
     </div>
 
-    <div class="list-postes-div">
+    <div class="list-users-div">
         <div class="search-div">
             <div class="form-group">
                 <label for="search" class="form-label">Recherche </label>
@@ -57,43 +41,50 @@ else
                 </button>
             </div>
         </div>
-        <div class="list-postes">
+        <div class="list-users">
             @if (users.Count == 0)
             {
-                <p class="empty-list">Cette salle ne contient actuellement aucun poste.</p>
+                <p class="empty-list">Ce parc ne contient actuellement aucun utilisateur.</p>
             }
             else
             {
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Téléphone</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in users)
-                        {
+                <div class="table-container">
+                    <table class="table table-hover">
+                        <thead>
                             <tr>
-                                <td>@user.Id</td>
-                                <td>@user.Nom</td>
-                                <td>@user.Prenom</td>
-                                <td>@user.Telephone</td>
-                                <td>@user.Email</td>
-                                @{
-                                    var type = types.FirstOrDefault(t => t.Id == user.IdType);
-                                    if(type is not null){
-                                        <td>@type!Libelle</td>
-                                    }
-                                }
+                                <th>ID</th>
+                                <th></th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Role</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in users)
+                            {
+                                <tr>
+                                    <td>@user.Id</td>
+                                    <td>
+                                        <span class="oi oi-person"></span>
+                                    </td>
+                                    <td>@user.Nom</td>
+                                    <td>@user.Prenom</td>
+                                    <td>@user.PhoneNumber</td>
+                                    <td>@user.Email</td>
+                                    @{
+                                        var type = types.FirstOrDefault(t => t.Id == user.IdType);
+                                        if (type is not null)
+                                        {
+                                            <td>@type.Libelle</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             }
         </div>
     </div>
@@ -105,10 +96,12 @@ else
     private UserModele? newUser;
 
     private List<TypeModele> types = new List<TypeModele>();
+    private TypeService typeService = new TypeService();
 
     protected override async Task OnInitializedAsync()
     {
-        //users = await userService.GetAll();
+        users = await GetUsersParc();
+        types = await typeService.GetAll();
     }
 
     private void HandleOnChangeSelectedRole(ChangeEventArgs args)
@@ -116,5 +109,20 @@ else
         var id = args.Value!.ToString();
 
         //typeId = int.Parse(id!);
+    }
+
+    private async Task<List<UserModele>> GetUsersParc()
+    {
+        if(ParcService.parcSession is not null)
+        {
+            var parcId = ParcService.parcSession.Id;
+            var res = await userService.GetAllByParc(parcId);
+
+            return res;
+        }
+        else
+        {
+            return new List<UserModele>();
+        }
     }
 }

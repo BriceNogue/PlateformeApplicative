@@ -24,13 +24,13 @@ namespace Web.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<UserModele>> GetAllByParc()
+        public async Task<List<UserModele>> GetAllByParc(int parcId)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc");
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc/id?id={parcId}");
 
             if (userToken is not null)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Beader", userToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
                 var res = await _httpClient.SendAsync(request);
 
                 if (res.IsSuccessStatusCode)

@@ -21,7 +21,7 @@ namespace Shareds.Modeles
 
         [Required]
         [DataType(DataType.PhoneNumber)]
-        public string Telephone { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
 
         [Required]
         [EmailAddress]

@@ -1,0 +1,59 @@
+﻿
+
+.top-div {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.list-users-div {
+    width: 100%;
+}
+
+.list-users {
+    width: 100%;
+    padding-top: 2rem;
+}
+
+.search-div {
+    width: 30%;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 2rem;
+}
+
+.btn-primary {
+    background: dodgerblue;
+}
+
+.form-input {
+    display: flex;
+    height: 40px;
+    border-radius: 5px;
+    padding: 0 15px 0 15px;
+    border: solid 1px gray;
+}
+
+.form-input:focus {
+    border: none;
+    outline: 1px solid;
+    outline-color: dodgerblue;
+    box-shadow: 1px 1px 5px skyblue;
+}
+
+.empty-list {
+    text-align: center;
+    padding-top: 10rem;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px gray;
+}

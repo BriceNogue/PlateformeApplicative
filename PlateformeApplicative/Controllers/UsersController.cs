@@ -66,7 +66,7 @@ namespace PlateformeApplicative.Controllers
             }
             else
             {
-                var res = await _userService.Add(user);
+                var res = await _userService.Register(user);
                 if (res.Flag)
                 {
                     return Ok(res);
@@ -115,7 +115,7 @@ namespace PlateformeApplicative.Controllers
             }
             else
             {
-                var res = await _userService.Add(user);
+                var res = await _userService.Register(user);
                 if (res.Flag)
                 {
                     return Ok(res);
