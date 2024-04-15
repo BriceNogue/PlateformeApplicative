@@ -28,8 +28,8 @@ namespace PlateformeApplicative.Controllers
             return Ok(res);
         }
 
-        [HttpPost("signin")]
-        public async Task<IActionResult> SignIn(UserModele user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserModele user)
         {
             if (user is null)
             {

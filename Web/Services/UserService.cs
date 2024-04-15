@@ -59,10 +59,10 @@ namespace Web.Services
             return content;
         }
 
-        public async Task<LoginResponse> Signin(UserModele user)
+        public async Task<LoginResponse> Register(UserModele user)
         {
             var content = SetRequestContent(user);
-            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/signin", content);
+            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/register", content);
 
             string responseBody = await response.Content.ReadAsStringAsync();
 

@@ -55,7 +55,7 @@
             </div>
             <div class="form-control">
                 <div>
-                    <button type="button" class="btn btn-primary" @onclick="@(()=> ToSignIn(newUser))">Se connecter</button>
+                    <button type="button" class="btn btn-primary" @onclick="@(()=> ToRegister(newUser))">Se connecter</button>
                 </div>
                 <div>
                     <button type="reset" class="btn btn-danger">Se connecter</button>
@@ -95,7 +95,7 @@
         }
     }
 
-    public async Task ToSignIn(UserModele obj)
+    public async Task ToRegister(UserModele obj)
     {
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(obj, serviceProvider: null, items: null);
@@ -106,7 +106,7 @@
         {
             if (isConditionsAcept)
             {
-                var res = await userService.Signin(obj);
+                var res = await userService.Register(obj);
 
 
                 if (res is not null)
