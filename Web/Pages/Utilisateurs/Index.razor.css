@@ -18,11 +18,11 @@
 }
 
 .search-div {
-    width: 30%;
+    width: 35%;
     display: inline-flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .btn-primary {
@@ -56,4 +56,9 @@
     padding: 10px;
     border-radius: 5px;
     box-shadow: 1px 1px 5px gray;
+}
+
+.form-group-select {
+    width: 20%;
+    margin-top: 2rem;
 }

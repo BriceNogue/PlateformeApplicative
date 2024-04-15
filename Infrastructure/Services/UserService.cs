@@ -40,7 +40,11 @@ namespace Infrastructure.Services
                 var users = GetAll();
                 var data = new List<Utilisateur>();
 
-                data = users.Where(u => u.Id == res[0].IdUtilisateur).ToList();
+                for (int i = 0; i < res.Count; i++)
+                {
+                    var user = Get(res[i].IdUtilisateur);
+                    data.Add(user);
+                }
 
                 return data;
             }

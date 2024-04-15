@@ -20,6 +20,35 @@ namespace PlateformeApplicative.Controllers
             _userService = userService;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserLoginModele loginM)
+        {
+            var res = await _userService.Login(loginM);
+
+            return Ok(res);
+        }
+
+        [HttpPost("signin")]
+        public async Task<IActionResult> SignIn(UserModele user)
+        {
+            if (user is null)
+            {
+                return BadRequest(new GeneralResponse(false, "Aucune donnée."));
+            }
+            else
+            {
+                var res = await _userService.Register(user);
+                if (res.Flag)
+                {
+                    return Ok(res);
+                }
+                else
+                {
+                    return BadRequest(res);
+                }
+            }
+        }
+
         [HttpGet("all")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Utilisateur>> GetAll()
@@ -52,9 +81,10 @@ namespace PlateformeApplicative.Controllers
             return Ok(usersParc);
         }
 
-        [HttpPost("add")]
+        // Pour ajouter un utilisateur a un par grace a l'id du parc
+        [HttpPost("add/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
-        public async Task<IActionResult> Add(UserModele user) 
+        public async Task<IActionResult> Add(UserModele user, int id) 
         {
             if (user is null)
             {
@@ -62,11 +92,11 @@ namespace PlateformeApplicative.Controllers
             }
             else if (user.IdType == 0)
             {
-                return BadRequest(new GeneralResponse(false, "Role manquant."));
+                return BadRequest(new GeneralResponse(false, "Veillez renseigner le role de l'utilisateur."));
             }
             else
             {
-                var res = await _userService.Register(user);
+                var res = await _userService.Add(user, id);
                 if (res.Flag)
                 {
                     return Ok(res);
@@ -96,35 +126,6 @@ namespace PlateformeApplicative.Controllers
             if (isUpdated)
                 return Ok("Utilisateur mis a jour avec succes.");
             return BadRequest("Mise a jour impossible.");
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginModele loginM)
-        {
-            var res = await _userService.Login(loginM);
-
-            return Ok(res);
-        }
-
-        [HttpPost("signin")]
-        public async Task<IActionResult> SignIn(UserModele user)
-        {
-            if (user is null)
-            {
-                return BadRequest(new GeneralResponse(false, "Aucune donnée."));
-            }
-            else
-            {
-                var res = await _userService.Register(user);
-                if (res.Flag)
-                {
-                    return Ok(res);
-                }
-                else
-                {
-                    return BadRequest(res);
-                }
-            }
         }
     }
 }

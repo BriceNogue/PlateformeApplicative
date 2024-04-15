@@ -17,29 +17,23 @@
                 <h3>@users.Count utilisateurs</h3>
             }
         </div>
-        <div class="form-group">
+        <div>
+            <button type="button" class="btn btn-primary">
+                <span class="oi oi-person"></span> +
+            </button>
+        </div>
+    </div>
+
+    <div class="list-users-div">
+        <div class="form-group-select">
             <label for="Salles" class="form-label">Filtre par salle</label>
             <select class="form-select" @onchange="HandleOnChangeSelectedRole">
-                <option disabled selected>Sélectionnez le type de salle</option>
+                <option>Tous les utilisateurs</option>
                 @foreach (var type in types)
                 {
                     <option class="select-item" value="@type.Id">@type.Libelle</option>
                 }
             </select>
-        </div>
-    </div>
-
-    <div class="list-users-div">
-        <div class="search-div">
-            <div class="form-group">
-                <label for="search" class="form-label">Recherche </label>
-                <input type="search" class="form-input" id="search" placeholder="Rechercher un utilisateur" />
-            </div>
-            <div>
-                <button type="button" class="btn btn-primary">
-                    Recherche
-                </button>
-            </div>
         </div>
         <div class="list-users">
             @if (users.Count == 0)
@@ -49,7 +43,18 @@
             else
             {
                 <div class="table-container">
-                    <table class="table table-hover">
+                    <div class="search-div">
+                        <div class="form-group">
+                            <input type="search" class="form-input" id="search" placeholder="Rechercher un utilisateur" />
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary">
+                                <span class="oi oi-magnifying-glass"></span>
+                                Recherche
+                            </button>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-bordered">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -101,7 +106,9 @@
     protected override async Task OnInitializedAsync()
     {
         users = await GetUsersParc();
-        types = await typeService.GetAll();
+        var resTypes = await typeService.GetAll();
+
+        types = resTypes.Where(t => t.Objet == "User").ToList();
     }
 
     private void HandleOnChangeSelectedRole(ChangeEventArgs args)
