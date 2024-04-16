@@ -44,6 +44,7 @@ namespace Infrastructure.Services
                     PhoneNumber = item.PhoneNumber!,
                     Email = item.Email!,
                     IdType = item.IdType,
+                    DateInscription = item.DateInscription,
                 };
 
                 data.Add(user);
@@ -52,7 +53,7 @@ namespace Infrastructure.Services
             return data;
         }
 
-        public List<UserModele> GetAllByParc(int id)
+        public async Task<List<UserModele>> GetAllByParc(int id)
         {
             var res = _ueService.GetAll().Where(u => u.IdEtablissement == id).ToList();
             if (res.Count != 0)
@@ -62,7 +63,7 @@ namespace Infrastructure.Services
 
                 for (int i = 0; i < res.Count; i++)
                 {
-                    var user = Get(res[i].IdUtilisateur);
+                    var user = await Get(res[i].IdUtilisateur);
                     data.Add(user);
                 }
 
@@ -74,9 +75,9 @@ namespace Infrastructure.Services
             }
         }
 
-        public UserModele Get(int id)
+        public async Task<UserModele> Get(int id)
         {
-            var res = _userRepository.Get(id);
+            var res = await _userRepository.Get(id);
 
             if (res is not null)
             {
@@ -89,6 +90,7 @@ namespace Infrastructure.Services
                     PhoneNumber = res.PhoneNumber!,
                     Email = res.Email!,
                     IdType = res.IdType,
+                    DateInscription = res.DateInscription,
                 };
 
                 return user;
@@ -217,10 +219,11 @@ namespace Infrastructure.Services
             }
         }
 
-        public bool Update(UserModele user)
+        public async Task<bool> Update(UserModele user)
         {
-            var oldUser = _userRepository.Get(user.Id);
-            if (oldUser is null)
+            var oldUser = await _userRepository.Get(user.Id);
+            var type = _typeRepository.Get(user.IdType);
+            if (oldUser is null || type is null)
             {
                 return false;
             }

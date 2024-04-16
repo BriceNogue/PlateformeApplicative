@@ -27,12 +27,13 @@ namespace Domain.Repositories
             }
         }
 
-        public Utilisateur Get(int id)
+        public async Task<Utilisateur> Get(int id)
         {
             
             try
             {
-                return _dataContext.Utilisateurs.FirstOrDefault(x => x.Id == id)!;
+                var res = await _dataContext.Utilisateurs.ToListAsync();
+                return res.FirstOrDefault(x => x.Id == id)!;
             }
             catch (Exception ex)
             {

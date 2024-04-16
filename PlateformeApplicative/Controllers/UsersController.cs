@@ -72,10 +72,10 @@ namespace PlateformeApplicative.Controllers
 
         [HttpGet("users_parc/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
-        public ActionResult<List<UserModele>> GetAllByParc(int id)
+        public async Task<ActionResult<List<UserModele>>> GetAllByParc(int id)
         {
             var usersParc = new List<UserModele>();
-            usersParc = _userService.GetAllByParc(id);
+            usersParc = await _userService.GetAllByParc(id);
             if (usersParc.Count == 0)
                 return NoContent();
             return Ok(usersParc);
@@ -109,7 +109,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete/id")]
-        [Authorize(Roles = "SuperAdmin,Admin,User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public IActionResult Delete(int id)
         {
             var isDeleted = _userService.Delete(id);
@@ -119,10 +119,10 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
-        [Authorize(Roles = "SuperAdmin,Admin,User")]
-        public IActionResult Update(UserModele user)
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
+        public async Task<IActionResult> Update(UserModele user)
         {
-            var isUpdated = _userService.Update(user);
+            var isUpdated = await _userService.Update(user);
             if (isUpdated)
                 return Ok("Utilisateur mis a jour avec succes.");
             return BadRequest("Mise a jour impossible.");
