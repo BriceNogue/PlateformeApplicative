@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 using Shareds.Modeles;
@@ -136,7 +137,9 @@ namespace Desktop.Services
         {
             var content = SetRequestContent(poste);
 
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
             HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/create", content);
+
             if (response.IsSuccessStatusCode)
             {
                 return true;

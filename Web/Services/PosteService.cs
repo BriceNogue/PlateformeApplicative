@@ -1,4 +1,5 @@
 ﻿using Shareds.Modeles;
+using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace Web.Services
@@ -33,6 +34,7 @@ namespace Web.Services
 
         public async Task<PosteModele> GetById(int id)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
             PosteModele? poste = await _httpClient.GetFromJsonAsync<PosteModele>(_URL + $"/id?id={id}");
 
             if (poste != null)
