@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
+using System.Data;
 
 namespace Web.Services
 {
@@ -22,6 +23,65 @@ namespace Web.Services
         public UserService()
         {
             _httpClient = new HttpClient();
+        }
+
+        // Pour addapter le contenu de la requete
+        private HttpContent SetRequestContent(Object obj)
+        {
+            string json = JsonConvert.SerializeObject(obj);
+            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return content;
+        }
+
+        public async Task<LoginResponse> Register(UserModele user)
+        {
+            var content = SetRequestContent(user);
+            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/register", content);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            var res = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
+
+            return res;
+        }
+
+        public async Task<LoginResponse> Login(UserLoginModele loginM)
+        {
+            try
+            {
+                string json = JsonConvert.SerializeObject(loginM);
+                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/login", content);
+
+                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+
+                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
+
+                var userLogin = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
+
+                if (userLogin.Flag)
+                {
+                    if (userLogin.Token!.StartsWith("Bearer "))
+                    {
+                        userToken = userLogin.Token!.Substring("Bearer ".Length);
+                    }
+                    else
+                    {
+                        userToken = userLogin.Token;
+                    }
+                    //SetUserSession();
+                }
+
+                return userLogin;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null!;
+            }
         }
 
         public async Task<List<UserModele>> GetAllByParc(int parcId)
@@ -50,62 +110,28 @@ namespace Web.Services
             }
         }
 
-        // Pour addapter le contenu de la requete
-        private HttpContent SetRequestContent(Object obj)
+        public async Task<GeneralResponse> AddUser(UserModele user)
         {
-            string json = JsonConvert.SerializeObject(obj);
-            StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            return content;
-        }
-
-        public async Task<LoginResponse> Register(UserModele user)
-        {
-            var content = SetRequestContent(user);
-            HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/register", content);
-
-            string responseBody = await response.Content.ReadAsStringAsync();
-
-            var res = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
-            
-            return res;
-        }
-
-        public async Task<LoginResponse> Login(UserLoginModele loginM)
-        {
-            try
+            int idParc = 0;
+            if (ParcService.parcSession is not null) 
             {
-                string json = JsonConvert.SerializeObject(loginM);
-                StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/login", content);
-
-                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
-
-                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
-
-                var userLogin = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
-
-                if (userLogin.Flag)
-                {
-                    if (userLogin.Token!.StartsWith("Bearer "))
-                    {
-                        userToken = userLogin.Token!.Substring("Bearer ".Length);      
-                    }
-                    else
-                    {
-                        userToken = userLogin.Token;
-                    }
-                    //SetUserSession();
-                }
-
-                return userLogin;
-
+                idParc = ParcService.parcSession.Id;
             }
-            catch (Exception ex)
+            var content = SetRequestContent(user);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+
+            HttpResponseMessage res = await _httpClient.PostAsync(_URL + $"/add/id?id={idParc}", content);
+
+            if (res.IsSuccessStatusCode)
             {
-                Console.WriteLine(ex.Message);
-                return null!;
+                var jsonString = await res.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<GeneralResponse>(jsonString);
+
+                return data!;
+            }
+            else
+            {
+                return new GeneralResponse(false, "Une erreur est survenue.");
             }
         }
 
