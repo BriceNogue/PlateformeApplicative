@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shareds.Modeles;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -27,18 +28,37 @@ namespace Infrastructure.Services
             _etabRepository = etabRepository;
         }
 
-        public List<Utilisateur> GetAll()
+        public async Task<List<UserModele>> GetAll()
         {
-            return _userRepository.GetAll();
+            var res = await _userRepository.GetAll();
+            var data = new List<UserModele>();
+
+            foreach (var item in res)
+            {
+                var user = new UserModele()
+                {
+                    Id = item.Id,
+                    Nom = item.Nom,
+                    Prenom = item.Prenom,
+                    DateNaissance = item.DateNaissance,
+                    PhoneNumber = item.PhoneNumber!,
+                    Email = item.Email!,
+                    IdType = item.IdType,
+                };
+
+                data.Add(user);
+            }
+
+            return data;
         }
 
-        public List<Utilisateur> GetAllByParc(int id)
+        public List<UserModele> GetAllByParc(int id)
         {
             var res = _ueService.GetAll().Where(u => u.IdEtablissement == id).ToList();
             if (res.Count != 0)
             {
                 var users = GetAll();
-                var data = new List<Utilisateur>();
+                var data = new List<UserModele>();
 
                 for (int i = 0; i < res.Count; i++)
                 {
@@ -50,21 +70,43 @@ namespace Infrastructure.Services
             }
             else
             {
-                return new List<Utilisateur>();
+                return new List<UserModele>();
             }
         }
 
-        public Utilisateur Get(int id)
+        public UserModele Get(int id)
         {
-            return _userRepository.Get(id);
+            var res = _userRepository.Get(id);
+
+            if (res is not null)
+            {
+                var user = new UserModele()
+                {
+                    Id = res.Id,
+                    Nom = res.Nom,
+                    Prenom = res.Prenom,
+                    DateNaissance = res.DateNaissance,
+                    PhoneNumber = res.PhoneNumber!,
+                    Email = res.Email!,
+                    IdType = res.IdType,
+                };
+
+                return user;
+            }
+            else
+            {
+                return null!;
+            }
         }
 
-        public Utilisateur GetByMail(string mail)
+        public async Task<UserModele> GetByMail(string mail)
         {
-            var res = GetAll().FirstOrDefault(u => u.Email == mail);
-            if(res != null)
+            var res = await GetAll();
+            var users = res.FirstOrDefault(u => u.Email == mail);
+
+            if (users != null)
             {
-                return res;
+                return users;
             }
             else
             {
@@ -74,7 +116,7 @@ namespace Infrastructure.Services
 
         public async Task<GeneralResponse> Register(UserModele user)
         {
-            var users = GetAll();
+            var users = await GetAll();
             
             if ((user.Id > 0))
             {
@@ -113,7 +155,7 @@ namespace Infrastructure.Services
         // Pour ajouter un utilisateur a un parc
         public async Task<GeneralResponse> Add(UserModele user, int idParc)
         {
-            var users = GetAll();
+            var users = await GetAll();
             var etb = _etabRepository.Get(idParc);
             var type = _typeRepository.Get(user.IdType);
 

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Shareds.Modeles;
@@ -13,11 +14,12 @@ namespace Domain.Repositories
 {
     public class UserRepository(DataContext _dataContext, UserManager<Utilisateur> _userManager, TypeRepository typeRepository, IConfiguration config)
     {
-        public List<Utilisateur> GetAll()
+        public async Task<List<Utilisateur>> GetAll()
         {
             try
             {
-                return _dataContext.Utilisateurs.ToList();
+                var res = await _dataContext.Utilisateurs.ToListAsync();
+                return res;
             }
             catch (Exception ex)
             {

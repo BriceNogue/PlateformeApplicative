@@ -51,10 +51,10 @@ namespace PlateformeApplicative.Controllers
 
         [HttpGet("all")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
-        public ActionResult<List<Utilisateur>> GetAll()
+        public async Task<ActionResult<List<UserModele>>> GetAll()
         {
-            var users = new List<Utilisateur>();
-            users = _userService.GetAll();
+            var users = new List<UserModele>();
+            users = await _userService.GetAll();
             if (users.Count == 0)
                 return NoContent();
             return Ok(users);
@@ -62,7 +62,7 @@ namespace PlateformeApplicative.Controllers
 
         [HttpGet("id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
-        public ActionResult<Utilisateur> GetBy(int id)
+        public ActionResult<UserModele> GetBy(int id)
         {
             var user = _userService.Get(id);
             if (user is null)
@@ -72,9 +72,9 @@ namespace PlateformeApplicative.Controllers
 
         [HttpGet("users_parc/id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
-        public ActionResult<List<Utilisateur>> GetAllByParc(int id)
+        public ActionResult<List<UserModele>> GetAllByParc(int id)
         {
-            var usersParc = new List<Utilisateur>();
+            var usersParc = new List<UserModele>();
             usersParc = _userService.GetAllByParc(id);
             if (usersParc.Count == 0)
                 return NoContent();

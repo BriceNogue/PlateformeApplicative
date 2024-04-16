@@ -105,6 +105,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        newUser = new UserModele();
+
         users = await GetUsersParc();
         var resTypes = await typeService.GetAll();
 
@@ -131,5 +133,10 @@
         {
             return new List<UserModele>();
         }
+    }
+
+    private async Task AddUser(UserModele user)
+    {
+        
     }
 }
