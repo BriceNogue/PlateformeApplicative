@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel;
 
-namespace Desktop.Presentation.ViewModels
+namespace Desktop.ViewModels
 {
     // Cette classe gere le formatage des donnee cote vue ainsi que les evenements associes
 

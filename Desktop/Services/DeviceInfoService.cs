@@ -2,7 +2,7 @@
 using System.Management;
 using System.Text.RegularExpressions;
 
-namespace Desktop.Infrastructure.Services
+namespace Desktop.Services
 {
     public class DeviceInfoService
     {
@@ -50,7 +50,7 @@ namespace Desktop.Infrastructure.Services
                 ulong capacityBytes = (ulong)obj["Size"];
                 double capacityGB = capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
 
-                
+
                 return capacityGB;
             }
 

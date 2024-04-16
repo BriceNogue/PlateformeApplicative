@@ -1,5 +1,4 @@
-﻿using Desktop.Infrastructure.Services;
-using Infrastructure.Services;
+﻿using Desktop.Services;
 using Microsoft.EntityFrameworkCore;
 using Shareds.Modeles;
 using System;
@@ -18,8 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
-using UserService = Desktop.Infrastructure.Services.UserService;
+using PosteServiceDekstop = Desktop.Services.PosteService;
+using UserService = Desktop.Services.UserService;
 
 namespace Desktop.Presentation.Views
 {

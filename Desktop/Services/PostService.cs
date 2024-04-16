@@ -3,7 +3,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Shareds.Modeles;
 
-namespace Desktop.Infrastructure.Services
+namespace Desktop.Services
 {
     public class PosteService
     {
@@ -13,7 +13,7 @@ namespace Desktop.Infrastructure.Services
         private readonly string _URL_SALLES = "https://localhost:7281/api/salles/all";
 
         private readonly DeviceInfoService _deviceInfoService;
-        
+
 
         public PosteService()
         {
@@ -74,7 +74,7 @@ namespace Desktop.Infrastructure.Services
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL+"/all");
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL + "/all");
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
@@ -104,7 +104,7 @@ namespace Desktop.Infrastructure.Services
                 string json = JsonConvert.SerializeObject(posteLogin);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response = await _httpClient.PostAsync(_URL+"/one", content);
+                HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/one", content);
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
@@ -124,7 +124,7 @@ namespace Desktop.Infrastructure.Services
         }
 
         // Pour addapter le contenu de la requete
-        private HttpContent SetRequestContent(Object obj)
+        private HttpContent SetRequestContent(object obj)
         {
             string json = JsonConvert.SerializeObject(obj);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -143,7 +143,7 @@ namespace Desktop.Infrastructure.Services
             }
             else
             {
-                
+
                 return false;
             }
         }

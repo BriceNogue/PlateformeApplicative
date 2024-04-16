@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Shareds.Modeles.ResponsesModels;
 
-namespace Desktop.Infrastructure.Services
+namespace Desktop.Services
 {
     public class UserService
     {
@@ -22,13 +22,13 @@ namespace Desktop.Infrastructure.Services
         public static UserSession? userSession;
         public static string? userToken;
 
-        public UserService() 
-        { 
+        public UserService()
+        {
             _httpClient = new HttpClient();
         }
 
         public async Task<LoginResponse> Login(UserLoginModele loginM)
-        {      
+        {
             try
             {
                 string json = JsonConvert.SerializeObject(loginM);

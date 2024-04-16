@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desktop.Infrastructure.Services
+namespace Desktop.Services
 {
     public class NotificationService
     {
         public NotificationService() { }
 
-        public void setTastBarNotification() 
+        public void setTastBarNotification()
         {
             // Créez l'icône de la barre des tâches
-            
+
         }
     }
 }

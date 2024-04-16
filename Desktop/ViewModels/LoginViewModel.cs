@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Desktop.Presentation.ViewModels
+namespace Desktop.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
@@ -14,7 +14,7 @@ namespace Desktop.Presentation.ViewModels
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
-        private string _email {  get; set; } = string.Empty;
+        private string _email { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]

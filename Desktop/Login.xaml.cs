@@ -1,15 +1,15 @@
-﻿using Desktop.Infrastructure.Services;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Input;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Newtonsoft.Json.Linq;
-using Desktop.Presentation.ViewModels;
+using Desktop.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using Desktop.Services;
 
 namespace Desktop
 {

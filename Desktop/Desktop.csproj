@@ -26,19 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Presentation\Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Shared\Shareds.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Presentation\ViewModels\DeviceViewModel.cs">
+    <Compile Update="ViewModels\DeviceViewModel.cs">
       <CustomToolNamespace>Desktop.Presentation.ViewModels</CustomToolNamespace>
     </Compile>
-    <Compile Update="Presentation\ViewModels\LoginViewModel.cs">
+    <Compile Update="ViewModels\LoginViewModel.cs">
       <CustomToolNamespace></CustomToolNamespace>
     </Compile>
   </ItemGroup>

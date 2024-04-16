@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PosteServiceDekstop = Desktop.Infrastructure.Services.PosteService;
+using PosteServiceDekstop = Desktop.Services.PosteService;
 
 namespace Desktop.Presentation.Views
 {

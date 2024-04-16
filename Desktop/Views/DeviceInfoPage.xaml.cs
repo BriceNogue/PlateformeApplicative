@@ -1,5 +1,5 @@
-﻿using Desktop.Infrastructure.Services;
-using Desktop.Presentation.ViewModels;
+﻿using Desktop.Services;
+using Desktop.ViewModels;
 using Shareds.Modeles;
 using System;
 using System.Collections.Generic;
