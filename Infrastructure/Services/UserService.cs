@@ -58,13 +58,16 @@ namespace Infrastructure.Services
             var res = _ueService.GetAll().Where(u => u.IdEtablissement == id).ToList();
             if (res.Count != 0)
             {
-                var users = GetAll();
+                var users = await GetAll();
                 var data = new List<UserModele>();
 
                 for (int i = 0; i < res.Count; i++)
                 {
-                    var user = await Get(res[i].IdUtilisateur);
-                    data.Add(user);
+                    var user = users.FirstOrDefault(u => u.Id == res[i].IdUtilisateur); //await Get(res[i].IdUtilisateur);
+                    if (user is not null)
+                    {
+                        data.Add(user);
+                    }
                 }
 
                 return data;

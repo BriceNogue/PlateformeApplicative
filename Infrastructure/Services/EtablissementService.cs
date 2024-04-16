@@ -27,12 +27,16 @@ namespace Infrastructure.Services
             var res = _ueService.GetAll().Where(u => u.IdUtilisateur == id).ToList();
             if (res.Count != 0)
             {
+                var etabs = GetAll();
                 var data = new List<Etablissement>();
 
                 for(int i = 0; i < res.Count; i++)
                 {
-                    var etab = Get(res[i].IdEtablissement);
-                    data.Add(etab);
+                    var etab = etabs.FirstOrDefault(e => e.Id == res[i].IdEtablissement); //Get(res[i].IdEtablissement);
+                    if (etab is not null)
+                    {
+                        data.Add(etab);
+                    }
                 }
 
                 return data;

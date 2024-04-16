@@ -76,11 +76,11 @@ namespace Domain.Repositories
             }
         }
 
-        public void Delete(int id)
+        public async void Delete(int id)
         {
             try
             {
-                var user = Get(id);
+                var user = await Get(id);
                 _dataContext.Utilisateurs.Remove(user);
                 _dataContext.SaveChanges();
             }
