@@ -181,7 +181,7 @@ namespace Infrastructure.Services
                     DateNaissance = user.DateNaissance,
                     PhoneNumber = user.PhoneNumber,
                     Email = user.Email,
-                    PasswordHash = user.MotDePasse,
+                    PasswordHash = user.Nom.ToUpper() + user.Prenom.ToLower() + "#" + 1234, // Mmmmdp automatique a la l'ajout d'un utilisateur,
                     DateInscription = DateTime.Now,
                     IdType = user.IdType,
                     UserName = user.Email
