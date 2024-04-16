@@ -20,7 +20,7 @@
         </div>
         <div>
             <button type="button" class="btn btn-primary" @onclick="(() => ToggleModal())">
-                <span class="oi oi-person"></span> +
+                + <span class="oi oi-person"></span>
             </button>
         </div>
     </div>
@@ -28,8 +28,8 @@
     <div class="list-users-div">
         <div class="form-group-select">
             <label for="Salles" class="form-label">Filtre par salle</label>
-            <select class="form-select" @onchange="HandleOnChangeSelectedRole">
-                <option>Tous les utilisateurs</option>
+            <select class="form-select" @onchange="HandleOnChangeSelectedSearch">
+                <option value="0">Tous les utilisateurs</option>
                 @foreach (var type in types)
                 {
                     <option class="select-item" value="@type.Id">@type.Libelle</option>
@@ -46,13 +46,10 @@
                 <div class="table-container">
                     <div class="search-div">
                         <div class="form-group">
-                            <input type="search" class="form-input" id="search" placeholder="Rechercher un utilisateur" />
+                            <input type="search" class="form-input" id="search" @oninput="HandleOnInputSearchUser" placeholder="Rechercher un utilisateur" />
                         </div>
                         <div>
-                            <button type="button" class="btn btn-primary">
-                                <span class="oi oi-magnifying-glass"></span>
-                                Recherche
-                            </button>
+                            <span class="oi oi-magnifying-glass @searchClass"></span>
                         </div>
                     </div>
                     <table class="table table-hover table-bordered">
@@ -68,7 +65,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in users)
+                            @foreach (var user in filteredUsers)
                             {
                                 <tr>
                                     <td>@user.Id</td>
@@ -116,12 +113,22 @@
                                 <input type="text" id="lastName" @bind="newUser!.Nom" placeholder="Nom" class="form-input" />
                             </div>
                             <div class="form-group">
-                                <label for="firstName" class="form-label">FirstName :</label>
+                                <label for="firstName" class="form-label">Prénom :</label>
                                 <input type="text" id="firstName" @bind="newUser!.Prenom" placeholder="Prénom" class="form-input" />
                             </div>
                             <div class="form-group">
                                 <label for="email" class="form-label">Email :</label>
                                 <input type="email" id="email" @bind="newUser!.Email" placeholder="Email" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="role" class="form-label">Role :</label>
+                                <select class="form-select" id="role" @onchange="HandleOnChangeSelectedRole">
+                                    <option disabled selected>Role</option>
+                                    @foreach (var type in types)
+                                    {
+                                        <option class="select-item" value="@type.Id">@type.Libelle</option>
+                                    }
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="phone" class="form-label">Télephone :</label>
@@ -131,21 +138,10 @@
                                 <label for="dateNaissance" class="form-label">Date de naissance :</label>
                                 <input type="date" id="dateNaissance" value="formatedDate" @oninput="HandleDateInput" placeholder="Date de naissance" class="form-input" />
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="role" class="form-label">Type de salle :</label>
-                                <select class="form-select" id="role" @onchange="HandleOnChangeSelectedRole">
-                                    <option disabled selected>Sélectionnez le role de l'utilisateur</option>
-                                    @foreach (var type in types)
-                                    {
-                                        <option class="select-item" value="@type.Id">@type.Libelle</option>
-                                    }
-                                </select>
-                            </div>
                         </div>
                         <div class="form-action">
                             <div>
-                                <button type="button" class="btn btn-create" @onclick="@(()=> AddUser(newUser!))">Créer</button>
+                                <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> AddUser(newUser!))">Créer</button>
                             </div>
                             <div>
                                 <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
@@ -168,6 +164,7 @@
 
 @code {
     private List<UserModele> users = new List<UserModele>();
+    private List<UserModele> filteredUsers = new List<UserModele>();
     private UserService userService = new UserService();
     private UserModele? newUser;
     private int userTypeId = 0;
@@ -179,6 +176,7 @@
     private string modalDisplay = "none";
     private string modalClass = "";
     private bool ShowBackdrop = false;
+    private string searchClass = "";
 
     private DateTime startDate = DateTime.Today;
     private string formatedDate = "";
@@ -189,6 +187,7 @@
         string formatedDate = startDate.ToString("yyyy-MM-dd");
 
         users = await GetUsersParc();
+        filteredUsers = users;
         var resTypes = await typeService.GetAll();
 
         types = resTypes.Where(t => t.Objet == "User").ToList();
@@ -226,8 +225,48 @@
         }
 
         userTypeId = 0;
-
+        resText = "";
         //StateHasChanged();
+    }
+
+    private void HandleOnInputSearchUser(ChangeEventArgs args)
+    {
+        var keyWord = args.Value!.ToString();
+        var tempList = filteredUsers;
+
+        if (!string.IsNullOrEmpty(keyWord))
+        {
+            filteredUsers = tempList.Where(u => u.Nom.ToLower().Contains(keyWord.ToLower())
+                || u.Prenom.ToLower().Contains(keyWord.ToLower()) 
+                || u.Email.ToLower().Contains(keyWord.ToLower()) 
+                || u.PhoneNumber.ToLower().Contains(keyWord.ToLower())).ToList();
+
+            searchClass = "io-onsearch";
+        }
+        else
+        {
+            filteredUsers = tempList;
+            searchClass = "";
+        }
+
+    }
+
+    private void HandleOnChangeSelectedSearch(ChangeEventArgs args)
+    {
+        var id = args.Value!.ToString();
+        int idRole = int.Parse(id!);
+
+        if (idRole != 0)
+        {       
+            filteredUsers = users.Where(u => u.IdType == idRole).ToList();
+
+            searchClass = "io-onsearch";
+        }
+        else
+        {
+            filteredUsers = users;
+            searchClass = "";
+        }
     }
 
     private void HandleOnChangeSelectedRole(ChangeEventArgs args)
@@ -249,6 +288,26 @@
                 newUser!.DateNaissance = dateOfBirth;
             }
         }
+
+        CheckBirthDay(newUser!.DateNaissance);
+
+    }
+
+    private bool CheckBirthDay(DateTime birthday)
+    {
+        var nbrDays = DateTime.Today - birthday;
+        var nbrYears = (int)nbrDays.TotalDays / 365;
+
+        if (nbrYears >= 18 && nbrYears <= 100)
+        {
+            resText = "";
+            return true;
+        }
+        else
+        {
+            resText = "Vous devez avoir entre 18 et 100 ans";
+            return false;
+        }
     }
 
     private async Task AddUser(UserModele user)
@@ -264,19 +323,24 @@
 
             if (ParcService.parcSession != null)
             {
-                newUser!.IdType = userTypeId;
-                var res = await userService.AddUser(user);
-
-                if (res is not null)
+                bool isOld = CheckBirthDay(newUser!.DateNaissance);
+                if (isOld)
                 {
-                    resText = res.Message;
+                    newUser!.IdType = userTypeId;
+                    var res = await userService.AddUser(user);
 
-                    if (res.Flag)
+                    if (res is not null)
                     {
-                        users = await GetUsersParc();
-                        newUser = new UserModele();
+                        resText = res.Message;
+
+                        if (res.Flag)
+                        {
+                            users = await GetUsersParc();
+                            filteredUsers = users;
+                            newUser = new UserModele();
+                        }
                     }
-                }
+                }              
             }
         }
         else

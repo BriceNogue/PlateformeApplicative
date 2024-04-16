@@ -174,6 +174,7 @@ namespace Infrastructure.Services
             }
             else
             {
+                var defaultPwd = user.Nom.ToUpper() + user.Prenom.ToLower() + "#" + 1234; // Mmmmdp automatique a la l'ajout d'un utilisateur,
                 var newUser = new Utilisateur()
                 {
                     Nom = user.Nom,
@@ -181,16 +182,16 @@ namespace Infrastructure.Services
                     DateNaissance = user.DateNaissance,
                     PhoneNumber = user.PhoneNumber,
                     Email = user.Email,
-                    PasswordHash = user.Nom.ToUpper() + user.Prenom.ToLower() + "#" + 1234, // Mmmmdp automatique a la l'ajout d'un utilisateur,
+                    PasswordHash = defaultPwd,
                     DateInscription = DateTime.Now,
                     IdType = user.IdType,
                     UserName = user.Email
                 };
 
-                var res = await _userRepository.Add(newUser, user.ConfirmeMotDePasse);
+                var res = await _userRepository.Add(newUser, defaultPwd);
                 if (res.Flag)
                 {
-                    var addedUser = GetByMail(newUser.Email);
+                    var addedUser = await GetByMail(newUser.Email);
                     if (addedUser != null)
                     {
                         UEModele neuUE = new UEModele()
