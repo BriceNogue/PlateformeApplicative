@@ -28,13 +28,10 @@ namespace Shareds.Modeles
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage ="Le mot de passe doit contenir des Az@#12")]
         public string MotDePasse { get; set; } = string.Empty;
 
-
-        [Required]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password, ErrorMessage ="Les mots de passe ne correspondent pas.")]
         [Compare(nameof(MotDePasse))]
         public string ConfirmeMotDePasse { get; set; } = string.Empty;
 
