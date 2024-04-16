@@ -117,6 +117,7 @@ namespace Web.Services
             {
                 idParc = ParcService.parcSession.Id;
             }
+
             var content = SetRequestContent(user);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
 

@@ -113,7 +113,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="type" class="form-label">Type de salle :</label>
-                                <select class="form-select" @onchange="HandleOnChangeSelectedParc">
+                                <select class="form-select" @onchange="HandleOnChangeSelectedType">
                                     <option disabled selected>Sélectionnez le type de salle</option>
                                     @foreach(var type in types)
                                     {
@@ -222,7 +222,7 @@
         }
     }
 
-    private void HandleOnChangeSelectedParc(ChangeEventArgs args)
+    private void HandleOnChangeSelectedType(ChangeEventArgs args)
     {
         var id = args.Value!.ToString();
 

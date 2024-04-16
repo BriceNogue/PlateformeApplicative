@@ -29,6 +29,10 @@
     background: dodgerblue;
 }
 
+.btn-primary:hover {
+    background: blue;
+}
+
 .form-input {
     display: flex;
     height: 40px;

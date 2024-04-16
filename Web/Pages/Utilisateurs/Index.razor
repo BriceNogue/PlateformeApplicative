@@ -2,6 +2,7 @@
 
 @using Shareds.Modeles;
 @using Services;
+@using System.ComponentModel.DataAnnotations;
 
 <PageTitle>Utilisateurs</PageTitle>
 
@@ -18,7 +19,7 @@
             }
         </div>
         <div>
-            <button type="button" class="btn btn-primary">
+            <button type="button" class="btn btn-primary" @onclick="(() => ToggleModal())">
                 <span class="oi oi-person"></span> +
             </button>
         </div>
@@ -93,31 +94,104 @@
             }
         </div>
     </div>
+
+    @******************* Start Modal ********************@
+
+    <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay">
+        <div class="modal-dialog-centered" role="document">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nouvelle utilisateur</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
+                        </button>
+                    </div>
+                    <form class="form modal-body">
+                        <div>
+                            <p>@resText</p>
+                        </div>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Nom :</label>
+                                <input type="text" id="lastName" @bind="newUser!.Nom" placeholder="Nom" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">FirstName :</label>
+                                <input type="text" id="firstName" @bind="newUser!.Prenom" placeholder="Prénom" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email :</label>
+                                <input type="email" id="email" @bind="newUser!.Email" placeholder="Email" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Télephone :</label>
+                                <input type="phone" id="phone" @bind="newUser!.PhoneNumber" placeholder="Téléphone" class="form-input" />
+                            </div>
+                            <div class="form-group">
+                                <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                                <input type="date" id="dateNaissance" value="formatedDate" @oninput="HandleDateInput" placeholder="Date de naissance" class="form-input" />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="role" class="form-label">Type de salle :</label>
+                                <select class="form-select" id="role" @onchange="HandleOnChangeSelectedRole">
+                                    <option disabled selected>Sélectionnez le role de l'utilisateur</option>
+                                    @foreach (var type in types)
+                                    {
+                                        <option class="select-item" value="@type.Id">@type.Libelle</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-action">
+                            <div>
+                                <button type="button" class="btn btn-create" @onclick="@(()=> AddUser(newUser!))">Créer</button>
+                            </div>
+                            <div>
+                                <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ShowBackdrop)
+    {
+        <div class="modal-backdrop fade show"></div>
+    }
+
+    @******************* End Modal ********************@
+
 </div>
 
 @code {
     private List<UserModele> users = new List<UserModele>();
     private UserService userService = new UserService();
     private UserModele? newUser;
+    private int userTypeId = 0;
 
     private List<TypeModele> types = new List<TypeModele>();
     private TypeService typeService = new TypeService();
 
+    private string resText = "";
+    private string modalDisplay = "none";
+    private string modalClass = "";
+    private bool ShowBackdrop = false;
+
+    private DateTime startDate = DateTime.Today;
+    private string formatedDate = "";
+
     protected override async Task OnInitializedAsync()
     {
         newUser = new UserModele();
+        string formatedDate = startDate.ToString("yyyy-MM-dd");
 
         users = await GetUsersParc();
         var resTypes = await typeService.GetAll();
 
         types = resTypes.Where(t => t.Objet == "User").ToList();
-    }
-
-    private void HandleOnChangeSelectedRole(ChangeEventArgs args)
-    {
-        var id = args.Value!.ToString();
-
-        //typeId = int.Parse(id!);
     }
 
     private async Task<List<UserModele>> GetUsersParc()
@@ -135,8 +209,83 @@
         }
     }
 
+    private void ToggleModal()
+    {
+        if (modalClass == "show")
+        {
+            modalDisplay = "none";
+            modalClass = "";
+            ShowBackdrop = false;
+            newUser = new UserModele();
+        }
+        else
+        {
+            modalDisplay = "block";
+            modalClass = "show";
+            ShowBackdrop = true;
+        }
+
+        userTypeId = 0;
+
+        //StateHasChanged();
+    }
+
+    private void HandleOnChangeSelectedRole(ChangeEventArgs args)
+    {
+        var id = args.Value!.ToString();
+
+        userTypeId = int.Parse(id!);
+    }
+
+    private void HandleDateInput(ChangeEventArgs e)
+    {
+        if (DateTime.TryParse(e.Value.ToString(), out DateTime selectedDate))
+        {
+            startDate = selectedDate;
+            formatedDate = startDate.ToString("yyyy-MM-dd");
+
+            if (DateTime.TryParse(formatedDate, out DateTime dateOfBirth))
+            {
+                newUser!.DateNaissance = dateOfBirth;
+            }
+        }
+    }
+
     private async Task AddUser(UserModele user)
     {
-        
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(user, serviceProvider: null, items: null);
+
+        bool isValid = Validator.TryValidateObject(user, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            resText = "";
+
+            if (ParcService.parcSession != null)
+            {
+                newUser!.IdType = userTypeId;
+                var res = await userService.AddUser(user);
+
+                if (res is not null)
+                {
+                    resText = res.Message;
+
+                    if (res.Flag)
+                    {
+                        users = await GetUsersParc();
+                        newUser = new UserModele();
+                    }
+                }
+            }
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
+        }
     }
 }
