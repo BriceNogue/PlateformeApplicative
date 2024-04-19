@@ -41,8 +41,6 @@ namespace Desktop.Services
             {
                 return null!;
             }
-
-
         }
 
         public async Task<SalleModele> GetById(int id)

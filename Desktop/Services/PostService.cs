@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using Newtonsoft.Json;
 using Shareds.Modeles;
@@ -20,11 +21,13 @@ namespace Desktop.Services
             _deviceInfoService = new DeviceInfoService();
         }
 
-        public async Task<List<PosteModele>> GetAllByParc()
+        public async Task<List<PosteModele>> GetAllBySalle(int idSalle)
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL + "/all");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={idSalle}");
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
@@ -65,7 +68,6 @@ namespace Desktop.Services
                 poste = JsonConvert.DeserializeObject<PosteModele>(responseBody)!;
 
                 return poste;
-
             }
             catch (Exception ex)
             {

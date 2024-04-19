@@ -3,6 +3,7 @@ using Shareds.Modeles;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PlateformeApplicative.Controllers
 {
@@ -11,6 +12,7 @@ namespace PlateformeApplicative.Controllers
     public class PostesController(PosteService _service) : ControllerBase
     {
         [HttpGet("all")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public ActionResult<List<Poste>> GetAll()
         {
             var postes = _service.GetAll();
@@ -20,6 +22,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpGet("id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Poste> Get(int id)
         {
             var poste = _service.Get(id);
@@ -29,6 +32,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPost("one")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Poste> GetOne(PosteLoginModele posteLogin)
         {
             var poste = _service.GetOne(posteLogin);
@@ -38,6 +42,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Add(PosteModele poste)
         {
             var result = _service.Add(poste);
@@ -47,6 +52,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var result = _service.Delete(id);
@@ -56,6 +62,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Update(PosteModele poste)
         {
             var result = _service.Update(poste);

@@ -27,8 +27,6 @@ namespace Desktop.Views.LoginPages
             this.loginW = loginW;
 
             cmb_parcs.ItemsSource = etabs;
-
-            txt_user_name.Text = UserService.userSession!.Name;
         }
 
         private void ConnectToParc(object sender, RoutedEventArgs e)
@@ -42,6 +40,10 @@ namespace Desktop.Views.LoginPages
                 int parcId = ((EtablissementModele)cmb_parcs.SelectedItem).Id;
 
                 SetSelectedParcSession(parcId);
+
+                MainWindow mainWindow = new MainWindow();
+                loginW.Close();
+                mainWindow.Show();
             }
 
         }
@@ -56,10 +58,6 @@ namespace Desktop.Views.LoginPages
             if (ParcService.parcSession is not null)
             {
                 userService.SetUserSession();
-
-                MainWindow mainWindow = new MainWindow();
-                loginW.Close();
-                mainWindow.Show();
             }
         }
     }
