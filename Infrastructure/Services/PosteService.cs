@@ -11,6 +11,20 @@ namespace Infrastructure.Services
             return _repository.GetAll(); 
         }
 
+        public List<Poste> GetAllByParc(int parcId)
+        {
+            var salles = _salleRepository.GetAll().Where(s => s.IdEtablissement == parcId);
+            var postesList = new List<Poste>();
+
+            foreach (var salle in salles)
+            {
+                var postes = GetAll().Where(p => p.IdSalle == salle.Id).ToList();
+                postesList.AddRange(postes);
+            }
+
+            return postesList;
+        }
+
         public Poste Get(int id)
         {
             return _repository.Get(id);

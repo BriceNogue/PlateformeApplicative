@@ -65,20 +65,29 @@ namespace Desktop.Services
                 }
                 else
                 {
-                    return new EtablissementModele();
+                    return null!;
                 }
             }
             else
             {
-                return new EtablissementModele();
+                return null!;
             }
         }
 
-        public async void SetParcSession(int idParc)
+        public async Task<bool> SetParcSession(int idParc)
         {
             var res = await Get(idParc);
 
-            parcSession = new ParcSession(res.Id, res.Nom);
+            if (res is not null)
+            {
+                parcSession = new ParcSession(res.Id, res.Nom);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

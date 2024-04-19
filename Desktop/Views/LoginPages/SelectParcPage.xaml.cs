@@ -29,7 +29,7 @@ namespace Desktop.Views.LoginPages
             cmb_parcs.ItemsSource = etabs;
         }
 
-        private void ConnectToParc(object sender, RoutedEventArgs e)
+        private async void ConnectToParc(object sender, RoutedEventArgs e)
         {
             if (cmb_parcs.SelectedItem is null)
             {
@@ -39,25 +39,39 @@ namespace Desktop.Views.LoginPages
             {
                 int parcId = ((EtablissementModele)cmb_parcs.SelectedItem).Id;
 
-                SetSelectedParcSession(parcId);
+                bool isSeted = await SetSelectedParcSession(parcId);
 
-                MainWindow mainWindow = new MainWindow();
-                loginW.Close();
-                mainWindow.Show();
+                if (isSeted)
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    loginW.Close();
+                    mainWindow.Show();
+                }                
             }
-
         }
 
-        private void SetSelectedParcSession(int parcId)
+        private async Task<bool> SetSelectedParcSession(int parcId)
         {
-            if (parcId != 0)
+            try
             {
-                parcService!.SetParcSession(parcId);
-            }
+                if (parcId != 0)
+                {
+                    var res = await parcService!.SetParcSession(parcId);
 
-            if (ParcService.parcSession is not null)
+                    if (res)
+                    {
+                        userService.SetUserSession();
+                    }
+                    return res;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
             {
-                userService.SetUserSession();
+                return false;
             }
         }
     }

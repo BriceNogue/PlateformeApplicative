@@ -44,11 +44,15 @@ namespace Desktop.Presentation.Views
         int idSalle = 0;
         bool isNumberPostValid = false;
 
-        public CreatePostPage()
+        MainWindow mainW;
+
+        public CreatePostPage(MainWindow mainW)
         {
             InitializeComponent();
+            
+            this.mainW = mainW;
 
-            CheckUserAuthorization();
+            //CheckUserAuthorization();
 
             _posteServiceDekstop = new PosteServiceDekstop();
             _deviceInfoService = new DeviceInfoService();
@@ -233,6 +237,7 @@ namespace Desktop.Presentation.Views
                     if (isAdded)
                     {
                         MessageBoxResult result = MessageBox.Show("Poste cree avec suces.", $"Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                        mainW.LoadPagesGrid.Navigate(new PostIndexPage());
                     }
                     else
                     {
@@ -246,27 +251,9 @@ namespace Desktop.Presentation.Views
             }
         }
 
-        public void CheckUserAuthorization()
+        private void GoBackHome(object sender, RoutedEventArgs e)
         {
-            if (UserService.userSession is null)
-            {
-                //GoBack();
-            }
-            else
-            {
-                if (UserService.userSession!.Role != "Admin")
-                {
-                    //GoBack();
-                }
-            }
-        }
-
-        private void GoBack()
-        {
-            if (NavigationService.CanGoBack)
-            {
-                NavigationService.GoBack();
-            }
+            mainW.LoadPagesGrid.Navigate(new PostIndexPage());
         }
     }
 }
