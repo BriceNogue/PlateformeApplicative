@@ -61,7 +61,7 @@ namespace Infrastructure.Services
                     RAM = poste.RAM,
                     IdSalle = poste.IdSalle,
                     IdType = poste.IdType,
-                    Statut = poste.Statut,
+                    Statut = true,//poste.Statut,
                 };
                 _repository.Add(newPost);
                 return true;

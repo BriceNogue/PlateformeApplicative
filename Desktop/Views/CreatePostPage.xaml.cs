@@ -157,7 +157,7 @@ namespace Desktop.Presentation.Views
                 {
                     txt_error.Text = "Valeur superieur a la capacite de la salle.";
                     isNumberPostValid = false;
-                }else if (inputNumber > this.dispo || inputNumber == 0)
+                }else if (inputNumber <= 0)
                 {
                     txt_error.Text = "Valeur indisponible.";
                     isNumberPostValid = false;

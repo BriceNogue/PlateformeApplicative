@@ -7,6 +7,7 @@ using Desktop.Services;
 using Desktop.ViewModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Desktop.Presentation.Views;
 
 namespace Desktop.Views.LoginPages
 {
@@ -17,8 +18,9 @@ namespace Desktop.Views.LoginPages
     {
         private Login loginW;
         private readonly UserService _userService;
-
+        private readonly PosteService _posteService;
         private ParcService parcService;
+
         public List<EtablissementModele> userParcs = new();
         private int parcId = 0;
 
@@ -28,6 +30,7 @@ namespace Desktop.Views.LoginPages
             this.loginW = loginW;
 
             _userService = new UserService();
+            _posteService = new PosteService();
             parcService = new ParcService();
 
             DataContext = new LoginViewModel();
@@ -61,7 +64,9 @@ namespace Desktop.Views.LoginPages
                     int userId = GetUserId(res.Token!);
                     userParcs = await GetUserParcs(userId);
 
-                    if (userParcs.Count > 1)
+                    bool isPostExist = await CheckExistPost();
+
+                    if (userParcs.Count > 1 && !isPostExist)
                     {
                         loginW.LoadLoginPages.Navigate(new SelectParcPage(userParcs, loginW));
                     }
@@ -70,7 +75,7 @@ namespace Desktop.Views.LoginPages
                         _userService.SetUserSession();
                         if (userParcs.Count != 0)
                         {
-                            parcService!.SetParcSession(userParcs[0].Id);
+                            await parcService!.SetParcSession(userParcs[0].Id);
                         }
                         Thread.Sleep(300);
                         MainWindow mainWindow = new MainWindow();
@@ -117,6 +122,19 @@ namespace Desktop.Views.LoginPages
         {
             var res = parcService!.GetAllByUser(id);
             return res;
+        }
+
+        private async Task<bool> CheckExistPost()
+        {
+            var res = await _posteService.GetOne();
+            if (res == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
     }
