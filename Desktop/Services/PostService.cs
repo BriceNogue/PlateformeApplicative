@@ -21,13 +21,13 @@ namespace Desktop.Services
             _deviceInfoService = new DeviceInfoService();
         }
 
-        public async Task<List<PosteModele>> GetAllBySalle(int idSalle)
+        public async Task<List<PosteModele>> GetAllByParc(int idParc)
         {
             try
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
 
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={idSalle}");
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={idParc}");
 
                 response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
@@ -57,6 +57,8 @@ namespace Desktop.Services
             {
                 string json = JsonConvert.SerializeObject(posteLogin);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
 
                 HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/one", content);
 

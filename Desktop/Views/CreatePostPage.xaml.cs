@@ -1,4 +1,5 @@
 ﻿using Desktop.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Shareds.Modeles;
 using System;
@@ -40,6 +41,8 @@ namespace Desktop.Presentation.Views
 
         int salleCapacity = 0;
         int dispo = 0;
+        int idSalle = 0;
+        bool isNumberPostValid = false;
 
         public CreatePostPage()
         {
@@ -54,9 +57,9 @@ namespace Desktop.Presentation.Views
 
             GetTypesAndSalles();
             GetDeviceInnfo();
-            GetPostes();
+            GetParcPostes();
 
-            cmb_salles.SelectionChanged += GetSelectedSalleCapacity;
+            cmb_salles.SelectionChanged += HandleSelectedSalle;
             txt_num_post.TextChanged += OnSetPosteNumber;
 
         }
@@ -66,7 +69,7 @@ namespace Desktop.Presentation.Views
         {
             var types = await _typeService.GetAll();
             if (types != null)
-                cmb_types.ItemsSource = types;
+                cmb_types.ItemsSource = types.Where(t => t.Objet == "Poste").ToList();
 
             if (ParcService.parcSession is not null)
             {
@@ -86,13 +89,30 @@ namespace Desktop.Presentation.Views
             txt_b_SE.Text = _deviceInfoService.GetOperatingSystem();
         }
 
-        public async void GetPostes()
+        public async void GetParcPostes()
         {
-            var postes = await _posteServiceDekstop.GetAllByParc();
-            PostesList = postes;
+            try
+            {
+                int parcId = ParcService.parcSession!.Id;
+                var postes = await _posteServiceDekstop.GetAllByParc(parcId);
+
+                if (postes != null)
+                {
+                    PostesList = postes;
+                }
+                else
+                {
+                    PostesList = new List<PosteModele>();
+                }
+            }
+            catch (Exception ex)
+            {
+                PostesList = null!;
+            }
         }
 
-        private void GetSelectedSalleCapacity(object sender, SelectionChangedEventArgs e)
+        // Récupère la capacité de la salle selectionné
+        private void HandleSelectedSalle(object sender, SelectionChangedEventArgs e)
         {
             // Recuperer et convertir l'element selectionne
             var selectedSalle = cmb_salles.SelectedItem as SalleModele;
@@ -109,6 +129,7 @@ namespace Desktop.Presentation.Views
             }
         }
 
+        // Récupère les postes de la salle selectionnée et vérifie leurs numéraux
         private void OnSetPosteNumber(object sender, TextChangedEventArgs e)
         {
             string inputText = txt_num_post.Text;
@@ -131,22 +152,27 @@ namespace Desktop.Presentation.Views
                 if (inputNumber > this.salleCapacity)
                 {
                     txt_error.Text = "Valeur superieur a la capacite de la salle.";
+                    isNumberPostValid = false;
                 }else if (inputNumber > this.dispo || inputNumber == 0)
                 {
                     txt_error.Text = "Valeur indisponible.";
+                    isNumberPostValid = false;
                 }
                 else if (existingPost)
                 {
                     txt_error.Text = "Valeur deja attribuee a un poste.";
+                    isNumberPostValid = false;
                 }
                 else
                 {
                     txt_error.Text = "";
+                    isNumberPostValid = true;
                 }
             }
             else
             {
                 txt_error.Text = "Entrez une valeur valide.";
+                isNumberPostValid = false;
             }
 
         }
@@ -179,6 +205,10 @@ namespace Desktop.Presentation.Views
                 if (cmb_salles.SelectedItem is null || cmb_types.SelectedItem is null || txt_num_post.Text == string.Empty)
                 {
                     MessageBoxResult result = MessageBox.Show("Champ manquant.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else if (!isNumberPostValid)
+                {
+                    MessageBoxResult result = MessageBox.Show("Numéro de poste invalide.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
