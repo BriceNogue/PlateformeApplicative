@@ -1,0 +1,71 @@
+﻿<Page x:Class="Desktop.Views.LoginPages.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Desktop.Views.LoginPages"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="350"
+      Title="LoginPage"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <StackPanel>
+        <TextBlock
+            Margin="0 25 0 5"
+            HorizontalAlignment="Center"
+            FontSize="28"
+            FontWeight="Bold"
+            Text="Bienvenue"/>
+
+        <TextBlock
+            Margin="0 25 0 5"
+            HorizontalAlignment="Center"
+            FontSize="17"
+            FontWeight="SemiBold"
+            Text="Connectez vous a votre compte"/>
+
+        <TextBlock
+            x:Name="txt_connected"
+            Margin="0 25 0 5"
+            HorizontalAlignment="Center"
+            FontSize="17"
+            FontWeight="SemiBold"
+            Text=""
+            Foreground="Green"/>
+
+        <TextBox
+            x:Name="txt_b_email"
+            Margin="0 100 0 0"
+            Width="300"
+            FontSize="18"
+            materialDesign:HintAssist.Hint="Email"
+            BorderThickness="2"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+            Text="{Binding Email}"/>
+
+        <PasswordBox
+            x:Name="txt_b_password"
+            Margin="0 20 0 0"
+            Width="300"
+            FontSize="18"
+            materialDesign:HintAssist.Hint="Mot de passe"
+            BorderThickness="2"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+            />
+
+        <Button
+            x:Name="loginBtn"
+            Margin="0 20 0 0"
+            Style="{StaticResource MaterialDesignFlatMidBgButton}"
+            materialDesign:ElevationAssist.Elevation="Dp1"
+            Height="53"
+            Width="300"
+            materialDesign:ButtonAssist.CornerRadius="5"
+            FontSize="18"
+            Content="SE CONNECTER"
+            Click="login"/>
+        
+    </StackPanel>
+</Page>

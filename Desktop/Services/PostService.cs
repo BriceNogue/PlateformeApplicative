@@ -10,8 +10,6 @@ namespace Desktop.Services
     {
         private readonly HttpClient _httpClient;
         private readonly string _URL = "https://localhost:7281/api/postes";
-        private readonly string _URL_TYPES = "https://localhost:7281/api/types/all";
-        private readonly string _URL_SALLES = "https://localhost:7281/api/salles/all";
 
         private readonly DeviceInfoService _deviceInfoService;
 
@@ -22,56 +20,7 @@ namespace Desktop.Services
             _deviceInfoService = new DeviceInfoService();
         }
 
-        public async Task<List<TypeModele>> GetTypes()
-        {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL_TYPES);
-
-                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
-
-                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
-
-                List<TypeModele> allTypes = new List<TypeModele>();
-                allTypes = JsonConvert.DeserializeObject<List<TypeModele>>(responseBody)!;
-
-                List<TypeModele> postTypes = new List<TypeModele>();
-                postTypes = allTypes.Where(t => t.Objet == "Poste").ToList();
-
-                return postTypes;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null!;
-            }
-        }
-
-        public async Task<List<SalleModele>> GetSalles()
-        {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync(_URL_SALLES);
-
-                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
-
-                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
-
-                List<SalleModele> allSalles = new List<SalleModele>();
-                allSalles = JsonConvert.DeserializeObject<List<SalleModele>>(responseBody)!;
-
-                return allSalles;
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null!;
-            }
-        }
-
-        public async Task<List<PosteModele>> GetPostes()
+        public async Task<List<PosteModele>> GetAllByParc()
         {
             try
             {
@@ -94,6 +43,7 @@ namespace Desktop.Services
             }
         }
 
+        // Pour la verification automatique de l'existence du poste
         public async Task<PosteModele> GetOne()
         {
             PosteLoginModele posteLogin = new PosteLoginModele();

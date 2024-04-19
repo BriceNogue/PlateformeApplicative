@@ -29,6 +29,8 @@ namespace Desktop.Presentation.Views
     {
         private readonly PosteServiceDekstop _posteServiceDekstop;
         private readonly DeviceInfoService _deviceInfoService;
+        private readonly TypeService _typeService;
+        private readonly SalleService _salleService;
 
         public List<TypeModele> TypesList = new List<TypeModele>();
         public List<SalleModele> SallesList = new List<SalleModele>();
@@ -47,6 +49,8 @@ namespace Desktop.Presentation.Views
 
             _posteServiceDekstop = new PosteServiceDekstop();
             _deviceInfoService = new DeviceInfoService();
+            _typeService = new TypeService();
+            _salleService = new SalleService();
 
             GetTypesAndSalles();
             GetDeviceInnfo();
@@ -56,19 +60,22 @@ namespace Desktop.Presentation.Views
             txt_num_post.TextChanged += OnSetPosteNumber;
 
         }
-
         
 
         public async void GetTypesAndSalles()
         {
-            var types = await _posteServiceDekstop.GetTypes();
-            var salles = await _posteServiceDekstop.GetSalles();
-
+            var types = await _typeService.GetAll();
             if (types != null)
                 cmb_types.ItemsSource = types;
 
-            if (salles != null)
-                cmb_salles.ItemsSource = salles;
+            if (ParcService.parcSession is not null)
+            {
+                var parcId = ParcService.parcSession.Id;
+                var salles = await _salleService.GetAllByParc(parcId);
+
+                if (salles != null)
+                    cmb_salles.ItemsSource = salles;
+            }   
         }
 
         public void GetDeviceInnfo()
@@ -81,8 +88,8 @@ namespace Desktop.Presentation.Views
 
         public async void GetPostes()
         {
-            var postes = await _posteServiceDekstop.GetPostes();
-           PostesList = postes;
+            var postes = await _posteServiceDekstop.GetAllByParc();
+            PostesList = postes;
         }
 
         private void GetSelectedSalleCapacity(object sender, SelectionChangedEventArgs e)

@@ -64,63 +64,9 @@
 
                 <!-- <Image Margin="0 60 0 5" Width="300" Source="./Resources/Images/logo3il.png" Height="100"/> -->
 
-                <TextBlock
-                    Margin="0 25 0 5"
-                    HorizontalAlignment="Center"
-                    FontSize="28"
-                    FontWeight="Bold"
-                    Text="Bienvenue"/>
-
-                <TextBlock
-                    Margin="0 25 0 5"
-                    HorizontalAlignment="Center"
-                    FontSize="17"
-                    FontWeight="SemiBold"
-                    Text="Connectez vous a votre compte"/>
-
-                <TextBlock
-                    x:Name="txt_connected"
-                    Margin="0 25 0 5"
-                    HorizontalAlignment="Center"
-                    FontSize="17"
-                    FontWeight="SemiBold"
-                    Text=""
-                    Foreground="Green"/>
-
-                <TextBox
-                    x:Name="txt_b_email"
-                    Margin="0 100 0 0"
-                    Width="300"
-                    FontSize="18"
-                    materialDesign:HintAssist.Hint="Email"
-                    BorderThickness="2"
-                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                    />
-
-                <PasswordBox
-                    x:Name="txt_b_password"
-                    Margin="0 20 0 0"
-                    Width="300"
-                    FontSize="18"
-                    materialDesign:HintAssist.Hint="Mot de passe"
-                    BorderThickness="2"
-                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
-                    />
-
-                <Button
-                    x:Name="loginBtn"
-                    Margin="0 20 0 0"
-                    Style="{StaticResource MaterialDesignFlatMidBgButton}"
-                    materialDesign:ElevationAssist.Elevation="Dp1"
-                    Height="53"
-                    Width="300"
-                    materialDesign:ButtonAssist.CornerRadius="5"
-                    FontSize="18"
-                    Content="SE CONNECTER"
-                    Click="login"/>
-
+                <Grid Grid.Row="1">
+                    <Frame x:Name="LoadLoginPages" NavigationUIVisibility="Hidden"/>
+                </Grid>
 
             </StackPanel>
         </materialDesign:DialogHost>
