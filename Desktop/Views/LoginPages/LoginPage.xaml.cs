@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using Shareds.Modeles;
 using Desktop.Services;
 using Desktop.ViewModels;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Desktop.Views.LoginPages
 {
@@ -16,12 +18,18 @@ namespace Desktop.Views.LoginPages
         private Login loginW;
         private readonly UserService _userService;
 
+        private ParcService parcService;
+        public List<EtablissementModele> userParcs = new();
+        private int parcId = 0;
+
         public LoginPage(Login loginW)
         {
             InitializeComponent();
             this.loginW = loginW;
 
             _userService = new UserService();
+            parcService = new ParcService();
+
             DataContext = new LoginViewModel();
         }
 
@@ -50,10 +58,25 @@ namespace Desktop.Views.LoginPages
                 {
                     txt_connected.Text = res.Message;
 
-                    Thread.Sleep(300);
-                    MainWindow mainWindow = new MainWindow();
-                    //CloseLoginWindows();
-                    mainWindow.Show();
+                    int userId = GetUserId(res.Token!);
+                    userParcs = await GetUserParcs(userId);
+
+                    if (userParcs.Count > 1)
+                    {
+                        loginW.LoadLoginPages.Navigate(new SelectParcPage());
+                    }
+                    else
+                    {
+                        _userService.SetUserSession();
+                        if (userParcs.Count != 0)
+                        {
+                            parcService!.SetParcSession(userParcs[0].Id);
+                        }
+                        Thread.Sleep(300);
+                        MainWindow mainWindow = new MainWindow();
+                        loginW.Close();
+                        mainWindow.Show();
+                    }
                 }
             }
             else
@@ -63,6 +86,37 @@ namespace Desktop.Views.LoginPages
                     txt_connected.Text = txt_connected.Text + " " + result.ToString();
                 }
             }
+        }
+
+        public int GetUserId(string token)
+        {
+            int userId = 0;
+            string userToken = "";
+            if (token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+                userToken = token;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDecoded = tokenHandler.ReadJwtToken(userToken);
+
+            var claims = tokenDecoded.Claims;
+
+            if (claims is not null)
+            {
+                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+                userId = int.Parse(id);
+            }
+
+            return userId;
+        }
+
+        public Task<List<EtablissementModele>> GetUserParcs(int id)
+        {
+            var res = parcService!.GetAllByUser(id);
+            return res;
         }
 
     }

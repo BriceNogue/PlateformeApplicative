@@ -42,17 +42,21 @@ namespace Web.Services
             if (UserService.userToken is not null)
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
-            }
 
-            List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={idParc}");
+                List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={idParc}");
 
-            if (salles != null)
-            {
-                return salles;
+                if (salles != null)
+                {
+                    return salles;
+                }
+                else
+                {
+                    return new List<SalleModele>();
+                }
             }
             else
             {
-                return new List<SalleModele>();
+                return null!;
             }
 
         }
