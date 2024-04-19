@@ -63,7 +63,7 @@ namespace Desktop.Views.LoginPages
 
                     if (userParcs.Count > 1)
                     {
-                        loginW.LoadLoginPages.Navigate(new SelectParcPage());
+                        loginW.LoadLoginPages.Navigate(new SelectParcPage(userParcs, loginW));
                     }
                     else
                     {
