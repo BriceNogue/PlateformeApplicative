@@ -21,6 +21,16 @@ namespace PlateformeApplicative.Controllers
             return Ok(postes);
         }
 
+        [HttpGet("all/id")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
+        public ActionResult<List<Poste>> GetAllByParc(int id)
+        {
+            var postes = _service.GetAllByParc(id);
+            if (postes.Count == 0)
+                return NotFound(new List<Poste>());
+            return Ok(postes);
+        }
+
         [HttpGet("id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Poste> Get(int id)
