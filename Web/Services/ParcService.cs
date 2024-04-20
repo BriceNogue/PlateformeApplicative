@@ -142,7 +142,7 @@ namespace Web.Services
             }
         }
 
-        public async void SetParcSession(int idParc)
+        public async Task SetParcSession(int idParc)
         {
             var res = await Get(idParc);
 

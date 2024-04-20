@@ -57,7 +57,7 @@
                             }
                         </select>
                         <div class="btns">
-                        <button type="button" class="btn btn-primary" @onclick="(() => SetSelectedParcSession(parcId))">Valider</button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => SetSelectedParcSession(parcId))">Valider</button>
                             <button type="reset" class="btn btn-danger" @onclick="(() => CancelLogin())">Annuler</button>
                         </div>
                     </div>
@@ -185,11 +185,11 @@
         parcId = int.Parse(id!);
     }
 
-    private void SetSelectedParcSession(int parcId)
+    private async Task SetSelectedParcSession(int parcId)
     {
         if(parcId != 0)
         {
-            parcService!.SetParcSession(parcId);
+            await parcService!.SetParcSession(parcId);
         }
 
         if(ParcService.parcSession is not null)
