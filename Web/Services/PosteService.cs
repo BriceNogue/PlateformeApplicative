@@ -1,6 +1,6 @@
-﻿using Shareds.Modeles;
+﻿using Newtonsoft.Json;
+using Shareds.Modeles;
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace Web.Services
 {
@@ -21,7 +21,7 @@ namespace Web.Services
             if (res.IsSuccessStatusCode) 
             {
                 var jsonString = await res.Content.ReadAsStringAsync();
-                var data = JsonSerializer.Deserialize<List<PosteModele>>(jsonString);
+                var data = JsonConvert.DeserializeObject<List<PosteModele>>(jsonString);
 
                 return data!;
             }
@@ -30,6 +30,33 @@ namespace Web.Services
                 return new List<PosteModele>();
             }
 
+        }
+
+        public async Task<List<PosteModele>> GetAllByParc()
+        {
+            try
+            {
+                int parcId = ParcService.parcSession!.Id;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+
+                HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={parcId}");
+
+                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+
+                string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
+
+                List<PosteModele> allPostes = new List<PosteModele>();
+                allPostes = JsonConvert.DeserializeObject<List<PosteModele>>(responseBody)!;
+
+                return allPostes;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null!;
+            }
         }
 
         public async Task<PosteModele> GetById(int id)

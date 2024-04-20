@@ -46,7 +46,7 @@
         <div class="list-postes">
             @if (postes.Count == 0)
             {
-                <p class="empty-list">Cette salle ne contient actuellement aucun poste.</p>
+                <p class="empty-list">Cet établissement ne contient actuellement aucun poste.</p>
             }
             else
             {
@@ -123,11 +123,52 @@
 
     protected override async Task OnInitializedAsync()
     {
-        postes = await posteService.GetAll();
-        salles = await salleService.GetAll();
+        postes = await GetParcPosts();
+        salles = await GetParcSalles();
 
         var result = await typeService.GetAll();
         types = result.Where(t => t.Objet == "Poste").ToList<TypeModele>();
+    }
+
+    private async Task<List<PosteModele>> GetParcPosts()
+    {
+        var res = await posteService.GetAllByParc();
+        if(res != null)
+        {
+            return res;
+        }
+        else
+        {
+            return new List<PosteModele>();
+        }
+    }
+
+    private async Task<List<SalleModele>> GetParcSalles()
+    {
+        var res = await salleService.GetAllByParc(); ;
+
+        if (res != null)
+        {
+            return res;
+        }
+        else
+        {
+            return new List<SalleModele>();
+        }
+    }
+
+    private async Task<List<TypeModele>> GetTypes()
+    {
+        var res = await typeService.GetAll();
+
+        if (res != null)
+        {
+            return res.Where(t => t.Objet == "Poste").ToList();
+        }
+        else
+        {
+            return new List<TypeModele>();
+        }
     }
 
     private void GetPosteDetails(int id)

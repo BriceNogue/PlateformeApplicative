@@ -174,8 +174,7 @@
 
         if (ParcService.parcSession != null)
         {
-            var parcId = ParcService.parcSession.Id;
-            res = await salleService.GetAllByParc(parcId);
+            res = await salleService.GetAllByParc();
         }
 
         return res;

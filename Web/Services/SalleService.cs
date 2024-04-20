@@ -37,13 +37,16 @@ namespace Web.Services
 
         }
 
-        public async Task<List<SalleModele>> GetAllByParc(int idParc)
+        public async Task<List<SalleModele>> GetAllByParc()
         {
-            if (UserService.userToken is not null)
+            try
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+                string token = UserService.userToken ?? "";
+                int parcId = ParcService.parcSession!.Id;
 
-                List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={idParc}");
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={parcId}");
 
                 if (salles != null)
                 {
@@ -54,7 +57,7 @@ namespace Web.Services
                     return new List<SalleModele>();
                 }
             }
-            else
+            catch (Exception ex)
             {
                 return null!;
             }
