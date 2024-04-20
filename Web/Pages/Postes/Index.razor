@@ -21,8 +21,8 @@
         </div>
         <div class="form-group">
             <label for="Salles" class="form-label">Filtre par salle</label>
-            <select class="form-select" @onchange="HandleOnChangeSelectedParc">
-                <option disabled selected>Sélectionnez le type de salle</option>
+            <select class="form-select" @onchange="HandleOnChangeSelectedSearch">
+                <option selected value="0">Sélectionnez le type de salle</option>
                 @foreach (var type in types)
                 {
                     <option class="select-item" value="@type.Id">@type.Libelle</option>
@@ -35,7 +35,7 @@
         <div class="search-div">
             <div class="form-group">
                 <label for="search_salle" class="form-label">Recherche </label>
-                <input type="search" class="form-input" id="search_salle" placeholder="Rechercher une salle" />
+                <input type="search" class="form-input" id="search_salle" placeholder="Rechercher une salle" @oninput="HandleOnInputSearchPost" />
             </div>
             <div>
                 <button type="button" class="btn btn-primary">
@@ -50,7 +50,7 @@
             }
             else
             {
-                @foreach (var poste in postes)
+                @foreach (var poste in filtezredPostes)
                 {
                     <div class="card-container">
                         <div class="card poste" @onclick="(()=> GetPosteDetails(poste.Id))">
@@ -149,6 +149,7 @@
 
 @code {
     private List<PosteModele> postes = new List<PosteModele>();
+    private List<PosteModele> filtezredPostes = new List<PosteModele>();
     private PosteService posteService = new PosteService();
 
     private List<TypeModele> types = new List<TypeModele>();
@@ -157,9 +158,12 @@
     private List<SalleModele> salles = new List<SalleModele>();
     private SalleService salleService = new SalleService();
 
+    private string searchClass = "";
+
     protected override async Task OnInitializedAsync()
     {
         postes = await GetParcPosts();
+        filtezredPostes = postes;
         salles = await GetParcSalles();
 
         var result = await typeService.GetAll();
@@ -213,10 +217,43 @@
         NavigationM.NavigateTo(url);
     }
 
-    private void HandleOnChangeSelectedParc(ChangeEventArgs args)
+    private void HandleOnInputSearchPost(ChangeEventArgs args)
+    {
+        var keyWord = args.Value!.ToString();
+        var tempList = filtezredPostes;
+
+        if (!string.IsNullOrEmpty(keyWord))
+        {
+            filtezredPostes = tempList.Where(p => p.Numero.ToString() == keyWord
+                || p.Marque.ToLower().Contains(keyWord.ToLower())
+                || p.SE.ToLower().Contains(keyWord.ToLower())
+                || p.AdresseIP.ToLower().Contains(keyWord.ToLower())).ToList();
+
+            searchClass = "io-onsearch";
+        }
+        else
+        {
+            filtezredPostes = tempList;
+            searchClass = "";
+        }
+
+    }
+
+    private void HandleOnChangeSelectedSearch(ChangeEventArgs args)
     {
         var id = args.Value!.ToString();
+        int idType = int.Parse(id!);
 
-        //typeId = int.Parse(id!);
+        if (idType != 0)
+        {
+            filtezredPostes = postes.Where(p => p.IdType == idType).ToList();
+
+            searchClass = "io-onsearch";
+        }
+        else
+        {
+            filtezredPostes = postes;
+            searchClass = "";
+        }
     }
 }
