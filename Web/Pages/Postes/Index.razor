@@ -50,169 +50,42 @@
             }
             else
             {
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
+                @foreach (var poste in postes)
+                {
+                    <div class="card-container">
+                        <div class="card poste" @onclick="(()=> GetPosteDetails(poste.Id))">
+                            <div class="card-header">
+                                <span>N° @poste.Numero</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-img">
+                                </div>
+                                <p>@poste.Marque</p>
+                                <p>IP : @poste.AdresseIP</p>
+                                <p>SE : @poste.SE</p>
+
+                                @{
+                                    var type = types.FirstOrDefault(t => t.Id == poste.IdType);
+                                    if (type != null)
+                                    {
+                                        <p>TYPE : @type.Libelle</p>
+                                    }
+                                }
+                                <p>STATUT : @poste.Statut</p>
+                            </div>
+                            <div class="card-footer">
+                                @{
+                                    var salle = salles.Where(s => s.Id == poste.IdSalle);
+                                    foreach (var s in salle)
+                                    {
+                                        <span>Salle @s.Numero</span>
+                                    }
+                                }
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
+                        <div class="card-back"></div>
                     </div>
-                    <div class="card-back"></div>
-                </div>
-
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
-                <div class="card-container">
-                    <div class="card poste">
-                        <div class="card-header">
-                            <span>1</span>
-                            <p>Poste</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-img">
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <p>Salle</p>
-                            <span>1</span>
-                        </div>
-                    </div>
-                    <div class="card-back"></div>
-                </div>
-
+                }
                 @*<table class="table">
                     <thead>
                         <tr>

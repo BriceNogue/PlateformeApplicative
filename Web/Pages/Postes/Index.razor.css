@@ -85,7 +85,7 @@
 
 .card-header span, .card-footer span {
     position: absolute;
-    background: gray;
+    background: dodgerblue;
     opacity: 80%;
     padding: 10px 20px 10px 20px;
     border-radius: 5px;
@@ -102,7 +102,12 @@
 }
 
 .card-body {
+    max-height: 150px;
+}
 
+.card-body p{
+    font-size: 13px;
+    line-height: 10px;
 }
 
 .card-footer span {
