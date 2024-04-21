@@ -8,30 +8,64 @@
 <div class="container">
     <div class="poste-infos">
         <div class="poste-info">
-            <div class="infos infos-rom">
+            <div class="infos details">
+                <div>
+                    <h6>ID</h6>
+                    <p>@poste.Id</p>
+                </div>
+                <div>
+                    <h6>N° Poste</h6>
+                    <p>@poste.Numero</p>
+                </div>
+                <div>
+                    <h6>N° Salle</h6>
+                    <p>@salle.Numero</p>
+                </div>
+                <div>
+                    <h6>Type</h6>
+                    <p>@type.Libelle</p>
+                </div>
+                <div>
+                    <h6>Statut</h6>
+                    @if (poste.Statut == true)
+                    {
+                        <p>Connecté</p>
+                    }
+                    else
+                    {
+                        <p>Déconnecté</p>
+                    }
+                </div>
+                <div>
+                    <h6>Marque</h6>
+                    <p>@poste.Marque</p>
+                </div>
+                <div>
+                    <h6>Adresse IP</h6>
+                    <p>@poste.AdresseIP</p>
+                </div>
+                <div>
+                    <h6>Adresse MAC</h6>
+                    <p>@poste.AdresseMAC</p>
+                </div>
+                <div>
+                    <h6>ROM</h6>
+                    <p>@poste.ROM GO</p>
+                </div>
+                <div>
+                    <h6>RAM</h6>
+                    <p> @poste.RAM GO</p>
+                </div>
+                <div>
+                    <h6>SE</h6>
+                    <p>@poste.SE</p>
+                </div>
             </div>
             <div class="infos infos-ram">
             </div>
         </div>
-        <div class="poste-info details">
-            <h4>ID: @poste.Id</h4>
-            <h4>Numéro: Poste @poste.Numero</h4>
-            <h4>Marque: @poste.Marque</h4>
-            <h4>Adresse IP: @poste.AdresseIP</h4>
-            <h4>Adresse MAC: @poste.AdresseMAC</h4>
-            <h4>SE: @poste.SE</h4>
-            <h4>ROM: @poste.ROM</h4>
-            <h4>RAM: @poste.RAM</h4>
-            <h4>Salle: @salle.Numero</h4>
-            <h4>Type: @type.Libelle</h4>
-            @if (poste.Statut == true)
-            {
-                <h4>Statut: Connecté</h4>
-            }
-            else
-            {
-                <h4>Statut: Déconnecté</h4>
-            }     
+        <div class="poste-info screen">
+               dd
         </div>
     </div>
     <div class="poste-controls">
