@@ -1,5 +1,4 @@
 ﻿using Desktop.Services;
-using Domain.Entities;
 using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Controls;

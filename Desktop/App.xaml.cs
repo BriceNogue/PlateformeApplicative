@@ -11,12 +11,12 @@ namespace Desktop
     /// </summary>
     public partial class App : Application
     {
+        private const int splashTime = 1500; //Milisecondes
+
         public App()
         {
            
         }
-
-        private const int splashTime = 1500; //Milisecondes
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -31,6 +31,11 @@ namespace Desktop
             
             splashScreen.Close();
             login.Show();
+        }
+
+        private void SetNotificationIcon()
+        {
+            //Forms.NotifyIcon notifyIcon = new Forms.NotifyIcon();
         }
     }
 
