@@ -78,9 +78,9 @@ namespace Desktop.Views.LoginPages
                             await parcService!.SetParcSession(userParcs[0].Id);
                         }
                         Thread.Sleep(300);
-                        MainWindow mainWindow = new MainWindow();
+                        //MainWindow mainWindow = new MainWindow();
                         loginW.Close();
-                        mainWindow.Show();
+                        //mainWindow.Show();
                     }
                 }
             }
@@ -91,6 +91,11 @@ namespace Desktop.Views.LoginPages
                     txt_connected.Text = txt_connected.Text + " " + result.ToString();
                 }
             }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            loginW.Close();
         }
 
         public int GetUserId(string token)

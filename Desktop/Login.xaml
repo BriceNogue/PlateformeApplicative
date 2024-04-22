@@ -55,9 +55,9 @@
                         
                         <Button
                             x:Name="btn_exit"
-                            ToolTip="Close Applcation"
-                            Content="Exit Application"
-                            Click="exitApp"/>
+                            ToolTip="Annuler"
+                            Content="Annuler"
+                            Click="CloseWindow"/>
 
                     </StackPanel>
                 </materialDesign:PopupBox>

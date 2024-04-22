@@ -19,11 +19,18 @@ namespace Desktop.ViewModels
 
         public DeviceViewModel() { }
 
+        public DeviceViewModel(double totalROMSpace, double freeROMSpace) 
+        {
+            _totalROMSpace = totalROMSpace;
+            _freeRAMSpace = freeROMSpace;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         // Evenement sur les infos de la ROM

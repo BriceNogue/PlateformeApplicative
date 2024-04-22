@@ -32,10 +32,10 @@ namespace Desktop.Presentation.Views
 
             _posteServiceD = new PosteServiceDekstop();
 
-            GetPost();
+            _ = GetPost();
         }
 
-        private async void GetPost()
+        private async Task GetPost()
         {
             PosteModele poste = await _posteServiceD.GetOne();
             if (poste is null)

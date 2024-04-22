@@ -1,9 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Input;
-using Desktop.ViewModels;
 using Desktop.Services;
-using Desktop.Presentation.Views;
 using Desktop.Views.LoginPages;
 
 namespace Desktop
@@ -42,9 +40,9 @@ namespace Desktop
             paletteHelper.SetTheme(theme);
         }
 
-        private void exitApp(object sender, RoutedEventArgs e)
+        private void CloseWindow(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            this.Close();
         }
 
         // Pour pouvoir deplacer la fenetre avec la souris

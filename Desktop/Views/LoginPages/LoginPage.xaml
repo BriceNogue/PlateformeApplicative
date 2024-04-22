@@ -66,6 +66,20 @@
             FontSize="18"
             Content="SE CONNECTER"
             Click="login"/>
-        
+
+        <Button
+            x:Name="cancelBtn"
+            Margin="0 20 0 0"
+            Style="{StaticResource MaterialDesignOutlinedSecondaryButton}"
+            materialDesign:ElevationAssist.Elevation="Dp1"
+            Height="53"
+            Width="300"
+            materialDesign:ButtonAssist.CornerRadius="5"
+            FontSize="18"
+            Content="ANNULER"
+            Click="CloseWindow"
+            Foreground="Red"
+            BorderBrush="Red"/>
+
     </StackPanel>
 </Page>

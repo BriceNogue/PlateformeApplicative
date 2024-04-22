@@ -64,6 +64,13 @@ namespace Desktop.Services
             }
         }
 
+        public void LogOut() 
+        {
+            userSession = null;
+            userToken = null;
+            ParcService.parcSession = null;
+        }
+
         public void SetUserSession()
         {
             if (userToken is not null)

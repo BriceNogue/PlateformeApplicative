@@ -30,7 +30,7 @@ namespace Desktop.Presentation.Views
         int idSalle = 0;
         bool isNumberPostValid = false;
 
-        MainWindow mainW;
+        MainWindow mainW; // Pour la fonction de retour
 
         public CreatePostPage(MainWindow mainW)
         {
@@ -98,8 +98,11 @@ namespace Desktop.Presentation.Views
             catch (Exception ex)
             {
                 PostesList = null!;
+                throw new Exception(ex.Message);
             }
         }
+
+        #region // Manipulation et verification du formulaire
 
         // Récupère la capacité de la salle selectionné
         private void HandleSelectedSalle(object sender, SelectionChangedEventArgs e)
@@ -177,6 +180,8 @@ namespace Desktop.Presentation.Views
             }
         }
 
+        #endregion
+
         private async void SavePost(object sender, EventArgs e)
         {
             PosteModele poste = await _posteServiceDekstop.GetOne();
@@ -231,7 +236,7 @@ namespace Desktop.Presentation.Views
                     }
                 }               
             }
-            else //if (poste.LibellePoste == string.Empty || poste.IdSalle == 0 || poste.IdType == 0)
+            else
             {
                 MessageBoxResult result = MessageBox.Show("Se Poste a deja ete cree.", "", MessageBoxButton.OK, MessageBoxImage.Information);
             }

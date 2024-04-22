@@ -14,7 +14,6 @@ namespace Desktop.Services
 
         private readonly DeviceInfoService _deviceInfoService;
 
-
         public PosteService()
         {
             _httpClient = new HttpClient();
@@ -58,7 +57,7 @@ namespace Desktop.Services
                 string json = JsonConvert.SerializeObject(posteLogin);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+                //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
 
                 HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/one", content);
 

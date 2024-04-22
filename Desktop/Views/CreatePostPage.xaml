@@ -20,7 +20,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Image Source="../../Ressources/Images/poste.png"/>
+        <Image Source="../Ressources/Images/poste.png"/>
 
         <StackPanel Grid.Column="1" Margin="0 0 10 0">
 

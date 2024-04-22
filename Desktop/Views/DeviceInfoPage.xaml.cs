@@ -26,45 +26,29 @@ namespace Desktop.Presentation.Views
     {
         private readonly DeviceInfoService _deviceInfoService;
 
-        //private PosteServiceDekstop _posteServiceD;
-
-        private PosteLoginModele _loginModele;
-
-        public DeviceViewModel deviceViewModel = new DeviceViewModel();
-
-        //public PosteModele posteModele = new PosteModele();
+        public DeviceViewModel deviceViewModel;
 
         public DeviceInfoPage()
         {
             InitializeComponent();
 
-            //_posteServiceD = new PosteServiceDekstop();
             _deviceInfoService = new DeviceInfoService();
-            _loginModele = new PosteLoginModele();
 
+            deviceViewModel = new DeviceViewModel();
             DataContext = deviceViewModel;
 
-            //GetPost();
             DisplayPost();
         }
-
-        /*private async void GetPost()
-        {
-            PosteModele poste = await _posteServiceD.GetOne();
-
-            if (poste != null)
-                this.posteModele = poste;
-        }*/
 
         private void DisplayPost()
         {
             double total = _deviceInfoService.GetDiskCapacity();
-            //double used = _deviceInfoService.GetFreeDiskCapacity();
-            //double free = total - used;
+            double used = _deviceInfoService.GetFreeDiskCapacity();
+            double free = total - used;
 
             deviceViewModel.TotalROMSpace = total;
-            //deviceViewModel.UsedROMSpace = used;
-            //deviceViewModel.FreeROMSpace = free;
+            deviceViewModel.UsedROMSpace = used;
+            deviceViewModel.FreeROMSpace = free;
 
             txt_adr_ip.Text = _deviceInfoService.GetIPAddress();
             txt_adr_mac.Text = _deviceInfoService.GetMACAddress();

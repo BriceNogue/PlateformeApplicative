@@ -45,19 +45,18 @@ namespace Desktop.Services
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
             ManagementObjectCollection results = searcher.Get();
 
+            double diskCapacity = 0;
+
             foreach (ManagementObject obj in results)
             {
                 ulong capacityBytes = (ulong)obj["Size"];
-                double capacityGB = capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
-
-
-                return capacityGB;
+                diskCapacity = capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
             }
 
-            return 0.0000;
+            return diskCapacity;
         }
 
-        /*public double GetFreeDiskCapacity()
+        public double GetFreeDiskCapacity()
         {
             string query = "SELECT * FROM Win32_LogicalDisk";
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
@@ -82,7 +81,7 @@ namespace Desktop.Services
             }
 
             return freeCapacityGB;
-        }*/
+        }
 
         // Pour obtenir la marque du poste
         public string GetComputerManufacturer()

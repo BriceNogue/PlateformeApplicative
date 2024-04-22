@@ -71,6 +71,7 @@ namespace Desktop.Views.LoginPages
             catch (Exception ex)
             {
                 return false;
+                throw new Exception(ex.Message.ToString());
             }
         }
     }

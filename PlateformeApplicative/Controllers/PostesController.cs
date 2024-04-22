@@ -42,7 +42,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPost("one")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
         public ActionResult<Poste> GetOne(PosteLoginModele posteLogin)
         {
             var poste = _service.GetOne(posteLogin);

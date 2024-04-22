@@ -1,7 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
+﻿
 using System.Windows;
 
 namespace Desktop
@@ -15,7 +12,7 @@ namespace Desktop
 
         public App()
         {
-           
+            
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -25,17 +22,12 @@ namespace Desktop
             SplashScreen splashScreen = new SplashScreen();
             splashScreen.Show();
             
-            Login login = new Login();
+            MainWindow mainWindow = new MainWindow();
 
             Thread.Sleep(splashTime);
             
             splashScreen.Close();
-            login.Show();
-        }
-
-        private void SetNotificationIcon()
-        {
-            //Forms.NotifyIcon notifyIcon = new Forms.NotifyIcon();
+            mainWindow.Show();
         }
     }
 

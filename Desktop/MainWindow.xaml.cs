@@ -1,6 +1,6 @@
 ﻿using Desktop.Presentation.Views;
 using Desktop.Services;
-using Shareds.Modeles;
+using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -13,15 +13,28 @@ namespace Desktop
     {
         private Page currentPage = default!;
         private PosteService posteService;
+        private UserService userService;
+
+        private NotificationService notificationS;
+
+        public bool IsDarkTheme { get; set; }
+        private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
+
+        Login loginW = default!;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            notificationS = new NotificationService(this);
+            notificationS.LoadNotificationIcon();
+
+            userService = new UserService();
             posteService = new PosteService();
 
             LoadPagesGrid.Navigate(new PostIndexPage());
 
+            SetBtnConnectText();
         }
 
         private void LoadIndexPage(object sender, RoutedEventArgs e)
@@ -29,24 +42,74 @@ namespace Desktop
             LoadPagesGrid.Navigate(new PostIndexPage());
         }
 
-        private async void LoadCreatePage(object sender, RoutedEventArgs e)
+        private void OnBtnConnectClick(object sender, RoutedEventArgs e)
+        {
+            // btn_connect.Content = "Se Connecter";
+            if (UserService.userSession is null)
+            {
+                this.loginW = new Login();
+                this.loginW.Closed += HandleOnLoginWindowClosed!;
+                this.loginW.ShowDialog();
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show("Voulez-vous vraiment vous déconnecter ?", "", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    userService.LogOut();
+                    SetBtnConnectText();
+                    //LoadPagesGrid.Navigate(new PostIndexPage());
+                }
+            }
+        }
+
+        public void HandleOnLoginWindowClosed(object sender, EventArgs e)
+        {
+            SetBtnConnectText();
+        }
+
+        // Definit le texte sur le boutton de connexion/déconnexion
+        private void SetBtnConnectText()
+        {
+            if (UserService.userSession is null)
+            {
+                btn_connect.Content = "Se connecter";
+                btn_connect.ToolTip = "Se connecter";
+            }
+            else
+            {
+                btn_connect.Content = "Se déconnecter";
+                btn_connect.ToolTip = "Se déconnecter";
+            }
+        }
+
+        private void LoadLoginView(object sender, RoutedEventArgs e)
+        {
+            loginW = new Login();
+            loginW.ShowDialog();
+        }
+
+        private void LoadCreatePage(object sender, RoutedEventArgs e)
         {
             bool isAuthorized = CheckUserAuthorization();
 
             if (isAuthorized)
             {
-                bool isPostExist = await CheckExistPost();
+                // bool isPostExist = await CheckExistPost();
+                // if (!isPostExist){}
 
-                if (!isPostExist)
-                {
-                    LoadPagesGrid.Navigate(new CreatePostPage(this));
-                }
+                LoadPagesGrid.Navigate(new CreatePostPage(this));
             }
         }
 
         private void LoadInfoPage(object sender, RoutedEventArgs e)
         {
             LoadPagesGrid.Navigate(new DeviceInfoPage());
+        }
+
+        private void ExitApp(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         // Vérifie si l'utilisateur est autorisé à accéder à la page
@@ -88,9 +151,21 @@ namespace Desktop
             }   
         }
 
-        private void ExitApp(object sender, RoutedEventArgs e)
+        public void toggleTheme(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            ITheme theme = paletteHelper.GetTheme();
+
+            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
+            {
+                IsDarkTheme = false;
+                theme.SetBaseTheme(Theme.Light);
+            }
+            else
+            {
+                IsDarkTheme = true;
+                theme.SetBaseTheme(Theme.Dark);
+            }
+            paletteHelper.SetTheme(theme);
         }
     }
 }
