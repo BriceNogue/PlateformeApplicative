@@ -1,6 +1,8 @@
 ﻿using System.Net.NetworkInformation;
 using System.Management;
 using System.Text.RegularExpressions;
+using System.Net.Mail;
+using Microsoft.Win32;
 
 namespace Desktop.Services
 {
@@ -26,6 +28,8 @@ namespace Desktop.Services
             return "N/A";
         }
 
+        #region /// Processor
+
         public string GetProcessor()
         {
             ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT Name FROM Win32_Processor");
@@ -38,6 +42,24 @@ namespace Desktop.Services
 
             return "N/A";
         }
+
+        public double GetProcessorClockSpeed()
+        {
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT CurrentClockSpeed FROM Win32_Processor");
+            ManagementObjectCollection results = searcher.Get();
+
+            double speed = 0;
+
+            foreach (ManagementObject obj in results)
+            {
+                speed = Convert.ToDouble(obj["CurrentClockSpeed"]!) / 1000;  
+            }
+
+            speed = Math.Round(speed, 2);
+            return speed;
+        }
+
+        #endregion
 
         public double GetDiskCapacity()
         {
@@ -100,6 +122,8 @@ namespace Desktop.Services
             return manufacturer;
         }
 
+        #region /// Network card
+
         public string GetIPAddress()
         {
             string ipAddress = string.Empty;
@@ -133,11 +157,25 @@ namespace Desktop.Services
             string macAddress = string.Empty;
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
 
-            foreach (NetworkInterface networkInterface in interfaces)
+            /*foreach (NetworkInterface networkInterface in interfaces)
             {
                 if (networkInterface.OperationalStatus == OperationalStatus.Up)
                 {
+                    PhysicalAddress physicalAddress = networkInterface.GetPhysicalAddress();
+                    byte[] bytes = physicalAddress.GetAddressBytes();
                     macAddress = networkInterface.GetPhysicalAddress().ToString();
+                    break;
+                }
+            }*/
+
+            foreach (NetworkInterface networkInterface in interfaces)
+            {
+                if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    PhysicalAddress physicalAddress = networkInterface.GetPhysicalAddress();
+                    byte[] bytes = physicalAddress.GetAddressBytes();
+                    macAddress = BitConverter.ToString(bytes);
+
                     break;
                 }
             }
@@ -151,9 +189,73 @@ namespace Desktop.Services
                 macAddress.Substring(8, 2),
                 macAddress.Substring(10, 2));*/
 
-            string formattedMacAddress = Regex.Replace(macAddress, "(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})", "$1:$2:$3:$4:$5:$6");
+            //string formattedMacAddress = Regex.Replace(macAddress, "(.{2})(.{2})(.{2})(.{2})(.{2})(.{2})", "$1:$2:$3:$4:$5:$6");
+            string formattedMacAddress = macAddress.Replace("-", ":");
 
             return formattedMacAddress;
         }
+
+        #endregion
+
+        #region /// Keyboard
+
+        // Recuperer la disponibilitée du clavier
+        public string GetKeyboardAvailability()
+        {
+            System.Management.ManagementClass wmi = new System.Management.ManagementClass("Win32_Keyboard");
+            var providers = wmi.GetInstances();
+
+            foreach (var provider in providers)
+            {
+                int keyboardStatus = Convert.ToInt16(provider["Availability"]);
+
+                if (keyboardStatus == 0)
+                    return "Autre";
+                if (keyboardStatus == 1)
+                    return "Inconnu";
+                if (keyboardStatus == 2)
+                    return "En cours d’exécution/Pleine alimentation";
+                if (keyboardStatus == 3)
+                    return "Avertissement";
+                if (keyboardStatus == 4)
+                    return "En test";
+                if (keyboardStatus == 5)
+                    return "Non applicable";
+                if (keyboardStatus == 6)
+                    return "Mise hors tension";
+                if (keyboardStatus == 7)
+                    return "Hors ligne";
+                if (keyboardStatus == 8)
+                    return "Hors service ";
+                if (keyboardStatus == 9)
+                    return "Détérioré";
+                if (keyboardStatus == 10)
+                    return "Non installé";
+                if (keyboardStatus == 11)
+                    return "Erreur d’installation";
+                if (keyboardStatus == 12)
+                    return "Power Save - Inconnu";
+                if (keyboardStatus == 13)
+                    return "Économie d’énergie - Mode faible consommation";
+                if (keyboardStatus == 14)
+                    return "Économie d’alimentation - Veille";
+                if (keyboardStatus == 15)
+                    return "Cycle d’alimentation";
+                if (keyboardStatus == 16)
+                    return "Power Save - Avertissement";
+                if (keyboardStatus == 17)
+                    return "Suspendu";
+                if (keyboardStatus == 18)
+                    return "Pas prêt";
+                if (keyboardStatus == 19)
+                    return "Non configuré";
+                if (keyboardStatus == 20)
+                    return "Silencieux";
+            }
+
+            return "NaN";
+        }
+
+        #endregion
     }
 }
