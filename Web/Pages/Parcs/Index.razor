@@ -1,4 +1,5 @@
 ﻿@page "/parcs"
+@layout AppLayout
 
 @using Services;
 @using Shareds.Modeles;
@@ -105,7 +106,7 @@ else
 
         if (parc is not null && userToken is not null)
         {
-            var res = await parcService!.Get(parc.Id, userToken);
+            var res = await parcService.Get(parc.Id, userToken);
 
             return res;
         }else

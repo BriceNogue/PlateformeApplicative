@@ -3,41 +3,24 @@
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavigationM
-@inject UserService userService
 
 <PageTitle>Web</PageTitle>
 
 <div class="page">
-    @if (userSession is not null)
-    {
-        <div class="sidebar">
-            <NavMenu />
-        </div>
-    }
-
     <main>
         <div class="top-row px-4">          
-            @if (userSession is not null)
+            @if (UserService.isLoginPage)
             {
-                <a href="" @onclick="(()=>Logout())">
-                    @userSession.Name
-                </a>
+                <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToLogin())">
+                    Se connecter
+                </button>
             }
             else
             {
-                if (UserService.isLoginPage)
-                {
-                    <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToLogin())">
-                        Se connecter
-                    </button>
-                }
-                else
-                {
-                    <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToRegister())">
-                        Créer un compte
-                    </button>
-                }
-            }          
+                <button class="btn btn-outline-primary" href="" @onclick="(()=>GoToRegister())">
+                    Créer un compte
+                </button>
+            }
         </div>
 
         <article class="content px-4">
@@ -51,9 +34,6 @@
 </div>
 
 @code {
-    public int text = 0;
-
-    private UserSession userSession;
 
     protected override void OnParametersSet()
     {
@@ -62,14 +42,7 @@
 
     protected override void OnInitialized()
     {
-        //userSession = await userService.GetUserSession();
-    }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-
-        userSession = await userService.GetUserSession();
     }
 
     public void GoToLogin()
@@ -82,11 +55,5 @@
     {
         UserService.isLoginPage = true;
         NavigationM.NavigateTo("/register");
-    }
-
-    public void Logout()
-    {
-        userService.Logout();
-        NavigationM.NavigateTo("/");
     }
 }

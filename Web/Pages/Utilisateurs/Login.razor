@@ -1,4 +1,5 @@
 ﻿@page "/login"
+
 @using Shareds.Modeles
 @using Services;
 @using System.ComponentModel.DataAnnotations
@@ -71,8 +72,6 @@
 @code {
     private UserLoginModele? loginM;
     public string resText = "";
-    //public UserService userService = new UserService();
-    //public ParcService? parcService;
     public List<EtablissementModele> userParcs = new();
     private int parcId = 0;
 
@@ -81,11 +80,7 @@
 
     protected override void OnInitialized()
     {
-        //userService = new UserService();
-        //parcService = new ParcService();
         loginM = new UserLoginModele();
-
-        
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -1,0 +1,57 @@
+﻿@using Shareds.Modeles
+@using Web.Services
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationM
+@inject UserService userService
+@inject ParcService parcService
+
+<PageTitle>Alpha App</PageTitle>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <header class="top-row px-4">
+            <div>
+                <h3>Header</h3>
+                @if (userSession is not null)
+                {
+                    <a href="" @onclick="@(()=>Logout())">
+                        @userSession.Name
+                    </a>
+                }
+            </div>
+        </header>
+
+        <article class="content px-4">
+            @Body
+        </article>
+
+        <footer class="top-row px-4">
+            <h3>Footer</h3>
+        </footer>
+    </main>
+</div>
+
+@code {
+
+    private UserSession userSession = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        userSession = await userService.GetUserSession();
+    }
+
+    public async void Logout()
+    {
+        userService.Logout();
+        await parcService.RemoveParcSession();
+        NavigationM.NavigateTo("/");
+    }
+}

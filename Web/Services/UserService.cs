@@ -158,7 +158,8 @@ namespace Web.Services
                     string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
 
                     UserSession userSession = new UserSession(int.Parse(id), name, email, role);
-                    await JS.InvokeVoidAsync("localStorage.setItem", "UserSession", userSession);
+                    string jsonUserS = JsonConvert.SerializeObject(userSession);
+                    await JS.InvokeVoidAsync("localStorage.setItem", "UserSession", jsonUserS);
                 }
             }
         }
@@ -167,10 +168,11 @@ namespace Web.Services
         {
             try
             {
-                var res = await JS.InvokeAsync<UserSession>("localStorage.getItem", "UserSession");
+                var res = await JS.InvokeAsync<string>("localStorage.getItem", "UserSession");
                 if (res != null)
                 {
-                    return res;
+                    UserSession userS = JsonConvert.DeserializeObject<UserSession>(res)!;
+                    return userS;
                 }
                 else
                 {
