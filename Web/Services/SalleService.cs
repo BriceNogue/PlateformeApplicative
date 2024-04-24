@@ -17,34 +17,34 @@ namespace Web.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<List<SalleModele>> GetAll()
+        public async Task<List<SalleModele>> GetAll(string userToken)
         {
-            if (UserService.userToken is not null)
+            try
             {
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
-            }
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+                
+                List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + "/all");
 
-            List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + "/all");
-
-            if (salles != null)
+                if (salles != null)
+                {
+                    return salles;
+                }
+                else
+                {
+                    return new List<SalleModele>();
+                }
+            }catch (Exception ex)
             {
-                return salles;
-            }
-            else
-            {
-                return new List<SalleModele>();
+                throw new Exception(ex.Message);
             }
 
         }
 
-        public async Task<List<SalleModele>> GetAllByParc()
+        public async Task<List<SalleModele>> GetAllByParc(int parcId, string userToken)
         {
             try
             {
-                string token = UserService.userToken ?? "";
-                int parcId = ParcService.parcSession!.Id;
-
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
 
                 List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={parcId}");
 
@@ -64,19 +64,25 @@ namespace Web.Services
 
         }
 
-        public async Task<SalleModele> GetById(int id)
+        public async Task<SalleModele> GetById(int id, string userToken)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
-
-            var res = await _httpClient.GetFromJsonAsync<SalleModele>(_URL + $"/id?id={id}");
-
-            if (res != null)
+            try
             {
-                return res;
-            }
-            else
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+
+                var res = await _httpClient.GetFromJsonAsync<SalleModele>(_URL + $"/id?id={id}");
+
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return null!;
+                }
+            }catch (Exception ex)
             {
-                return null!;
+                throw new Exception(ex.Message);
             }
 
         }
@@ -89,21 +95,27 @@ namespace Web.Services
             return content;
         }
 
-        public async Task<GeneralResponse> Create(SalleModele salle)
+        public async Task<GeneralResponse> Create(SalleModele salle, string userToken)
         {
-            var content = SetRequestContent(salle);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
-
-            HttpResponseMessage res = await _httpClient.PostAsync(_URL + "/create", content);
-
-            if (res.IsSuccessStatusCode)
+            try
             {
-                return new GeneralResponse(true, "Salle créer avec succès.");
-            }
-            else
-            {
+                var content = SetRequestContent(salle);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
 
-                return new GeneralResponse(false, "Une erreur est survenue.");
+                HttpResponseMessage res = await _httpClient.PostAsync(_URL + "/create", content);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    return new GeneralResponse(true, "Salle créer avec succès.");
+                }
+                else
+                {
+
+                    return new GeneralResponse(false, "Une erreur est survenue.");
+                }
+            }catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
 

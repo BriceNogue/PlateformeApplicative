@@ -3,6 +3,8 @@
 @using Shareds.Modeles;
 @using Services;
 
+@inject UserService userService
+
 <PageTitle>Details poste</PageTitle>
 
 <div class="container">
@@ -88,8 +90,19 @@
 
     protected override async Task OnInitializedAsync()
     {
-        poste = await posteService.GetById(id);
-        salle = await salleService.GetById(poste.IdSalle);
+        await GetPostDetails(id);
+    }
+
+    private async Task GetPostDetails(int id)
+    {
+        string userToken = await userService.GetUserToken();
+
+        if(userToken is not null)
+        {
+            poste = await posteService.GetById(id, userToken);
+            salle = await salleService.GetById(poste.IdSalle, userToken);        
+        }
+
         type = await typeService.GetById(poste.IdType);
     }
 }

@@ -4,6 +4,7 @@
 @using Shareds.Modeles;
 
 @inject NavigationManager NavigationM
+@inject UserService userService
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -17,7 +18,14 @@
     {
         await Task.Delay(1000);
 
-        UserSession? userS = UserService.userSession;
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        UserSession userS = await userService.GetUserSession();
 
         if (userS is not null)
         {

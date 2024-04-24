@@ -4,6 +4,9 @@
 @using Services;
 @using System.ComponentModel.DataAnnotations;
 
+@inject UserService userService
+@inject ParcService parcService
+
 <PageTitle>Utilisateurs</PageTitle>
 
 <div class="container">
@@ -165,7 +168,7 @@
 @code {
     private List<UserModele> users = new List<UserModele>();
     private List<UserModele> filteredUsers = new List<UserModele>();
-    private UserService userService = new UserService();
+    //private UserService userService = new UserService();
     private UserModele? newUser;
     private int userTypeId = 0;
 
@@ -195,10 +198,10 @@
 
     private async Task<List<UserModele>> GetUsersParc()
     {
-        if(ParcService.parcSession is not null)
+        var parc = await parcService.GetParcSession();
+        if(parc is not null)
         {
-            var parcId = ParcService.parcSession.Id;
-            var res = await userService.GetAllByParc(parcId);
+            var res = await userService.GetAllByParc(parc.Id);
 
             return res;
         }
@@ -320,14 +323,15 @@
         if (isValid)
         {
             resText = "";
+            var parc = await parcService.GetParcSession();
 
-            if (ParcService.parcSession != null)
+            if (parc != null)
             {
                 bool isOld = CheckBirthDay(newUser!.DateNaissance);
                 if (isOld)
                 {
                     newUser!.IdType = userTypeId;
-                    var res = await userService.AddUser(user);
+                    var res = await userService.AddUser(user, parc.Id);
 
                     if (res is not null)
                     {

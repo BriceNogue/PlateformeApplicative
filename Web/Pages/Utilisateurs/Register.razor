@@ -4,6 +4,7 @@
 @using Web.Services
 
 @inject NavigationManager NavigationM
+@inject UserService userService
 
 <PageTitle>Créer un compte</PageTitle>
 
@@ -69,7 +70,7 @@
 
     private UserModele? newUser;
     public string resText = "";
-    public UserService userService = new UserService();
+    //public UserService userService = new UserService();
     private bool isConditionsAcept = false;
 
     private DateTime startDate = DateTime.Today;

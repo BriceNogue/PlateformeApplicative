@@ -4,6 +4,8 @@
 @using Services;
 
 @inject NavigationManager NavigationM
+@inject UserService userService
+@inject ParcService parcService
 
 <PageTitle>Postes</PageTitle>
 
@@ -172,28 +174,47 @@
 
     private async Task<List<PosteModele>> GetParcPosts()
     {
-        var res = await posteService.GetAllByParc();
-        if(res != null)
+        try
         {
-            return res;
-        }
-        else
+            string userToken = await userService.GetUserToken();
+            var parc = await parcService.GetParcSession();
+
+            var res = await posteService.GetAllByParc(parc.Id, userToken);
+
+            if (res != null)
+            {
+                return res;
+            }
+            else
+            {
+                return new List<PosteModele>();
+            }
+        }catch(Exception ex)
         {
-            return new List<PosteModele>();
+            throw new Exception(ex.Message);
         }
     }
 
     private async Task<List<SalleModele>> GetParcSalles()
     {
-        var res = await salleService.GetAllByParc(); ;
+        try
+        {
+            string userToken = await userService.GetUserToken();
+            var parc = await parcService.GetParcSession();
 
-        if (res != null)
+            var res = await salleService.GetAllByParc(parc.Id, userToken);
+
+            if (res != null)
+            {
+                return res;
+            }
+            else
+            {
+                return new List<SalleModele>();
+            }
+        }catch(Exception ex)
         {
-            return res;
-        }
-        else
-        {
-            return new List<SalleModele>();
+            throw new Exception(ex.Message);
         }
     }
 

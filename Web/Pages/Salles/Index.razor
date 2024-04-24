@@ -4,6 +4,8 @@
 @using Web.Services
 
 @inject NavigationManager NavigationM
+@inject UserService userService
+@inject ParcService parcService
 
 <PageTitle>Salles</PageTitle>
 
@@ -172,9 +174,12 @@
     {
         var res = new List<SalleModele>();
 
-        if (ParcService.parcSession != null)
+        string userToken = await userService.GetUserToken();
+        var parc = await parcService.GetParcSession();
+
+        if (parc != null && userToken != null)
         {
-            res = await salleService.GetAllByParc();
+            res = await salleService.GetAllByParc(parc.Id, userToken);
         }
 
         return res;
@@ -238,13 +243,14 @@
         if (isValid)
         {
             resText = "";
+            string userToken = await userService.GetUserToken();
+            var parc = await parcService.GetParcSession();
 
-            if (ParcService.parcSession != null)
+            if (parc!= null && userToken != null)
             {
-                int parcId = ParcService.parcSession.Id;
-                newSalle!.IdEtablissement = parcId;
+                newSalle!.IdEtablissement = parc.Id;
                 newSalle!.IdType = typeId;
-                var res = await salleService.Create(newSalle!);
+                var res = await salleService.Create(newSalle!, userToken);
 
                 if (res is not null)
                 {

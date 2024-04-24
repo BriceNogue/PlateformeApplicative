@@ -5,6 +5,8 @@
 @using System.ComponentModel.DataAnnotations;
 
 @inject NavigationManager NavigationM;
+@inject UserService userService
+@inject ParcService parcService
 
 <PageTitle>Parcs</PageTitle>
 
@@ -81,7 +83,7 @@ else
 }
 
 @code {
-    private ParcService parcService = new ParcService();
+    //private ParcService parcService = new ParcService();
     //private List<EtablissementModele> parcs = new List<EtablissementModele>();
     private EtablissementModele parc = new EtablissementModele();
     private EtablissementModele? newEtab;
@@ -98,10 +100,12 @@ else
 
     public async Task<EtablissementModele> GetUserParc()
     {
-        if(ParcService.parcSession is not null)
+        string userToken = await userService.GetUserToken();
+        var parc = await parcService.GetParcSession();
+
+        if (parc is not null && userToken is not null)
         {
-            int parcId = ParcService.parcSession.Id;
-            var res = await parcService!.Get(parcId);
+            var res = await parcService!.Get(parc.Id, userToken);
 
             return res;
         }else
@@ -135,10 +139,14 @@ else
 
             if (isConditionsAcept)
             {
-                if (UserService.userSession != null)
+                string userToken = await userService.GetUserToken();
+                var user = await userService.GetUserSession();
+                var parc = await parcService.GetParcSession();
+
+                if (userToken != null && user != null && parc != null)
                 {
-                    int userId = UserService.userSession.Id ?? 0;
-                    var res = await parcService.Create(newEtab!, userId);
+                    int userId = user.Id ?? 0;
+                    var res = await parcService.Create(newEtab!, userId, userToken);
 
                     if (res is not null)
                     {
@@ -146,11 +154,11 @@ else
 
                         if (res!.Flag)
                         {
-                            var e = await parcService.GetByName(newEtab!.Nom);
+                            var e = await parcService.GetByName(newEtab!.Nom, userToken);
 
                             if(e is not null)
                             {
-                                parcService.SetParcSession(e.Id);
+                                parcService.SetParcSession(e);
                                 NavigationM.NavigateTo("/dashboard");
                             }                          
                         }

@@ -3,11 +3,12 @@
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavigationM
+@inject UserService userService
 
 <PageTitle>Web</PageTitle>
 
 <div class="page">
-    @if (UserService.userSession is not null)
+    @if (userSession is not null)
     {
         <div class="sidebar">
             <NavMenu />
@@ -16,10 +17,10 @@
 
     <main>
         <div class="top-row px-4">          
-            @if (UserService.userSession is not null)
+            @if (userSession is not null)
             {
                 <a href="" @onclick="(()=>Logout())">
-                    @UserService.userSession.Name
+                    @userSession.Name
                 </a>
             }
             else
@@ -52,6 +53,8 @@
 @code {
     public int text = 0;
 
+    private UserSession userSession;
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -59,7 +62,14 @@
 
     protected override void OnInitialized()
     {
+        //userSession = await userService.GetUserSession();
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        userSession = await userService.GetUserSession();
     }
 
     public void GoToLogin()
@@ -74,19 +84,9 @@
         NavigationM.NavigateTo("/register");
     }
 
-    public void Test()
-    {
-        text += 1;
-
-        UserService.userSession = new UserSession(1, "Alpha", "string@string;com", "Admin");
-        //userS = UserService.userSession;
-        NavigationM.NavigateTo("/dashboard");
-    }
-
-
     public void Logout()
     {
-        UserService.Logout();
+        userService.Logout();
         NavigationM.NavigateTo("/");
     }
 }

@@ -4,6 +4,7 @@
 @using Shareds.Modeles;
 
 @inject NavigationManager NavigationM
+@inject UserService userService
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -11,7 +12,7 @@
 
 <div class="container container-nbr">
     <div class="nbr nbr-salles">
-        <h3> @salles.Count </h3>
+        <h3> @salles.Count @userT</h3>
         <h3>Salles</h3>
     </div>
     <div class="nbr nbr-postes">
@@ -67,7 +68,6 @@
 </div>
 
 @code {
-    private UserService userService = new UserService();
     private List<UserModele> users = new List<UserModele>();
 
     private PosteService posteService = new PosteService();
@@ -76,13 +76,23 @@
     private SalleService salleService = new SalleService();
     private List<SalleModele> salles = new List<SalleModele>();
 
+    private string userT;
+
     protected override async Task OnInitializedAsync()
     {
         //postes = await posteService.GetAll();
         //salles = await salleService.GetAll();
         //users = await userService.GetAll();
+        
+        
+    }
 
-        UserSession? userS = UserService.userSession;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        UserSession userS = await userService.GetUserSession();
+        userT = await userService.GetUserToken();
 
         if (userS is null)
         {

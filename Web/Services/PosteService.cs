@@ -32,13 +32,12 @@ namespace Web.Services
 
         }
 
-        public async Task<List<PosteModele>> GetAllByParc()
+        public async Task<List<PosteModele>> GetAllByParc(int parcId, string userToken)
         {
             try
             {
-                int parcId = ParcService.parcSession!.Id;
 
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
 
                 HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={parcId}");
 
@@ -54,23 +53,28 @@ namespace Web.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return null!;
+                throw new Exception(ex.Message);
             }
         }
 
-        public async Task<PosteModele> GetById(int id)
+        public async Task<PosteModele> GetById(int id, string userToken)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserService.userToken);
-            PosteModele? poste = await _httpClient.GetFromJsonAsync<PosteModele>(_URL + $"/id?id={id}");
+            try
+            {
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+                PosteModele? poste = await _httpClient.GetFromJsonAsync<PosteModele>(_URL + $"/id?id={id}");
 
-            if (poste != null)
+                if (poste != null)
+                {
+                    return poste;
+                }
+                else
+                {
+                    return new PosteModele();
+                }
+            }catch (Exception ex)
             {
-                return poste;
-            }
-            else
-            {
-                return new PosteModele();
+                throw new Exception(ex.Message);
             }
 
         }

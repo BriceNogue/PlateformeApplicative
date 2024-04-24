@@ -5,23 +5,27 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
+using Microsoft.JSInterop;
 using System.Data;
+using System.Xml.Linq;
 
 namespace Web.Services
 {
     public class UserService
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient = default!;
         private readonly string _URL = "https://localhost:7281/api/users";
 
-        public static string? userToken;
-        public static UserSession? userSession;
+        //public static string? userToken;
+        //public static UserSession? userSession;
 
         public static bool isLoginPage = true;
 
-        public UserService()
+        private IJSRuntime JS;
+
+        public UserService(IJSRuntime js)
         {
+            JS = js;
             _httpClient = new HttpClient();
         }
 
@@ -65,13 +69,13 @@ namespace Web.Services
                 {
                     if (userLogin.Token!.StartsWith("Bearer "))
                     {
-                        userToken = userLogin.Token!.Substring("Bearer ".Length);
+                        string userToken = userLogin.Token!.Substring("Bearer ".Length);
+                        SaveUserToken(userToken);
                     }
                     else
                     {
-                        userToken = userLogin.Token;
+                        SaveUserToken(userLogin.Token);
                     }
-                    //SetUserSession();
                 }
 
                 return userLogin;
@@ -84,65 +88,64 @@ namespace Web.Services
             }
         }
 
-        public async Task<List<UserModele>> GetAllByParc(int parcId)
+        #region /// Token
+
+        public async void SaveUserToken(string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc/id?id={parcId}");
-
-            if (userToken is not null)
+            try
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
-                var res = await _httpClient.SendAsync(request);
+                await JS.InvokeVoidAsync("localStorage.setItem", "Token", token);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
 
-                if (res.IsSuccessStatusCode)
+        public async Task<string> GetUserToken()
+        {
+            try
+            {
+                var res = await JS.InvokeAsync<string>("localStorage.getItem", "Token");
+                if (res != null)
                 {
-                    var jsonString = await res.Content.ReadAsStringAsync();
-                    var data = JsonConvert.DeserializeObject<List<UserModele>>(jsonString);
-                    return data!;
+                    return res;
                 }
                 else
                 {
-                    return new List<UserModele>();
+                    return null!;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return new List<UserModele>();
+                throw new Exception(ex.Message);
             }
         }
 
-        public async Task<GeneralResponse> AddUser(UserModele user)
+        public async Task RemoveUserToken()
         {
-            int idParc = 0;
-            if (ParcService.parcSession is not null) 
+            try
             {
-                idParc = ParcService.parcSession.Id;
+                await JS.InvokeVoidAsync("localStorage.removeItem", "Token");
             }
-
-            var content = SetRequestContent(user);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
-
-            HttpResponseMessage res = await _httpClient.PostAsync(_URL + $"/add/id?id={idParc}", content);
-
-            if (res.IsSuccessStatusCode)
+            catch (Exception ex)
             {
-                var jsonString = await res.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<GeneralResponse>(jsonString);
-
-                return data!;
-            }
-            else
-            {
-                return new GeneralResponse(false, "Une erreur est survenue.");
+                throw new Exception(ex.Message);
             }
         }
 
-        public void SetUserSession()
+        #endregion
+
+        #region /// User Session
+
+        public async void SetUserSession()
         {
-            if (userToken is not null)
+            string token = await GetUserToken();
+            if (token is not null)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
 
-                var tokenDecoded = tokenHandler.ReadJwtToken(userToken);
+                var tokenDecoded = tokenHandler.ReadJwtToken(token);
 
                 // Accès aux revendications (données) du token JWT et èxtraction des infos
                 var claims = tokenDecoded.Claims;
@@ -154,18 +157,121 @@ namespace Web.Services
                     string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
                     string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
 
-                    userSession = new UserSession(int.Parse(id), name, email, role);
+                    UserSession userSession = new UserSession(int.Parse(id), name, email, role);
+                    await JS.InvokeVoidAsync("localStorage.setItem", "UserSession", userSession);
                 }
             }
         }
 
-        public static void Logout()
+        public async Task<UserSession> GetUserSession()
         {
-            userToken = null;
-            userSession = null;
+            try
+            {
+                var res = await JS.InvokeAsync<UserSession>("localStorage.getItem", "UserSession");
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return null!;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task RemoveUserSession()
+        {
+            try
+            {
+                await JS.InvokeVoidAsync("localStorage.removeItem", "UserSession");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+        public async void Logout()
+        {
+            //userToken = null;
+            //userSession = null;
             isLoginPage = true;
 
-            ParcService.parcSession = null;
+            await RemoveUserToken();
+            await RemoveUserSession();
+
+            //ParcService.parcSession = null;
+        }
+
+        public async Task<List<UserModele>> GetAllByParc(int parcId)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc/id?id={parcId}");
+
+                string token = await GetUserToken();
+
+                if (token is not null)
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var res = await _httpClient.SendAsync(request);
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var jsonString = await res.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<List<UserModele>>(jsonString);
+                        return data!;
+                    }
+                    else
+                    {
+                        return new List<UserModele>();
+                    }
+                }
+                else
+                {
+                    return new List<UserModele>();
+                }
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GeneralResponse> AddUser(UserModele user, int parcId)
+        {
+            try
+            {
+                var content = SetRequestContent(user);
+                string token = await GetUserToken();
+
+                if (content is not null && token is not null)
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                HttpResponseMessage res = await _httpClient.PostAsync(_URL + $"/add/id?id={parcId}", content);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<GeneralResponse>(jsonString);
+
+                    return data!;
+                }
+                else
+                {
+                    return new GeneralResponse(false, "Une erreur est survenue.");
+                }
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

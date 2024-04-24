@@ -4,6 +4,7 @@
 @using Services;
 
 @inject NavigationManager NavigationM
+@inject UserService userService
 
 <PageTitle>Details salle</PageTitle>
 
@@ -84,9 +85,9 @@
 
     /*
     protected override void OnParametersSet()
-    {
+        {
     GetSalleDetails(id);
-        }
+    }
 
     private async void GetSalleDetails(int id)
     {
@@ -97,7 +98,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        salle = await salleService.GetById(id);
+
+        salle = await GetSalleById(id);
 
         var res = await posteService.GetAll();
         postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
@@ -106,5 +108,14 @@
         typesPoste = result.Where(t => t.Objet == "Poste").ToList<TypeModele>();
         typesSalle = result.Where(t => t.Objet == "Salle").ToList<TypeModele>();
 
+    }
+
+    private async Task<SalleModele> GetSalleById(int id)
+    {
+        string userToken = await userService.GetUserToken();
+
+        var res = await salleService.GetById(id, userToken);
+
+        return res;
     }
 }
