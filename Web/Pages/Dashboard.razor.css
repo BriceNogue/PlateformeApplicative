@@ -1,0 +1,82 @@
+﻿.container {
+    width: 100%;
+}
+
+.container-nbr {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+}
+
+.nbr-div {
+    width: 200px;
+    max-height: 90px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 1px 1px 1px gray;
+    position: relative;
+    overflow: hidden;
+    color: #44403C;
+    font-size: 18px;
+}
+
+.nbr-users {
+
+}
+
+.nbr-salles {
+
+}
+
+.nbr-postes {
+
+}
+
+.blur {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    z-index: -1;
+}
+
+.blur-users-top { 
+    background: #8B5CF6;   
+    top: -20px;
+    left: -20px;
+    filter: blur(30px);
+}
+
+.blur-users-bottom {  
+    background: #8B5CF6;
+    bottom: -20px;
+    right: -20px;
+    filter: blur(30px);
+}
+
+.blur-salles-top {
+    background: #1D4ED8;
+    top: -20px;
+    left: -20px;
+    filter: blur(30px);
+}
+
+.blur-salles-bottom {
+    background: #3B82F6;
+    bottom: -20px;
+    right: -20px;
+    filter: blur(30px);
+}
+
+.blur-postes-top {
+    background: #059669;
+    top: -20px;
+    left: -20px;
+    filter: blur(30px);
+}
+
+.blur-postes-bottom {
+    background: #14B8A6;
+    bottom: -20px;
+    right: -20px;
+    filter: blur(30px);
+}

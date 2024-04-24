@@ -31,6 +31,57 @@ main {
         text-overflow: ellipsis;
     }
 
+.header-option {
+    position: absolute;
+    top: 30%;
+    text-align: center;
+}
+
+.list-items {
+    min-width: 150px;
+    height: 0;
+    overflow: hidden;
+    background: white;
+    transition: 0.3s;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.list-items-show {
+    margin-top: 10px;
+    height: inherit;
+    padding: 5px;
+    border: 1px solid #d6d5d5;
+}
+
+.list-item {
+    cursor: pointer;
+}
+
+.item {
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    justify-content: center;
+    width: 100%;
+    background: #eae9e9;
+}
+
+.logout {
+    background: #ff2e2e;
+    color: white;
+}
+
+.infos:hover {
+    background: #d6d5d5;
+}
+
+.logout:hover {
+    background: #ff5050;
+}
+
 @media (max-width: 640.98px) {
     .top-row:not(.auth) {
         display: none;

@@ -9,64 +9,74 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<h3>Dashboard</h3>
+<div class="container">
+    <h3>Dashboard</h3>
 
-<div class="container container-nbr">
-    <div class="nbr nbr-salles">
-        <h3> @salles.Count @userT</h3>
-        <h3>Salles</h3>
+    <div class="container-nbr">
+        <div class="nbr-div nbr-users">
+            <p> @users.Count </p>
+            <p>Utilisateurs</p>
+            <div class="blur blur-users-top"></div>
+            <div class="blur blur-users-bottom"></div>
+        </div>
+        <div class="nbr-div nbr-salles">
+            <p> @salles.Count</p>
+            <p>Salles</p>
+            <div class="blur blur-salles-top"></div>
+            <div class="blur blur-salles-bottom"></div>
+        </div>
+        <div class="nbr-div nbr-postes">
+            <p> @postes.Count </p>
+            <p>Postes</p>
+            <div class="blur blur-postes-top"></div>
+            <div class="blur blur-postes-bottom"></div>
+        </div>
     </div>
-    <div class="nbr nbr-postes">
-        <h3> @postes.Count </h3>
-        <h3>Postes</h3>
-    </div>
-    <div class="nbr nbr-users">
-        <h3> @users.Count </h3>
-        <h3>Utilisateurs</h3>
-    </div>
-</div>
-
-<div class="container container-stat">
-    @if (salles.Count == 0)
-    {
-        <h3>Aucune salle dans ce parc.</h3>
-    }
-    else
-    {
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Numéro</th>
-                        <th>Capacité</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Etablissement</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var salle in salles)
-                    {
-                        <tr class="d-table-row" @onclick="(()=> GetSalleDetails(salle.Id))">
-                            <td>@salle.Id</td>
-                            <td>@salle.Numero</td>
-                            <td>@salle.Capacite</td>
-                            <td>@salle.Status</td>
-                            <td>@salle.IdType</td>
-                            <td>@salle.IdEtablissement</td>
-                            <!--<td>
-                                <a href="@($"salles/details/{salle.Id}")">Details</a>
-                            </td>-->
+    
+    <div class="container-stat">
+        @if (salles.Count == 0)
+        {
+            <h3>Aucune salle dans ce parc.</h3>
+        }
+        else
+        {
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Numéro</th>
+                            <th>Capacité</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Etablissement</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="stat stat-salles">
-        </div>
-    }
+                    </thead>
+                    <tbody>
+                        @foreach (var salle in salles)
+                        {
+                            <tr class="d-table-row" @onclick="(()=> GetSalleDetails(salle.Id))">
+                                <td>@salle.Id</td>
+                                <td>@salle.Numero</td>
+                                <td>@salle.Capacite</td>
+                                <td>@salle.Status</td>
+                                <td>@salle.IdType</td>
+                                <td>@salle.IdEtablissement</td>
+                                <!--<td>
+                                    <a href="@($"salles/details/{salle.Id}")">Details</a>
+                                </td>-->
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="stat stat-salles">
+            </div>
+        }
+    </div>
 </div>
+
+
 
 @code {
     private List<UserModele> users = new List<UserModele>();
@@ -77,8 +87,6 @@
     private SalleService salleService = new SalleService();
     private List<SalleModele> salles = new List<SalleModele>();
 
-    private string userT = string.Empty;
-
     protected override void OnInitialized()
     {
         
@@ -87,7 +95,6 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         UserSession userS = await userService.GetUserSession();
-        userT = await userService.GetUserToken();
 
         if (userS is null)
         {

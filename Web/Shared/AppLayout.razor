@@ -16,14 +16,21 @@
 
     <main>
         <header class="top-row px-4">
-            <div>
-                <h3>Header</h3>
+            <div class="header-option">
                 @if (userSession is not null)
                 {
-                    <a href="" @onclick="@(()=>Logout())">
+                    <span class="list-item" @onclick="@(()=>ToggleInfos())">
                         @userSession.Name
-                    </a>
+                    </span>
                 }
+                <div class="list-items @infosClass">
+                    <div>
+                        <span class="list-item item infos" @onclick="@(()=>ToggleInfos())">Infos profil</span>
+                    </div>
+                    <div>
+                        <span class="list-item item logout" @onclick="@(()=>Logout())">Quitté</span>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -40,6 +47,7 @@
 @code {
 
     private UserSession userSession = default!;
+    private string infosClass = "";
 
     protected override void OnInitialized(){}
 
@@ -50,8 +58,19 @@
         StateHasChanged();
     }
 
+    private void ToggleInfos()
+    {
+        if (infosClass == "")
+        {
+            infosClass = "list-items-show";
+        }else{
+            infosClass = "";
+        }
+    }
+
     public async void Logout()
     {
+        ToggleInfos();
         userService.Logout();
         await parcService.RemoveParcSession();
         NavigationM.NavigateTo("/");
