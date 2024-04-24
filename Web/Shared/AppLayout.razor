@@ -41,11 +41,13 @@
 
     private UserSession userSession = default!;
 
+    protected override void OnInitialized(){}
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
-
         userSession = await userService.GetUserSession();
+
+        StateHasChanged();
     }
 
     public async void Logout()

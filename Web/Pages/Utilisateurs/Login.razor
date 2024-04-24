@@ -85,13 +85,13 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
-
         var userS = await userService.GetUserSession();
         if (userS is not null)
         {
             NavigationM.NavigateTo("/dashboard");
         }
+
+        StateHasChanged();
     }
 
     public async Task ToLogin(UserLoginModele obj)

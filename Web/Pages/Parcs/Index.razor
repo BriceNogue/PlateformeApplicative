@@ -92,11 +92,17 @@ else
     private bool isConditionsAcept = false;
     private string form_class = "parc-form";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         //parcs = await parcService.GetAll();
-        parc = await GetUserParc();
         newEtab = new EtablissementModele();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        parc = await GetUserParc();
+
+        StateHasChanged();
     }
 
     public async Task<EtablissementModele> GetUserParc()

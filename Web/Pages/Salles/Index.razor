@@ -165,11 +165,15 @@
     protected override async Task OnInitializedAsync()
     {
         newSalle = new SalleModele();
-
-        var resTypes = await typeService.GetAll(); 
+        var resTypes = await typeService.GetAll();
         types = resTypes.Where(t => t.Objet == "Salle").ToList();
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
         salles = await GetParcSalles();
+
+        StateHasChanged();
     }
 
     private async Task<List<SalleModele>> GetParcSalles()

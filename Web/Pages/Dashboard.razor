@@ -81,17 +81,11 @@
 
     protected override void OnInitialized()
     {
-        //postes = await posteService.GetAll();
-        //salles = await salleService.GetAll();
-        //users = await userService.GetAll();
-        
         
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
-
         UserSession userS = await userService.GetUserSession();
         userT = await userService.GetUserToken();
 
@@ -99,6 +93,8 @@
         {
             NavigationM.NavigateTo("/login");
         }
+
+        StateHasChanged();
     }
 
     private void GetSalleDetails(int id)

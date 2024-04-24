@@ -84,31 +84,20 @@
     private List<TypeModele> typesSalle = new List<TypeModele>();
     private TypeService typeService = new TypeService();
 
-    /*
-    protected override void OnParametersSet()
-        {
-    GetSalleDetails(id);
-    }
-
-    private async void GetSalleDetails(int id)
-    {
-    salle = await salleService.GetById(id);
-    }
-    */
-
-
     protected override async Task OnInitializedAsync()
-    {
-
-        salle = await GetSalleById(id);
-
-        var res = await posteService.GetAll();
-        postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
-
+    {      
         var result = await typeService.GetAll();
         typesPoste = result.Where(t => t.Objet == "Poste").ToList<TypeModele>();
         typesSalle = result.Where(t => t.Objet == "Salle").ToList<TypeModele>();
+    }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        salle = await GetSalleById(id);
+        var res = await posteService.GetAll();
+        postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
+
+        StateHasChanged();
     }
 
     private async Task<SalleModele> GetSalleById(int id)

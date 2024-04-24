@@ -14,19 +14,19 @@
 {
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1000);      
+        await Task.Delay(1000);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-
         UserSession userS = await userService.GetUserSession();
 
         if (userS is not null)
         {
             NavigationM.NavigateTo("/dashboard");
         }
-    }
 
+        StateHasChanged();
+    }
 }

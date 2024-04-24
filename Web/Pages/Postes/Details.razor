@@ -89,9 +89,15 @@
     private TypeModele type = new TypeModele();
     private TypeService typeService = new TypeService();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
+    {
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await GetPostDetails(id);
+        StateHasChanged();
     }
 
     private async Task GetPostDetails(int id)

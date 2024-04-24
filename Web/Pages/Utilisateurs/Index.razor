@@ -190,11 +190,16 @@
         newUser = new UserModele();
         string formatedDate = startDate.ToString("yyyy-MM-dd");
 
+        var resTypes = await typeService.GetAll();
+        types = resTypes.Where(t => t.Objet == "User").ToList();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
         users = await GetUsersParc();
         filteredUsers = users;
-        var resTypes = await typeService.GetAll();
 
-        types = resTypes.Where(t => t.Objet == "User").ToList();
+        StateHasChanged();
     }
 
     private async Task<List<UserModele>> GetUsersParc()

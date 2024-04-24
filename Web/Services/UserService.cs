@@ -201,14 +201,10 @@ namespace Web.Services
 
         public async void Logout()
         {
-            //userToken = null;
-            //userSession = null;
             isLoginPage = true;
 
             await RemoveUserToken();
             await RemoveUserSession();
-
-            //ParcService.parcSession = null;
         }
 
         public async Task<List<UserModele>> GetAllByParc(int parcId)
