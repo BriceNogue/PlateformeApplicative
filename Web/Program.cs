@@ -1,7 +1,7 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Web.Data;
 using Web.Services;
+using Microsoft.AspNetCore.ResponseCompression;
+using Shareds.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +12,13 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ParcService>();
+
+// Hub SignalR
+builder.Services.AddResponseCompression(options =>
+{
+    options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
 
 var app = builder.Build();
 
@@ -30,6 +37,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+app.MapHub<InstructionsHub>("/instructionshub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

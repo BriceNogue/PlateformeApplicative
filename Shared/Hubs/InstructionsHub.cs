@@ -1,14 +1,56 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Shareds.Hubs
 {
     public class InstructionsHub : Hub
     {
-        public InstructionsHub() { }
+        private HubConnection? HC;
+        private List<string> _instructions;
 
-        public Task SendMessage(string user, string message)
+        public bool IsConnected => HC?.State == HubConnectionState.Connected;
+
+        public InstructionsHub() 
+        {
+            _instructions = new List<string>();
+        }
+
+        public async Task ConnectToHub()
+        {
+            HC = new HubConnectionBuilder()
+                .WithUrl("/instructionshub")
+                .WithAutomaticReconnect()
+                .Build();
+
+            HC.On<string, string>("ReceiveMessage", (user, message) =>
+            {
+                var formattedMessage = $"{user}: {message}";
+                _instructions.Add(formattedMessage);
+            });
+
+            await HC.StartAsync();
+        }
+
+        // Definit le client pour l'envoi du message
+        private Task ToSend(string user, string message)
         {
             return Clients.All.SendAsync("ReceiveMessage", user, message);
+        }
+
+        public async Task SendMessage(string user, string message)
+        {
+            if (HC is not null)
+            {
+                await HC.SendAsync("ToSend", user, message);
+            }
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (HC is not null)
+            {
+                await HC.DisposeAsync();
+            }
         }
     }
 }
