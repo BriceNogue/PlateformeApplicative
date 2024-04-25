@@ -18,7 +18,7 @@ namespace Shareds.Hubs
         public async Task ConnectToHub()
         {
             HC = new HubConnectionBuilder()
-                .WithUrl("/instructionshub")
+                .WithUrl("https://localhost:7289/instructionshub")
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -32,7 +32,7 @@ namespace Shareds.Hubs
         }
 
         // Definit le client pour l'envoi du message
-        private Task ToSend(string user, string message)
+        public Task ToSend(string user, string message)
         {
             return Clients.All.SendAsync("ReceiveMessage", user, message);
         }
@@ -43,6 +43,11 @@ namespace Shareds.Hubs
             {
                 await HC.SendAsync("ToSend", user, message);
             }
+        }
+
+        public List<string> GetInstructions()
+        {
+            return _instructions;
         }
 
         public async ValueTask DisposeAsync()

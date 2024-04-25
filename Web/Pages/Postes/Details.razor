@@ -2,6 +2,7 @@
 @layout AppLayout
 
 @using Shareds.Modeles;
+@using Shareds.Hubs;
 @using Services;
 
 @inject UserService userService
@@ -72,7 +73,19 @@
         </div>
     </div>
     <div class="poste-controls">
-
+        <div>
+            <input type="text" @bind="@user" placeholder="User"/>
+            <input type="text" @bind="@msg" placeholder="Msg" />
+            <button type="button" @onclick="@(() => Send())">
+                Send
+            </button>
+        </div>
+        <ul>
+            @foreach (string msg in msgs)
+            {
+                <li>@msg</li>
+            }
+        </ul>
     </div>
 </div>
 
@@ -89,8 +102,18 @@
     private TypeModele type = new TypeModele();
     private TypeService typeService = new TypeService();
 
-    protected override void OnInitialized()
+    private InstructionsHub? instHub;
+    private string user = "";
+    private string msg = "";
+    private List<string> msgs = new();
+
+    protected override async Task OnInitializedAsync()
     {
+        instHub = new InstructionsHub();
+        await instHub.ConnectToHub();
+
+        msgs = instHub.GetInstructions();
+        StateHasChanged();
 
     }
 
@@ -111,5 +134,13 @@
         }
 
         type = await typeService.GetById(poste.IdType);
+    }
+
+    private async Task Send()
+    {
+        if(instHub is not null)
+        {
+            await instHub.SendMessage(user, msg);
+        }
     }
 }
