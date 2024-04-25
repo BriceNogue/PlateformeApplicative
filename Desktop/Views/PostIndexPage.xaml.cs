@@ -1,19 +1,7 @@
 ﻿using Shareds.Modeles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PosteServiceDekstop = Desktop.Services.PosteService;
+using Desktop.Services;
 
 namespace Desktop.Presentation.Views
 {
@@ -24,20 +12,22 @@ namespace Desktop.Presentation.Views
     {
         PosteModele posteModele = new PosteModele();
 
-        private PosteServiceDekstop _posteServiceD;
+        private PosteService posteServiceD;
+        private DeviceManagerService deviceMS;
 
         public PostIndexPage()
         {
             InitializeComponent();
 
-            _posteServiceD = new PosteServiceDekstop();
+            posteServiceD = new PosteService();
+            deviceMS = new DeviceManagerService();
 
             _ = GetPost();
         }
 
         private async Task GetPost()
         {
-            PosteModele poste = await _posteServiceD.GetOne();
+            PosteModele poste = await posteServiceD.GetOne();
             if (poste is null)
             {       
                 txt_post.Text = "Poste inconnu..";
@@ -46,6 +36,11 @@ namespace Desktop.Presentation.Views
                 this.posteModele = poste!;
                 txt_post.Text = "Poste : " + poste?.Numero.ToString();
             }
+        }
+
+        private void ToShutDown(object sender, RoutedEventArgs e)
+        {
+            deviceMS.ShutDown();
         }
     }
 }

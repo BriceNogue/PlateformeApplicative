@@ -12,5 +12,12 @@
     <Grid>
         <TextBlock Text="Index Page"/>
         <TextBlock x:Name="txt_post" Text="" FontSize="18" FontWeight="Medium"/>
+
+        <Button
+            x:Name="btnShutdown"
+            Content="Shutdown"
+            Width="150"
+            Click="ToShutDown">
+        </Button>
     </Grid>
 </Page>

@@ -6,12 +6,11 @@
 
 @inject NavigationManager NavigationM
 @inject UserService userService
+@inject ParcService parcService
 
 <PageTitle>Dashboard</PageTitle>
 
 <div class="container">
-    <h3>Dashboard</h3>
-
     <div class="container-nbr">
         <div class="nbr-div nbr-users">
             <p> @users.Count </p>
@@ -89,12 +88,15 @@
 
     protected override void OnInitialized()
     {
-        
+
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         UserSession userS = await userService.GetUserSession();
+        users = await GetUsersParc();
+        salles = await GetParcSalles();
+        postes = await GetParcPosts();
 
         if (userS is null)
         {
@@ -102,6 +104,72 @@
         }
 
         StateHasChanged();
+    }
+
+    private async Task<List<UserModele>> GetUsersParc()
+    {
+        var parc = await parcService.GetParcSession();
+        if (parc is not null)
+        {
+            var res = await userService.GetAllByParc(parc.Id);
+
+            return res;
+        }
+        else
+        {
+            return new List<UserModele>();
+        }
+    }
+
+    private async Task<List<SalleModele>> GetParcSalles()
+    {
+        var res = new List<SalleModele>();
+
+        string userToken = await userService.GetUserToken();
+        var parc = await parcService.GetParcSession();
+
+        if (parc != null && userToken != null)
+        {
+            if (parc != null && userToken != null)
+            {
+                res = await salleService.GetAllByParc(parc.Id, userToken);
+            }
+        }
+
+        return res;
+    }
+
+    private async Task<List<PosteModele>> GetParcPosts()
+    {
+        try
+        {
+            string userToken = await userService.GetUserToken();
+            var parc = await parcService.GetParcSession();
+
+            var res = new List<PosteModele>();
+
+            if(parc != null && userToken != null)
+            {
+                res = await posteService.GetAllByParc(parc.Id, userToken);
+
+                if (res != null)
+                {
+                    return res;
+                }
+                else
+                {
+                    return res!;
+                }
+            }
+            else
+            {
+                return res;
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     private void GetSalleDetails(int id)

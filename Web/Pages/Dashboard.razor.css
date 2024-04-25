@@ -1,17 +1,18 @@
 ﻿.container {
-    width: 100%;
+    
 }
 
 .container-nbr {
     width: 100%;
     display: flex;
     gap: 2rem;
+    padding-bottom: 2rem;
 }
 
 .nbr-div {
     width: 200px;
     max-height: 90px;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 10px;
     box-shadow: 1px 1px 1px gray;
     position: relative;

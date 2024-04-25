@@ -41,7 +41,7 @@ namespace Web.Services
 
                 HttpResponseMessage response = await _httpClient.GetAsync(_URL + $"/all/id?id={parcId}");
 
-                response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
+                //response.EnsureSuccessStatusCode(); // Pour s'assurer que la requete s'est terminee avec succes
 
                 string responseBody = await response.Content.ReadAsStringAsync(); // Pour lire le contenu de la réponse
 
