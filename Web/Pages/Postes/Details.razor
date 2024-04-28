@@ -73,21 +73,70 @@
         </div>
     </div>
     <div class="poste-controls">
-        <div class="controls-label">
-            <p>Fen&ecirc;tre</p>
-            <hr />
+        <div class="controls-title">
+            <div>
+                <p>Contr&ocirc;les</p>
+            </div>
+            <div>
+                <hr />
+            </div>
         </div>
+        
         <div class="controls">
-            <div class="control">
-                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("FOOLSCREEN"))">
-                    Plein écran
-                </button>
-                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("NORMALSCREEN"))">
-                    Normal
-                </button>
-                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("MINIMIZESCREEN"))">
-                    Minimiser
-                </button>
+            <div class="controls-category">
+                <div class="category-label">
+                    <p>Application</p>
+                    <span class="oi oi-terminal"></span>
+                </div>
+                <div class="category">
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("FOOLSCREEN"))">
+                        <span class="oi oi-fullscreen-enter"></span>
+                        Plein écran
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("NORMALSCREEN"))">
+                        <span class="oi oi-fullscreen-exit"></span>
+                        Normal
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("MINIMIZESCREEN"))">
+                        <span class="oi oi-minus"></span>
+                        Minimiser
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("HIDDEWINDOW"))">
+                        <span class="oi oi-eye"></span>
+                        Masquer
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("SHOWWINDOW"))">
+                        <span class="oi oi-eye"></span>
+                        Afficher
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("RESTART"))">
+                        <span class="oi oi-reload"></span>
+                        Redémarer
+                    </button>
+                </div>
+            </div>
+            <div class="controls-category">
+                <div class="category-label">
+                    <p>Poste</p>
+                    <span class="oi oi-monitor"></span>
+                </div>
+                <div class="category">
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("FOOLSCREEN"))">
+                        <span class="oi oi-power-standby"></span>
+                        Veille
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("NORMALSCREEN"))">
+                        Redémarer
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("MINIMIZESCREEN"))">
+                        <span class="oi oi-power-standby"></span>
+                        &Eacute;teindre
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("RESTART"))">
+                        <span class="oi oi-reload"></span>
+                        Redémarer
+                    </button>
+                </div>
             </div>
         </div>
     </div>

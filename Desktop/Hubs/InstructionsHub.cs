@@ -37,6 +37,16 @@ namespace Desktop.Hubs
                         case "MINIMIZESCREEN":
                             window.WindowState = WindowState.Minimized;
                             break;
+                        case "HIDDEWINDOW":
+                            window.Visibility = Visibility.Collapsed;
+                            break;
+                        case "SHOWWINDOW":
+                            window.Visibility = Visibility.Visible;
+                            break;
+                        case "RESTART":
+                            System.Windows.Forms.Application.Restart();
+                            System.Windows.Application.Current.Shutdown();
+                            break;
                         default:    
                             break;
                     }
