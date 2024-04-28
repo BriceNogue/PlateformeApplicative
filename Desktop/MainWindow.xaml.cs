@@ -6,6 +6,7 @@ using Microsoft.VisualBasic.ApplicationServices;
 using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 
@@ -55,6 +56,13 @@ namespace Desktop
             LoadPagesGrid.Navigate(new PostIndexPage());
 
             SetBtnConnectText();
+        }
+
+        // Pour pouvoir deplacer la fenetre avec la souris
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
 
         private async Task GetPost()

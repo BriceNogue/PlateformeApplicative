@@ -26,14 +26,18 @@ namespace Desktop.Hubs
                 {
                     switch (instruction)
                     {
-                        case "MAX":
+                        case "FOOLSCREEN":                           
                             window.WindowState = WindowState.Maximized;
+                            window.Show();
                             break;
-                        case "MIN":
+                        case "NORMALSCREEN":                           
+                            window.WindowState = WindowState.Normal;
+                            window.Show();
+                            break;
+                        case "MINIMIZESCREEN":
                             window.WindowState = WindowState.Minimized;
                             break;
-                        default:
-                            window.WindowState = WindowState.Normal;
+                        default:    
                             break;
                     }
                 });

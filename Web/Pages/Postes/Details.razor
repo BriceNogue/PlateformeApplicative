@@ -73,18 +73,23 @@
         </div>
     </div>
     <div class="poste-controls">
-        <div>
-            <input type="text" @bind="@instruction" placeholder="Msg" />
-            <button type="button" @onclick="@(() => Send())">
-                Send
-            </button>
+        <div class="controls-label">
+            <p>Fen&ecirc;tre</p>
+            <hr />
         </div>
-        <ul>
-            @foreach (string msg in msgs)
-            {
-                <li>@msg</li>
-            }
-        </ul>
+        <div class="controls">
+            <div class="control">
+                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("FOOLSCREEN"))">
+                    Plein écran
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("NORMALSCREEN"))">
+                    Normal
+                </button>
+                <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("MINIMIZESCREEN"))">
+                    Minimiser
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -102,8 +107,6 @@
     private TypeService typeService = new TypeService();
 
     private InstructionsHub? instHub;
-    private string instruction = "";
-    private List<string> msgs = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -132,11 +135,14 @@
         type = await typeService.GetById(poste.IdType);
     }
 
-    private async Task Send()
+    #region /// Instructions
+    private async Task SendWindowInstructions(string instruction)
     {
         if(instHub is not null)
         {
             await instHub.SendInstruction(id, instruction);
         }
     }
+
+    #endregion
 }
