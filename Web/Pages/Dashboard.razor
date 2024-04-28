@@ -123,20 +123,19 @@
 
     private async Task<List<SalleModele>> GetParcSalles()
     {
-        var res = new List<SalleModele>();
+        var salles = new List<SalleModele>();
 
         string userToken = await userService.GetUserToken();
         var parc = await parcService.GetParcSession();
 
         if (parc != null && userToken != null)
         {
-            if (parc != null && userToken != null)
-            {
-                res = await salleService.GetAllByParc(parc.Id, userToken);
-            }
+            var res = await salleService.GetAllByParc(parc.Id, userToken);
+            if (res != null)
+                salles = res;
         }
 
-        return res;
+        return salles;
     }
 
     private async Task<List<PosteModele>> GetParcPosts()
@@ -146,25 +145,17 @@
             string userToken = await userService.GetUserToken();
             var parc = await parcService.GetParcSession();
 
-            var res = new List<PosteModele>();
+            var postes = new List<PosteModele>();
 
             if(parc != null && userToken != null)
             {
-                res = await posteService.GetAllByParc(parc.Id, userToken);
+                var res = await posteService.GetAllByParc(parc.Id, userToken);
 
                 if (res != null)
-                {
-                    return res;
-                }
-                else
-                {
-                    return res!;
-                }
+                    postes = res;
             }
-            else
-            {
-                return res;
-            }
+
+            return postes;
         }
         catch (Exception ex)
         {

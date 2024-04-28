@@ -178,17 +178,20 @@
 
     private async Task<List<SalleModele>> GetParcSalles()
     {
-        var res = new List<SalleModele>();
+        var salles = new List<SalleModele>();
 
         string userToken = await userService.GetUserToken();
         var parc = await parcService.GetParcSession();
 
         if (parc != null && userToken != null)
         {
-            res = await salleService.GetAllByParc(parc.Id, userToken);
+            var res = await salleService.GetAllByParc(parc.Id, userToken);
+
+            if (res != null)
+                salles = res;
         }
 
-        return res;
+        return salles;
     }
 
     private void GetSalleDetails(int id)

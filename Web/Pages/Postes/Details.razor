@@ -74,8 +74,7 @@
     </div>
     <div class="poste-controls">
         <div>
-            <input type="text" @bind="@user" placeholder="User"/>
-            <input type="text" @bind="@msg" placeholder="Msg" />
+            <input type="text" @bind="@instruction" placeholder="Msg" />
             <button type="button" @onclick="@(() => Send())">
                 Send
             </button>
@@ -103,8 +102,7 @@
     private TypeService typeService = new TypeService();
 
     private InstructionsHub? instHub;
-    private string user = "";
-    private string msg = "";
+    private string instruction = "";
     private List<string> msgs = new();
 
     protected override async Task OnInitializedAsync()
@@ -112,9 +110,7 @@
         instHub = new InstructionsHub();
         await instHub.ConnectToHub();
 
-        msgs = instHub.GetInstructions();
         StateHasChanged();
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -130,7 +126,7 @@
         if(userToken is not null)
         {
             poste = await posteService.GetById(id, userToken);
-            salle = await salleService.GetById(poste.IdSalle, userToken);        
+            salle = await salleService.GetById(poste.IdSalle, userToken);   
         }
 
         type = await typeService.GetById(poste.IdType);
@@ -140,7 +136,7 @@
     {
         if(instHub is not null)
         {
-            await instHub.SendMessage(user, msg);
+            await instHub.SendInstruction(id, instruction);
         }
     }
 }

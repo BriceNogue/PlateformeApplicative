@@ -3,12 +3,14 @@ using Domain.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Shareds.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
+using Shareds.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +80,9 @@ builder.Services.AddScoped<PosteRepository>();
 
 // Ending *********************
 
+// Hub SignalR
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -94,5 +99,6 @@ app.UseAuthentication(); // Pour utiliser l'authentification cree
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<InstructionsHub>("/instructionshub");
 
 app.Run();

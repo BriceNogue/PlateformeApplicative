@@ -1,8 +1,13 @@
-﻿using Desktop.Presentation.Views;
+﻿using Desktop.Hubs;
+using Desktop.Presentation.Views;
 using Desktop.Services;
 using MaterialDesignThemes.Wpf;
+using Microsoft.VisualBasic.ApplicationServices;
+using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace Desktop
 {
@@ -15,7 +20,11 @@ namespace Desktop
         private PosteService posteService;
         private UserService userService;
 
+        private PosteModele posteM;
+
         private NotificationService notificationS;
+
+        private InstructionsHub instsHub;
 
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
@@ -32,9 +41,41 @@ namespace Desktop
             userService = new UserService();
             posteService = new PosteService();
 
+            posteM = new PosteModele();
+
+            instsHub = new InstructionsHub();
+            _ = instsHub.ConnectToHub(this);
+
+            _ = GetPost();
+
+            _ = JoinGroup();
+
+            //txt_footer.Text = instsHub.OpenConnection(this);
+
             LoadPagesGrid.Navigate(new PostIndexPage());
 
             SetBtnConnectText();
+        }
+
+        private async Task GetPost()
+        {
+            PosteModele poste = await posteService.GetOne();
+            if (poste is null)
+            {
+                txt_footer.Text = "Poste inconnu..";
+            }
+            {
+                this.posteM = poste!;
+                txt_footer.Text = "Poste : " + poste?.Id.ToString();
+            }
+        }
+
+        // Se connecter au group signalR pour la reception des instruction par id poste
+        private async Task JoinGroup()
+        {
+            if (posteM != null)
+                await Task.Delay(10000);
+                await instsHub.JoinPostGroup(posteM!.Id);
         }
 
         private void LoadIndexPage(object sender, RoutedEventArgs e)

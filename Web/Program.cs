@@ -14,11 +14,11 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ParcService>();
 
 // Hub SignalR
-builder.Services.AddResponseCompression(options =>
+/*builder.Services.AddResponseCompression(options =>
 {
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
         new[] { "application/octet-stream" });
-});
+});*/
 
 var app = builder.Build();
 
@@ -37,7 +37,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
-app.MapHub<InstructionsHub>("/instructionshub");
+//app.MapHub<InstructionsHub>("/instructionshub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

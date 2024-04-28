@@ -1,53 +1,61 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Primitives;
 
 namespace Shareds.Hubs
 {
     public class InstructionsHub : Hub
     {
         private HubConnection? HC;
-        private List<string> _instructions;
+        private readonly string _hubURL = "https://localhost:7281/instructionshub";
+        private List<string> instructions;
 
         public bool IsConnected => HC?.State == HubConnectionState.Connected;
 
         public InstructionsHub() 
         {
-            _instructions = new List<string>();
+            instructions = new List<string>();
         }
 
         public async Task ConnectToHub()
         {
             HC = new HubConnectionBuilder()
-                .WithUrl("https://localhost:7289/instructionshub")
+                .WithUrl(_hubURL)
                 .WithAutomaticReconnect()
                 .Build();
 
-            HC.On<string, string>("ReceiveMessage", (user, message) =>
+            HC.On<int, string>("ReceiveInstruction", (postId, instruction) =>
             {
-                var formattedMessage = $"{user}: {message}";
-                _instructions.Add(formattedMessage);
+                var formattedMessage = $"{postId}: {instruction}";
+                instructions.Add(formattedMessage);
             });
 
             await HC.StartAsync();
         }
 
-        // Definit le client pour l'envoi du message
-        public Task ToSend(string user, string message)
+        // pour ajouter le poste au groupe qui reçoit les instructions
+        public async Task JoinPostGroup(int postId)
         {
-            return Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Groups.AddToGroupAsync(Context.ConnectionId, postId.ToString());
         }
 
-        public async Task SendMessage(string user, string message)
+        // Definit le client pour l'envoi de l'instruction
+        public Task ToSend(int postId, string instruction)
+        {
+            return Clients.Group(postId.ToString()).SendAsync("ReceiveInstruction", postId, instruction);
+        }
+
+        public async Task SendInstruction(int postId, string instruction)
         {
             if (HC is not null)
             {
-                await HC.SendAsync("ToSend", user, message);
+                await HC.SendAsync("ToSend", postId, instruction);
             }
         }
 
         public List<string> GetInstructions()
         {
-            return _instructions;
+            return instructions;
         }
 
         public async ValueTask DisposeAsync()
