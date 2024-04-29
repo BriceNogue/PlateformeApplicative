@@ -12,6 +12,8 @@ namespace Shareds.Hubs
 
         public bool IsConnected => HC?.State == HubConnectionState.Connected;
 
+        private string screenImageSource = string.Empty;
+
         public InstructionsHub() 
         {
             instructions = new List<string>();
@@ -65,5 +67,23 @@ namespace Shareds.Hubs
                 await HC.DisposeAsync();
             }
         }
+
+        // Methode appellée depuis WPF pour envoyer les images
+        public Task SendScreenImage(string[] imageBytes)
+        {
+            return Clients.All.SendAsync("ReceiveScreenImage", imageBytes);
+        }
+
+        private string SetScreenImage(string imageBytes)
+        {
+            //var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
+            return imageBytes;
+        }
+
+        public string GetScreenImage()
+        {
+            return screenImageSource;
+        }
+
     }
 }

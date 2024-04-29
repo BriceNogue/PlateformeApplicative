@@ -1,6 +1,7 @@
 ﻿@page "/postes/details/{id:int}"
 @layout AppLayout
 
+@using Microsoft.AspNetCore.SignalR.Client
 @using Shareds.Modeles;
 @using Shareds.Hubs;
 @using Services;
@@ -69,7 +70,8 @@
             </div>
         </div>
         <div class="poste-info screen">
-               dd
+            dd @screenImageSource
+            <img src="@screenImageSource" alt="Screen" />
         </div>
     </div>
     <div class="poste-controls">
@@ -125,16 +127,20 @@
                         <span class="oi oi-power-standby"></span>
                         Veille
                     </button>
-                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("NORMALSCREEN"))">
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("RESTARTPOST"))">
                         Redémarer
                     </button>
                     <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("MINIMIZESCREEN"))">
                         <span class="oi oi-power-standby"></span>
                         &Eacute;teindre
                     </button>
-                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("RESTART"))">
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("STARTSCREENCAPTURE"))">
                         <span class="oi oi-reload"></span>
-                        Redémarer
+                        Screen
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SendWindowInstructions("STOPSCREENCAPTURE"))">
+                        <span class="oi oi-power-standby"></span>
+                        STOP
                     </button>
                 </div>
             </div>
@@ -157,10 +163,27 @@
 
     private InstructionsHub? instHub;
 
+    private HubConnection? HC;
+    private readonly string _hubURL = "https://localhost:7281/instructionshub";
+
+    private string screenImageSource = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         instHub = new InstructionsHub();
         await instHub.ConnectToHub();
+
+        HC = new HubConnectionBuilder()
+                .WithUrl(_hubURL)
+                .WithAutomaticReconnect()
+                .Build();
+
+        HC.On<string[]>("ReceiveScreenImage", async (imageBytes) =>
+        {
+            screenImageSource = imageBytes.Length.ToString();// SetScreenImage(imageBytes);
+        });
+
+        await HC.StartAsync();
 
         StateHasChanged();
     }
@@ -191,6 +214,20 @@
         {
             await instHub.SendInstruction(id, instruction);
         }
+    }
+
+    /*private async Task ReceiveScreenCaptur()
+        {
+        hubCunnection.On<byte[]>("ReceiveScreenImage", async (imageBytes) =>
+            {
+            await SetScreenImage(imageBytes);
+    });
+    }*/
+
+    private string SetScreenImage(string imageBytes)
+    {
+        //var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
+        return imageBytes;
     }
 
     #endregion
