@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
-                <materialDesign:PopupBox HorizontalAlignment="Left" Margin="5 5 0 0" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Height="25">
+                <materialDesign:PopupBox HorizontalAlignment="Left" Margin="5" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Height="25">
                     <StackPanel>
                         <StackPanel
                             Margin="16 10 0 6"
@@ -53,22 +53,25 @@
                         <Button x:Name="btn_exit" ToolTip="Close Applcation" Content="Quitter" Click="ExitApp"/>
                     </StackPanel>
                 </materialDesign:PopupBox>
+
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock x:Name="txt_time" Text="00:00:00" FontSize="18" FontWeight="Medium" VerticalAlignment="Center" Margin="0 0 10 0" />
+                    <TextBlock x:Name="txt_date" Text="01/01/01" FontSize="18" FontWeight="Medium" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="btn_min" Margin="0 5 15 0" ToolTip="Réduire" Content="{materialDesign:PackIcon Kind=Minimize}" materialDesign:ButtonAssist.CornerRadius="5" Click="MinimizeWindow"/>
+                    <Button x:Name="btn_max" Margin="0 5 15 0" ToolTip="Plein écran" Content="{materialDesign:PackIcon Kind=Maximize}" materialDesign:ButtonAssist.CornerRadius="5" Click="ToggleWindowStates"/>
+                </StackPanel>
             </Grid>
-            
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="btn_min" Margin="0 5 15 0" ToolTip="Réduire" Content="-" materialDesign:ButtonAssist.CornerRadius="5" Click="MinimizeWindow"/>
-                <Button x:Name="btn_max" Margin="0 5 15 0" ToolTip="Plein écran" Content="[]" materialDesign:ButtonAssist.CornerRadius="5" Click="ToggleWindowStates"/>
-            </StackPanel>
-            
 
             <Grid Grid.Row="1">
                 <Frame x:Name="LoadPagesGrid" NavigationUIVisibility="Hidden"/>
             </Grid>
 
             <Grid Grid.Column="0" Grid.Row="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="txt_footer" Text="" FontSize="18" FontWeight="Medium"/>
-                </StackPanel>
+                <TextBlock x:Name="txt_footer" Text="IP" FontSize="18" Margin="10 0 0 0" FontWeight="Medium" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBlock x:Name="txt_version" Text="v.1" FontSize="18" Margin="0 0 10 0" FontWeight="Medium" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </Grid>
 
         </Grid>

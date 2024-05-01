@@ -2,13 +2,10 @@
 using Desktop.Presentation.Views;
 using Desktop.Services;
 using MaterialDesignThemes.Wpf;
-using Microsoft.VisualBasic.ApplicationServices;
 using Shareds.Modeles;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace Desktop
 {
@@ -30,6 +27,8 @@ namespace Desktop
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper(); // Pour la gestion des themes
 
+        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+
         Login loginW = default!;
 
         public MainWindow()
@@ -44,14 +43,16 @@ namespace Desktop
 
             posteM = new PosteModele();
 
+            timer.Tick += new EventHandler(OnSetDateAndTime!);
+            timer.Interval = new TimeSpan(0, 0, 0);
+            timer.Start();
+
             instsHub = new InstructionsHub();
             _ = instsHub.ConnectToHub(this);
 
             _ = GetPost();
 
             _ = JoinGroup();
-
-            //txt_footer.Text = instsHub.OpenConnection(this);
 
             LoadPagesGrid.Navigate(new PostIndexPage());
 
@@ -74,7 +75,7 @@ namespace Desktop
             }
             {
                 this.posteM = poste!;
-                txt_footer.Text = "Desktop : " + poste?.AdresseIP;
+                txt_footer.Text = "IP : " + poste?.AdresseIP;
             }
         }
 
@@ -233,5 +234,11 @@ namespace Desktop
                 this.WindowState = WindowState.Normal;
             }
         }
+
+        private void OnSetDateAndTime(object sender, EventArgs e)
+        {
+            txt_date.Text = DateTime.Now.ToLongDateString();
+            txt_time.Text = DateTime.Now.ToLongTimeString();
+        }  
     }
 }

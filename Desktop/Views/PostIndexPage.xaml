@@ -20,8 +20,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Column="0" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="txt_post" Text="Poste" FontSize="40" FontWeight="Bold"/>
-            <TextBlock x:Name="txt_salle" Text="Salle" FontSize="40" FontWeight="Bold"/>
+            <TextBlock x:Name="txt_p" Text="POSTE" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
+            <TextBlock x:Name="txt_post" Text="0" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
         </StackPanel>
     </Grid>
 </Page>
