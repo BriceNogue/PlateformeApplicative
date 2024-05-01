@@ -60,8 +60,8 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button x:Name="btn_min" Margin="0 5 15 0" ToolTip="Réduire" Content="{materialDesign:PackIcon Kind=Minimize}" materialDesign:ButtonAssist.CornerRadius="5" Click="MinimizeWindow"/>
-                    <Button x:Name="btn_max" Margin="0 5 15 0" ToolTip="Plein écran" Content="{materialDesign:PackIcon Kind=Maximize}" materialDesign:ButtonAssist.CornerRadius="5" Click="ToggleWindowStates"/>
+                    <Button x:Name="btn_min" Margin="0" ToolTip="Réduire" Content="{materialDesign:PackIcon Kind=Minimize}" materialDesign:ButtonAssist.CornerRadius="5" Click="MinimizeWindow" Style="{StaticResource MaterialDesignIconButton}"/>
+                    <Button x:Name="btn_max" Margin="0 0 5 0" ToolTip="Plein écran" Content="{materialDesign:PackIcon Kind=Maximize}" materialDesign:ButtonAssist.CornerRadius="5" Click="ToggleWindowStates" Style="{StaticResource MaterialDesignIconButton}"/>
                 </StackPanel>
             </Grid>
 

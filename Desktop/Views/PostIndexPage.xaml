@@ -23,5 +23,6 @@
             <TextBlock x:Name="txt_p" Text="POSTE" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
             <TextBlock x:Name="txt_post" Text="0" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
         </StackPanel>
+       
     </Grid>
 </Page>
