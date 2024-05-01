@@ -37,10 +37,5 @@ namespace Desktop.Presentation.Views
                 txt_post.Text = "Poste : " + poste?.Numero.ToString();
             }
         }
-
-        private void ToShutDown(object sender, RoutedEventArgs e)
-        {
-            deviceMS.ShutDown();
-        }
     }
 }
