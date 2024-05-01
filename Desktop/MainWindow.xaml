@@ -27,31 +27,39 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <materialDesign:PopupBox Grid.Row="0" HorizontalAlignment="Right" Margin="0 5 5 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
-                <StackPanel>
-                    <StackPanel
-                        Margin="16 10 0 6"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            Text="Mode sombre"/>
+            <Grid Grid.Row="0">
+                <materialDesign:PopupBox HorizontalAlignment="Left" Margin="5 5 0 0" PlacementMode="BottomAndAlignLeftEdges" StaysOpen="False" Height="25">
+                    <StackPanel>
+                        <StackPanel
+                            Margin="16 10 0 6"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                            <TextBlock 
+                                VerticalAlignment="Center"
+                                Text="Mode sombre"/>
 
-                        <ToggleButton 
-                            Cursor="Hand"
-                            ToolTip="Activé le mode sombre"
-                            Margin="12 0 8 0"
-                            x:Name="themeToggle"
-                            IsChecked="{Binding IsDarkTheme}"
-                            Click="toggleTheme"/>
+                            <ToggleButton 
+                                Cursor="Hand"
+                                ToolTip="Activé le mode sombre"
+                                Margin="12 0 8 0"
+                                x:Name="themeToggle"
+                                IsChecked="{Binding IsDarkTheme}"
+                                Click="toggleTheme"/>
+                        </StackPanel>
+                        <Button x:Name="btn_connect" ToolTip="..." Content="..." materialDesign:ButtonAssist.CornerRadius="5" Click="OnBtnConnectClick"/>
+                        <Button x:Name="btn_home" ToolTip="Accueil" Content="Accueil" Click="LoadIndexPage"/>
+                        <Button x:Name="btn_create" ToolTip="Close Applcation" Content="Creer un poste" Click="LoadCreatePage"/>
+                        <Button x:Name="btn_info" ToolTip="Close Applcation" Content="Informations" Click="LoadInfoPage"/>
+                        <Button x:Name="btn_exit" ToolTip="Close Applcation" Content="Quitter" Click="ExitApp"/>
                     </StackPanel>
-                    <Button x:Name="btn_connect" ToolTip="..." Content="..." materialDesign:ButtonAssist.CornerRadius="5" Click="OnBtnConnectClick"/>
-                    <Button x:Name="btn_home" ToolTip="Accueil" Content="Accueil" Click="LoadIndexPage"/>
-                    <Button x:Name="btn_create" ToolTip="Close Applcation" Content="Creer un poste" Click="LoadCreatePage"/>
-                    <Button x:Name="btn_info" ToolTip="Close Applcation" Content="Informations" Click="LoadInfoPage"/>
-                    <Button x:Name="btn_exit" ToolTip="Close Applcation" Content="Quitter" Click="ExitApp"/>
-                </StackPanel>
-            </materialDesign:PopupBox>
+                </materialDesign:PopupBox>
+            </Grid>
+            
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="btn_min" Margin="0 5 15 0" ToolTip="Réduire" Content="-" materialDesign:ButtonAssist.CornerRadius="5" Click="MinimizeWindow"/>
+                <Button x:Name="btn_max" Margin="0 5 15 0" ToolTip="Plein écran" Content="[]" materialDesign:ButtonAssist.CornerRadius="5" Click="ToggleWindowStates"/>
+            </StackPanel>
+            
 
             <Grid Grid.Row="1">
                 <Frame x:Name="LoadPagesGrid" NavigationUIVisibility="Hidden"/>
@@ -59,7 +67,7 @@
 
             <Grid Grid.Column="0" Grid.Row="2">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock x:Name="txt_footer" Text="@ @@@" FontSize="18" FontWeight="Medium"/>
+                    <TextBlock x:Name="txt_footer" Text="" FontSize="18" FontWeight="Medium"/>
                 </StackPanel>
             </Grid>
 

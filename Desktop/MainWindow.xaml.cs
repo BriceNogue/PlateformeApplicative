@@ -74,7 +74,7 @@ namespace Desktop
             }
             {
                 this.posteM = poste!;
-                txt_footer.Text = "Poste : " + poste?.Id.ToString();
+                txt_footer.Text = "Desktop : " + poste?.AdresseIP;
             }
         }
 
@@ -156,11 +156,6 @@ namespace Desktop
             LoadPagesGrid.Navigate(new DeviceInfoPage());
         }
 
-        private void ExitApp(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
         // Vérifie si l'utilisateur est autorisé à accéder à la page
         public bool CheckUserAuthorization()
         {
@@ -215,6 +210,28 @@ namespace Desktop
                 theme.SetBaseTheme(Theme.Dark);
             }
             paletteHelper.SetTheme(theme);
+        }
+
+        private void ExitApp(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void MinimizeWindow(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void ToggleWindowStates(object sender, RoutedEventArgs e)
+        {
+            if(this.WindowState == WindowState.Normal)
+            {
+                this.WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;
+            }
         }
     }
 }
