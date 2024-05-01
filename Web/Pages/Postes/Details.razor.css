@@ -12,16 +12,22 @@
 
 .poste-info {
     width: 50%;
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
 .screen {
-    border-radius: 5px;
-    padding: 15px;
-    box-shadow: 1px 1px 5px #c0c0c0;
+    justify-content: center;
 }
+
+    .screen img {
+        width: 100%;
+        border-radius: 5px;
+        padding: 5px;
+        box-shadow: 1px 1px 5px #c0c0c0;
+    }
 
 .infos {
     width: 100%;
