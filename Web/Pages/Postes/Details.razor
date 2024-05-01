@@ -70,8 +70,7 @@
             </div>
         </div>
         <div class="poste-info screen">
-            dd @screenImageSource
-            <img src="@screenImageSource" alt="Screen" />
+            <img src="@screenImage" alt="Screen" />
         </div>
     </div>
     <div class="poste-controls">
@@ -166,7 +165,7 @@
     private HubConnection? HC;
     private readonly string _hubURL = "https://localhost:7281/instructionshub";
 
-    private string screenImageSource = string.Empty;
+    private string screenImage = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -178,9 +177,9 @@
                 .WithAutomaticReconnect()
                 .Build();
 
-        HC.On<string[]>("ReceiveScreenImage", async (imageBytes) =>
+        HC.On<byte[]>("ReceiveScreenImage", async (imageBytes) =>
         {
-            screenImageSource = imageBytes.Length.ToString();// SetScreenImage(imageBytes);
+            SetScreenImage(imageBytes);
         });
 
         await HC.StartAsync();
@@ -216,18 +215,10 @@
         }
     }
 
-    /*private async Task ReceiveScreenCaptur()
-        {
-        hubCunnection.On<byte[]>("ReceiveScreenImage", async (imageBytes) =>
-            {
-            await SetScreenImage(imageBytes);
-    });
-    }*/
-
-    private string SetScreenImage(string imageBytes)
+    private void SetScreenImage(byte[] imageBytes)
     {
-        //var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
-        return imageBytes;
+        var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
+        screenImage = base64Image;
     }
 
     #endregion

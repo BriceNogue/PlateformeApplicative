@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Primitives;
+using Shareds.Modeles;
 
 namespace Shareds.Hubs
 {
@@ -69,7 +70,7 @@ namespace Shareds.Hubs
         }
 
         // Methode appellée depuis WPF pour envoyer les images
-        public Task SendScreenImage(string[] imageBytes)
+        public Task SendScreenImage(byte[] imageBytes)
         {
             return Clients.All.SendAsync("ReceiveScreenImage", imageBytes);
         }

@@ -1,6 +1,7 @@
 ﻿using Desktop.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
+using Shareds.Modeles;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -139,13 +140,12 @@ namespace Desktop.Hubs
             {
                 image.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
                 var imageBytes = memoryStream.ToArray();
-                string[] base64Image = [$"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}"];
 
                 try
                 {
                     if (HC is not null)
                     {
-                        await HC.InvokeAsync("SendScreenImage", base64Image);
+                        await HC.InvokeAsync("SendScreenImage", imageBytes);
                     }
                 }catch (Exception ex)
                 {

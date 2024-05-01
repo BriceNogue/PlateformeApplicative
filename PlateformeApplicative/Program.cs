@@ -81,7 +81,10 @@ builder.Services.AddScoped<PosteRepository>();
 // Ending *********************
 
 // Hub SignalR
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.MaximumReceiveMessageSize = 1024 * 1024;
+});
 
 var app = builder.Build();
 
