@@ -20,13 +20,43 @@
 
 .screen {
     justify-content: center;
+    position: relative;
 }
 
-    .screen img {
-        width: 100%;
-        border-radius: 5px;
-        padding: 5px;
-        box-shadow: 1px 1px 5px #c0c0c0;
+.screen-actions {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 15px;
+}
+
+.screen img {
+    width: 100%;
+    max-height: 64vh;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 1px 1px 5px #c0c0c0;
+}
+
+.empty-screen {
+    height: 64vh;
+}
+
+.full-screen {
+    width: 100%;
+    max-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+}
+
+    .full-screen img {
+        height: 100vh;
     }
 
 .infos {

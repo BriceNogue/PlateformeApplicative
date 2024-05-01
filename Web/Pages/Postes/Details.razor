@@ -69,19 +69,20 @@
             <div class="infos infos-ram">
             </div>
         </div>
-        <div class="poste-info screen">
-            <div class="screen-actions">
-                <button class="btn btn-primary">
-                    <span class="oi oi-fullscreen-enter"></span>
-                </button>
-                <button class="btn btn-primary">
-                    <span class="oi oi-fullscreen-exit"></span>
-                </button>
-                <button class="btn btn-primary">
-                    <span class="oi oi-circle-x"></span>
-                </button>
-            </div>
-            <img src="@screenImage" alt="Screen" />
+        <div class="poste-info @screenClass">
+            @if (!string.IsNullOrEmpty(screenImage))
+            {
+                <div class="screen-actions">
+                    <button class="btn btn-primary" @onclick="(() => TogglleFullScreen())">
+                        <span class="@screenIcons"></span>
+                    </button>
+                </div>
+                <img src="@screenImage" alt="Screen" />
+            }
+            else
+            {
+                <img src="Ressources/Images/poste.png" class="empty-screen" alt="Screen" />
+            }
         </div>
     </div>
     <div class="poste-controls">
@@ -173,27 +174,16 @@
 
     private InstructionsHub? instHub;
 
-    private HubConnection? HC;
-    private readonly string _hubURL = "https://localhost:7281/instructionshub";
-
     private string screenImage = string.Empty;
+    private string screenClass = "screen";
+    private string screenIcons = "oi oi-fullscreen-enter";
 
     protected override async Task OnInitializedAsync()
     {
         instHub = new InstructionsHub();
         await instHub.ConnectToHub();
 
-        HC = new HubConnectionBuilder()
-                .WithUrl(_hubURL)
-                .WithAutomaticReconnect()
-                .Build();
-
-        HC.On<byte[]>("ReceiveScreenImage", async (imageBytes) =>
-        {
-            SetScreenImage(imageBytes);
-        });
-
-        await HC.StartAsync();
+        instHub.GetScreenImage(SetScreenImage);
 
         StateHasChanged();
     }
@@ -226,11 +216,25 @@
         }
     }
 
-    private void SetScreenImage(byte[] imageBytes)
+    // Methode invoqué pour l'affichage des captures reçues
+    private void SetScreenImage(string base64Image)
     {
-        var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
         screenImage = base64Image;
     }
 
     #endregion
+
+    private void TogglleFullScreen()
+    {
+        if (screenClass == "screen")
+        {
+            screenClass = "full-screen";
+            screenIcons = "oi oi-fullscreen-exit";
+        }
+        else
+        {
+            screenClass = "screen";
+            screenIcons = "oi oi-fullscreen-enter";
+        }           
+    }
 }

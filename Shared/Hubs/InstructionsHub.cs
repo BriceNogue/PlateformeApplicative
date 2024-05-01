@@ -75,15 +75,27 @@ namespace Shareds.Hubs
             return Clients.All.SendAsync("ReceiveScreenImage", imageBytes);
         }
 
-        private string SetScreenImage(string imageBytes)
+        private string SetScreenImage(byte[] imageBytes)
         {
-            //var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
-            return imageBytes;
+            var base64Image = $"data:image/jpge;base64,{Convert.ToBase64String(imageBytes)}";
+            return base64Image;
         }
 
-        public string GetScreenImage()
+        public string GetScreenImage(Action<string> callback)
         {
-            return screenImageSource;
+            var base64Image = "";
+
+            if (HC != null)
+            {
+                HC.On<byte[]>("ReceiveScreenImage", async (imageBytes) =>
+                {
+                    base64Image = SetScreenImage(imageBytes);
+
+                    callback.Invoke(base64Image);
+                });
+            }
+
+            return "";
         }
 
     }

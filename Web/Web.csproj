@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Ressources\Images\poste.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pages\Dashboard.razor.css" />
+    <None Remove="wwwroot\Ressources\Images\appIcon.png" />
     <None Remove="Shared\AppLayout.razor.css" />
   </ItemGroup>
 
@@ -31,6 +36,15 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Ressources\Images\appIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="wwwroot\Ressources\Images\poste.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
