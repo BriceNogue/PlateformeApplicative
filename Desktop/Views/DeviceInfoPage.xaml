@@ -10,102 +10,111 @@
       Title="DeviceInfoPage"
       Background="White">
 
-    <Grid>
+    <Grid Margin="20 0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid.Resources>
-            <Style TargetType="Ellipse">
-                <Setter Property="Stroke" Value="White"/>
-            </Style>
-        </Grid.Resources>
+        <TextBlock
+            Grid.Row="0"
+            Text="Apropos du poste" 
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="15" 
+            FontWeight="DemiBold" 
+            Margin="0,10,0,10"/>
 
-        <Grid Grid.Column="0" Grid.Row="0">
-            <TextBlock Text="Disk Space Usage" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16" Margin="0,0,0,8"/>
 
-            <Grid Margin="0, 24,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <!-- Chart -->
-                <Grid Width="200" Height="200" Grid.ColumnSpan="2">
-                    <Ellipse StrokeThickness="20" Width="160" Height="160" Stroke="Green" RenderTransformOrigin="0.5,0.5">
-                        <Ellipse.RenderTransform>
-                            <RotateTransform Angle="-90"/>
-                        </Ellipse.RenderTransform>
-                    </Ellipse>
-
-                    <Ellipse StrokeThickness="20" Width="160" Height="160" Stroke="Red" RenderTransformOrigin="0.5,0.5">
-                        <Ellipse.RenderTransform>
-                            <RotateTransform Angle="-90"/>
-                        </Ellipse.RenderTransform>
-                    </Ellipse>
-
-                    <TextBlock Text="100%" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
-                </Grid>
-
-                <Grid Grid.Row="1" Margin="0 24 0 0" Width="350">
-                    <!-- Blue zone (Total space) -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Total : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding TotalROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="SkyBlue"/>
-                    </StackPanel>
-
-                    <!-- Red zone (Used space) -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <TextBlock Text="Used : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding UsedROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="Red"/>
-                    </StackPanel>
-
-                    <!-- Green zone (Free space) -->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <TextBlock Text="Free : " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding FreeROMSpace}" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold" Margin="0,4,0,0" Grid.Row="1" Foreground="Green"/>
-                    </StackPanel>
-                </Grid>
+        <StackPanel Grid.Row="1" Margin="0 20 0 20">
+            <Grid Margin="0 0 0 20">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <TextBlock Text="Processeur" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_processeur" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock Text="Nom" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_nom_poste" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Text="Adresse IP" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_adr_ip" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
             </Grid>
-        </Grid>
 
+            <Grid Margin="0 0 0 20">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <TextBlock Text="SE" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_os" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <TextBlock Text="Adresse MAC" FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_adr_mac" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                    <TextBlock Text="Marque " FontSize="15" FontWeight="SemiBold"/>
+                    <TextBlock x:Name="txt_marque" Text="..." FontSize="15" FontWeight="Normal"/>
+                </StackPanel>
+            </Grid>
 
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <TextBlock Text="Apropos du poste:" HorizontalAlignment="Center" FontSize="18" FontWeight="Bold" Margin="0,10,0,10"/>
+            <Grid Margin="0 0 0 20">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ROM Total : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalROMSpace}" FontSize="15" FontWeight="Normal" Foreground="DodgerBlue"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <ProgressBar x:Name="pb_ROM" Height="20" Width="250" Background="SkyBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ROM Utilisé : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding UsedROMSpace}" FontSize="15" FontWeight="Normal" Foreground="Red"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <TextBlock x:Name="txt_ROM_used" Text="0 %" FontSize="15" FontWeight="Normal" Foreground="Red" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="ROM Libre : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding FreeROMSpace}" FontSize="15" FontWeight="Normal" Foreground="Green"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <TextBlock x:Name="txt_ROM_free" Text="0 %" FontSize="15" FontWeight="Normal" Foreground="Green" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Marque :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_marque" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
+            <Grid Margin="0 0 0 20">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RAM Total : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding TotalROMSpace}" FontSize="15" FontWeight="Normal" Foreground="DodgerBlue"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <ProgressBar Height="20" Width="250" Background="SkyBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RAM Utilisé : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding UsedROMSpace}" FontSize="15" FontWeight="Normal" Foreground="Red"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <TextBlock Text="0 %" FontSize="15" FontWeight="Normal" Foreground="Red" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RAM Libre : " FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding FreeROMSpace}" FontSize="15" FontWeight="Normal" Foreground="Green"/>
+                        <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
+                    </StackPanel>
+                    <TextBlock Text="0 %" FontSize="15" FontWeight="Normal" Foreground="Green" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Nom :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_nom_poste" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Adresse IP :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_adr_ip" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Adresse MAC :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_adr_mac" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Systeme E :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_os" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBlock Text="Processeur :  " VerticalAlignment="Center" FontSize="18" FontWeight="Bold"/>
-                <TextBlock x:Name="txt_processeur" Text="..." VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold"/>
-            </StackPanel>
         </StackPanel>
+
     </Grid>
 </Page>

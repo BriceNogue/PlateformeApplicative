@@ -46,12 +46,16 @@ namespace Desktop.Presentation.Views
             double used = _deviceInfoService.GetFreeDiskCapacity();
             double free = total - used;
 
+            pb_ROM.Value = (used / total) * 100;
+            txt_ROM_used.Text = Math.Round(pb_ROM.Value, 1).ToString() + " %";
+            txt_ROM_free.Text = Math.Round((free / total) * 100, 1).ToString() + " %";
+
             deviceViewModel.TotalROMSpace = total;
             deviceViewModel.UsedROMSpace = used;
             deviceViewModel.FreeROMSpace = free;
 
             txt_adr_ip.Text = _deviceInfoService.GetIPAddress();
-            txt_adr_mac.Text = _deviceInfoService.GetProcessorClockSpeed().ToString();
+            txt_adr_mac.Text = _deviceInfoService.GetMACAddress();
             txt_nom_poste.Text = _deviceInfoService.GetMachineName();
             txt_marque.Text = _deviceInfoService.GetComputerManufacturer();
             txt_os.Text = _deviceInfoService.GetOperatingSystem();

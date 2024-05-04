@@ -69,7 +69,6 @@ namespace Desktop.Services
 
         #endregion
 
-
         public double GetDiskCapacity()
         {
             string query = "SELECT * FROM Win32_DiskDrive";
@@ -81,7 +80,7 @@ namespace Desktop.Services
             foreach (ManagementObject obj in results)
             {
                 ulong capacityBytes = (ulong)obj["Size"];
-                diskCapacity = capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
+                diskCapacity += capacityBytes / (1024 * 1024 * 1024); // Convertir en gigaoctets
             }
 
             return diskCapacity;
