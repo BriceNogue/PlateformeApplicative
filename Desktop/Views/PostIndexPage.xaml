@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Desktop.Presentation.Views"
+      xmlns:comp="clr-namespace:Desktop.Components"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PostIndexPage"
@@ -23,6 +24,18 @@
             <TextBlock x:Name="txt_p" Text="POSTE" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
             <TextBlock x:Name="txt_post" Text="0" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
         </StackPanel>
-       
+
+        <StackPanel Grid.Column="1" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <comp:RadialProgressBar 
+                x:Name="rpd" 
+                Value="10" 
+                ArcThickness="1" 
+                IndicatorBrush="Blue" 
+                PercentText="300"
+                BackgroundBrush="Red"
+                ProgressBorderBrush="blue"/>
+            
+        </StackPanel>
+
     </Grid>
 </Page>
