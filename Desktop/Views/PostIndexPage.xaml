@@ -33,7 +33,9 @@
                 IndicatorBrush="blue" 
                 PercentText="300 %"
                 ProgressBorderBrush="blue" Height="200" Width="200"/>
-            
+
+            <TextBox/>
+
         </StackPanel>
 
     </Grid>

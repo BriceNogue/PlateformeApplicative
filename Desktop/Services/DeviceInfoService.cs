@@ -266,5 +266,51 @@ namespace Desktop.Services
         }
 
         #endregion
+
+        #region /// RAM
+
+        public int GetTotalRAM()
+        {
+            float totalRAM = 0;
+
+            try
+            {
+                if(Environment.OSVersion.Platform == PlatformID.Win32NT)
+                {
+                    ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT TotalVisibleMemorySize FROM Win32_OperatingSystem");
+                    foreach (ManagementObject obj in searcher.Get())
+                    {
+                        totalRAM = Convert.ToSingle(obj["TotalVisibleMemorySize"]) / 1024;
+                    }
+                }
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+            return (int)totalRAM;
+        }
+
+        public float GetAvailableRAM()
+        {
+            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+
+            float availableRAM = ramCounter.NextValue();
+
+            return availableRAM;
+        }
+
+        public float GetUsedRAM()
+        {
+            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
+            int totalRAM = GetTotalRAM();
+            float availableRAM = GetAvailableRAM();
+
+            float userRAM = totalRAM - availableRAM;
+
+            return userRAM;
+        }
+
+        #endregion
     }
 }

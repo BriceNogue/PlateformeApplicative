@@ -48,7 +48,8 @@ namespace Desktop.Presentation.Views
 
         private void GetProcessorUsage(object sender, EventArgs e)
         {
-            rpbCPU.Value = deviceIS.GetProcessorUsage();
+            rpbCPU.Value = (int)deviceIS.GetUsedRAM();
+            rpbCPU.PercentText = deviceIS.GetUsedRAM().ToString();
         }
     }
 }
