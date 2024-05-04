@@ -67,7 +67,7 @@
                         <TextBlock Text="{Binding TotalROMSpace}" FontSize="15" FontWeight="Normal" Foreground="DodgerBlue"/>
                         <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
                     </StackPanel>
-                    <ProgressBar x:Name="pb_ROM" Height="20" Width="250" Background="SkyBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
+                    <ProgressBar x:Name="pb_ROM" Height="20" Width="250" Background="SkyBlue" Foreground="DodgerBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
@@ -94,7 +94,7 @@
                         <TextBlock Text="{Binding TotalROMSpace}" FontSize="15" FontWeight="Normal" Foreground="DodgerBlue"/>
                         <TextBlock Text=" GB" FontSize="15" FontWeight="Normal"/>
                     </StackPanel>
-                    <ProgressBar Height="20" Width="250" Background="SkyBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
+                    <ProgressBar Height="20" Width="250" Background="SkyBlue" Foreground="DodgerBlue" Value="50" HorizontalAlignment="Left" Margin="0 5"/>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
