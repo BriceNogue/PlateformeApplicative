@@ -30,7 +30,7 @@
             x:Name="percentageValue"
             Content="{Binding ElementName=_this, Path=PercentText}"
             FontWeight="DemiBold"
-            FontSize="18px"
+            FontSize="180px"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Foreground="Black"/>
@@ -39,8 +39,8 @@
             Name="Indicator"
             Stretch="None"
             Margin="4"
-            EndAngle="{Binding ElementName=_this, Path=Value}"
-            ArcThickness="{Binding Converter={StaticResource ValueToAngleConverter}, ElementName=_this, Path=ArcThickness}"
+            EndAngle="{Binding Converter={StaticResource ValueToAngleConverter}, ElementName=_this, Path=Value}"
+            ArcThickness="{Binding ElementName=_this, Path=ArcThickness}"
             ArcThicknessUnit="Pixel"
             Fill="{Binding ElementName=_this, Path=IndicatorBrush}"
             />

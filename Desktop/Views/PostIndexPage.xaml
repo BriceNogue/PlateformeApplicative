@@ -25,18 +25,22 @@
             <TextBlock x:Name="txt_post" Text="." FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <comp:RadialProgressBar 
-                x:Name="rpbCPU" 
-                Value="10"
-                ArcThickness="1" 
-                IndicatorBrush="blue" 
-                PercentText="300 %"
-                ProgressBorderBrush="blue" Height="200" Width="200"/>
+        <Grid Grid.Column="1" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <comp:RadialProgressBar 
+                    x:Name="rpbCPU"
+                    ArcThickness="3"
+                    IndicatorBrush="blue"
+                    ProgressBorderBrush="blue" Height="200" Width="200"/>
+            </StackPanel>
 
-            <TextBox/>
-
-        </StackPanel>
+            <TextBlock
+                x:Name="txt_perce"
+                Text="RAM : 0 %"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"/>
+        </Grid>
 
     </Grid>
 </Page>

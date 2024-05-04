@@ -62,7 +62,7 @@ namespace Desktop.Services
 
         public int GetProcessorUsage()
         {
-            PerformanceCounter perfCPU = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
+            PerformanceCounter perfCPU = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             int res = (int)perfCPU.NextValue();
             return res;
         }
@@ -280,7 +280,7 @@ namespace Desktop.Services
                     ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT TotalVisibleMemorySize FROM Win32_OperatingSystem");
                     foreach (ManagementObject obj in searcher.Get())
                     {
-                        totalRAM = Convert.ToSingle(obj["TotalVisibleMemorySize"]) / 1024;
+                        totalRAM = Convert.ToSingle(obj["TotalVisibleMemorySize"]) / (1024 * 1024);
                     }
                 }
             }catch (Exception ex)
@@ -295,20 +295,19 @@ namespace Desktop.Services
         {
             PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
 
-            float availableRAM = ramCounter.NextValue();
+            float availableRAM = ramCounter.NextValue() / 1024;
 
             return availableRAM;
         }
 
         public float GetUsedRAM()
         {
-            PerformanceCounter ramCounter = new PerformanceCounter("Memory", "Available MBytes");
             int totalRAM = GetTotalRAM();
             float availableRAM = GetAvailableRAM();
 
-            float userRAM = totalRAM - availableRAM;
+            float usedRAM = totalRAM - availableRAM;
 
-            return userRAM;
+            return usedRAM;
         }
 
         #endregion
