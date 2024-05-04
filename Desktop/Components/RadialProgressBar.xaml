@@ -30,12 +30,15 @@
             x:Name="percentageValue"
             Content="{Binding ElementName=_this, Path=PercentText}"
             FontWeight="DemiBold"
-            FontSize="18"
+            FontSize="18px"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             Foreground="Black"/>
 
         <ed:Arc
             Name="Indicator"
             Stretch="None"
+            Margin="4"
             EndAngle="{Binding ElementName=_this, Path=Value}"
             ArcThickness="{Binding Converter={StaticResource ValueToAngleConverter}, ElementName=_this, Path=ArcThickness}"
             ArcThicknessUnit="Pixel"
@@ -47,7 +50,7 @@
             x:Name="Border"
             Stretch="None"
             Fill="{Binding ElementName=_this, Path=ProgressBorderBrush}"
-            Margin="8"
+            Margin="10"
             Stroke="Blue"
             EndAngle="360"
             ArcThicknessUnit="Pixel"

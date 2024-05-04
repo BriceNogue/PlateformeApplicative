@@ -21,7 +21,7 @@ namespace Desktop.Presentation.Views
 
             posteServiceD = new PosteService();
             deviceMS = new DeviceManagerService();
-            rpd.Value = 50;
+            rpd.Value = 300;
 
             _ = GetPost();
         }
