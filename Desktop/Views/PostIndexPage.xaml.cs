@@ -14,14 +14,21 @@ namespace Desktop.Presentation.Views
 
         private PosteService posteServiceD;
         private DeviceManagerService deviceMS;
+        private DeviceInfoService deviceIS;
+
+        System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
 
         public PostIndexPage()
         {
             InitializeComponent();
 
+            timer.Tick += new EventHandler(GetProcessorUsage!);
+            timer.Interval = new TimeSpan(0, 0, 0, 1);
+            timer.Start();
+
             posteServiceD = new PosteService();
             deviceMS = new DeviceManagerService();
-            rpd.Value = 300;
+            deviceIS = new DeviceInfoService();
 
             _ = GetPost();
         }
@@ -37,6 +44,11 @@ namespace Desktop.Presentation.Views
                 this.posteModele = poste!;
                 txt_post.Text = poste?.Numero.ToString();
             }
+        }
+
+        private void GetProcessorUsage(object sender, EventArgs e)
+        {
+            rpbCPU.Value = deviceIS.GetProcessorUsage();
         }
     }
 }

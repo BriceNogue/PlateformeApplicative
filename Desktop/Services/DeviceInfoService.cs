@@ -3,6 +3,7 @@ using System.Management;
 using System.Text.RegularExpressions;
 using System.Net.Mail;
 using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace Desktop.Services
 {
@@ -59,7 +60,15 @@ namespace Desktop.Services
             return speed;
         }
 
+        public int GetProcessorUsage()
+        {
+            PerformanceCounter perfCPU = new PerformanceCounter("Processor Information", "% Processor Time", "_Total");
+            int res = (int)perfCPU.NextValue();
+            return res;
+        }
+
         #endregion
+
 
         public double GetDiskCapacity()
         {

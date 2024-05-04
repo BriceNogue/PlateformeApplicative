@@ -22,17 +22,16 @@
 
         <StackPanel Grid.Column="0" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="txt_p" Text="POSTE" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
-            <TextBlock x:Name="txt_post" Text="0" FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
+            <TextBlock x:Name="txt_post" Text="." FontSize="60" FontWeight="Bold" HorizontalAlignment="Center" FontFamily="Georgia"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <comp:RadialProgressBar 
-                x:Name="rpd" 
-                Value="100" 
+                x:Name="rpbCPU" 
+                Value="10"
                 ArcThickness="1" 
                 IndicatorBrush="blue" 
                 PercentText="300 %"
-                BackgroundBrush="Red"
                 ProgressBorderBrush="blue" Height="200" Width="200"/>
             
         </StackPanel>
