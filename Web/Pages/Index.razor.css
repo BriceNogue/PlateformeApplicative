@@ -1,12 +1,14 @@
 ﻿.container {
     width: 100%;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     padding: 2rem 0 2rem 0;
 }
 
 .welcome-div {
     display: inline-flex;
+    align-items: center;
+    color: #454545
 }
 
 .welcome {
@@ -14,7 +16,43 @@
 }
 
 .welcome-text {
-    line-height: 10px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+p span {
+    font-size: 3rem;
+}
+
+.p {
+    line-height: 30px;
+}
+
+p {
+    font-size: 15px;
+    margin: 0;
+    line-height: 60px;
+}
+
+.welcome-text h1 {
+    font-size: 70px;
+    margin: 0;
+    line-height: 70px;
+}
+
+.btn-d-app {
+    min-width: 150px;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 25px;
+}
+
+.btn-d-app span {
+    transition: 0.3s;
+}
+
+.btn-d-app:hover span {
+    transform: scale(1.5);
 }
 
 .welcome img {
