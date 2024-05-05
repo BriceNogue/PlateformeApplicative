@@ -35,8 +35,8 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
-            <Entry Placeholder="Nom" IsPassword="True"/>
-            <Editor InputTransparent="False" Placeholder="Prenom"/>
+            <Entry Placeholder="Nom" IsPassword="True" IsTextPredictionEnabled="True"/>
+            <Editor InputTransparent="False" Placeholder="Email" IsTextPredictionEnabled="True" Keyboard="Email"/>
 
             <Switch/>
 
