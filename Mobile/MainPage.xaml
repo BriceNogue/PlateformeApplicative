@@ -35,6 +35,11 @@
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Center" />
 
+            <Entry Placeholder="Nom" IsPassword="True"/>
+            <Editor InputTransparent="False" Placeholder="Prenom"/>
+
+            <Switch/>
+
         </VerticalStackLayout>
     </ScrollView>
 
