@@ -10,16 +10,19 @@
 @inject ParcService parcService
 
 <PageTitle>Parcs</PageTitle>
-
-@if(parc is null)
-{
-    <div class="container">
+   
+<div class="container">
+    @if(parc is null)
+    {
         <div>
-            <h3>Votre établissement</h3>
             <p>Vous ne possédez actuellement aucun établissement.</p>
 
-            <button class="btn btn-primary" @onclick="(() => DisplayParcForm())">Créer un établissement</button>
+            <button class="btn btn-primary btn-create" @onclick="(() => DisplayParcForm())">
+                <span class="oi oi-home"></span>
+                Créer un établissement
+            </button>
         </div>
+
         <div class="form @form_class">
             <form>
                 <div class="form-header">
@@ -76,12 +79,32 @@
                 </div>
             </form>
         </div>
-    </div>
-}
-else
-{
-    <h1>Nom: @parc.Nom</h1>
-}
+    }
+    else
+    {
+        <div class="container-parc">
+            <div class="parc-infos">
+                <div class="parc-info logo-div">
+                    <img src="Ressources/Images/poste.png" />
+                </div>
+                <div class="parc-info">
+                    <div class="infos">
+                        <span class="oi oi-phone"></span>
+                        <p> @parc.Telephone</p>
+                    </div>
+                    <div class="infos">
+                        <span class="oi oi-envelope-closed"></span>
+                        <p>@parc.Email</p>
+                    </div>                   
+                </div>
+            </div>
+            <div class="parc-infos">
+                <h1>Nom: @parc.Nom</h1>
+            </div>
+        </div>
+    }
+
+</div>
 
 @code {
     //private ParcService parcService = new ParcService();
