@@ -8,6 +8,8 @@
     gap: 2rem;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #454545;
+    /*background-image: linear-gradient(#0F246318 0.9px, transparent 0.9px), linear-gradient(to right, #0F246313 0.9px, rgba(248, 252, 252, 0.74) 0.9px);
+    background-size: 18px 18px;*/
 }
 
 .parc-form {
@@ -93,14 +95,56 @@
 }
 
 .container-parc {
-    width: 100%;
     min-height: 85vh;
-    display: inline-flex;
     padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+
+.blur {
+    width: 25%;
+    height: 20vh;
+    position: absolute;
+    z-index: -1;
+}
+
+.blur-0 {
+    background: dodgerblue;
+    filter: blur(150px);
+}
+
+.blur-1 {
+    top: 40%;
+    left: 40%;
+    background: red;
+    filter: blur(150px);
+}
+
+.blur-2 {
+    bottom: 0;
+    right: 0;
+    background: blue;
+    filter: blur(150px);
+}
+
+.about-txt {
+    font-size: 18px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.container-infos {
+    width: 100%;
+    display: inline-flex;
+    padding-top: 4rem;
 }
 
 .parc-infos {
-    width: 50%;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .parc-info {
@@ -111,45 +155,59 @@
 }
 
 .p-infos {
-    height: 15rem;
-    border: 1px solid #c7c7c7;
-    box-shadow: 1px 1px 10px #c7c7c7;
+    width: 50%;
+    height: 16rem;
+    box-shadow: 1px 1px 5px #c7c7c7;
     padding: 10px;
     border-radius: 10px;
     gap: 10px;
-    display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+    margin-right: 4rem;
+    background: #ffffffaf;
 }
 
-.p-infos div {
+.p-infos .infos {
    width: 32.0%;
    height: 3rem;
+   border: 1px solid #e6e6e6;
+   padding: 10px;
+   border-radius: 5px;
+   overflow: hidden;
 }
+
+    .p-infos .infos-nom {
+        width: 100%;
+    }
+
 
 .logo-div {
     margin-bottom: 2rem;
     width: 10rem;
     height: 10rem;
-    border: 1px solid #c7c7c7;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     box-shadow: 1px 1px 5px #c7c7c7;
+    background: white;
 }
 
-.logo-div img {
-    width: 100%;
-    border-radius: 25px;
-}
+    .logo-div img {
+        width: 100%;
+        height: 10rem;
+        border-radius: 25px;
+    }
 
 .btn-edite-img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    bottom: -20px;
-    right: -20px;
+    bottom: -15px;
+    right: -15px;
 }
 
 .infos {
@@ -161,3 +219,25 @@
 .infos p {
     margin: 0;
 }
+
+.contact {
+    width: 50%;
+    padding: 10px 0 10px 0;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px #c7c7c7;
+    background: #ffffffaf;
+}
+
+.btns-div {
+    width: 40px;
+    position: absolute;
+    top: 0;
+    right: -60px;
+    display: grid;
+    gap: 15px;
+}
+
+    .btns-div .btn {
+        width: 40px;
+        height: 40px;
+    }

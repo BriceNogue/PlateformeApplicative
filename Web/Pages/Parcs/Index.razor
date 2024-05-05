@@ -83,50 +83,66 @@
     else
     {
         <div class="container-parc">
-            <div class="parc-infos">
-                <div class="parc-info">
-                    <div class="logo-div">
-                        <img src="Ressources/Images/poste.png" />
-                        <button class="btn btn-secondary btn-edite-img">
-                            <span class="oi oi-camera-slr"></span>
+            <div>
+                <p class="about-txt">&Aacute; Propos</p>
+            </div>
+            <div class="container-infos">
+                <div class="parc-infos">
+                    <div class="parc-info">
+                        <div class="logo-div">
+                            <img src="Ressources/Images/poste.png" />
+                            <button class="btn btn-secondary btn-edite-img">
+                                <span class="oi oi-camera-slr"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="parc-info contact">
+                        <div class="infos">
+                            <span class="oi oi-phone"></span>
+                            <p> @parc.Telephone</p>
+                        </div>
+                        <div class="infos">
+                            <span class="oi oi-envelope-closed"></span>
+                            <p>@parc.Email</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="parc-infos p-infos">
+                    <div class="infos infos-nom">
+                        <p><b>Nom</b> <br /> @parc.Nom</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>Pays</b> <br /> @parc.Pays</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>Ville</b> <br /> @parc.Ville</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>Code Postal</b> <br /> @parc.CodePostal</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>Libélé De Rue</b> <br /> @parc.LibelleRue</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>N° Rue</b> <br /> @parc.NumeroRue</p>
+                    </div>
+                    <div class="infos">
+                        <p><b>Date De Création</b> <br /> @parc.DateCreation.ToShortDateString()</p>
+                    </div>
+                    <div class="btns-div">
+                        <button class="btn btn-primary btn-edit">
+                            <span class="oi oi-pencil"></span>
+                        </button>
+                        <button class="btn btn-danger">
+                            <span class="oi oi-trash"></span>
                         </button>
                     </div>
                 </div>
-                <div class="parc-info contact">
-                    <div class="infos">
-                        <span class="oi oi-phone"></span>
-                        <p> @parc.Telephone</p>
-                    </div>
-                    <div class="infos">
-                        <span class="oi oi-envelope-closed"></span>
-                        <p>@parc.Email</p>
-                    </div>                   
-                </div>
             </div>
-
-            <div class="parc-infos p-infos">
-                <div class="infos">
-                    <p><b>Nom</b> <br /> @parc.Nom</p>
-                </div>
-                <div class="infos">
-                    <p><b>Pays</b> <br /> @parc.Pays</p>
-                </div>
-                <div class="infos">
-                    <p><b>Ville</b> <br /> @parc.Ville</p>
-                </div>
-                <div class="infos">
-                    <p><b>Code postal</b> <br /> @parc.CodePostal</p>
-                </div>
-                <div class="infos">
-                    <p><b>Libéllé de rue</b> <br /> @parc.LibelleRue</p>
-                </div>
-                <div class="infos">
-                    <p><b>Numéro de rue</b> <br /> @parc.NumeroRue</p>
-                </div>
-                <div class="infos">
-                    <p><b>Date de création</b> <br /> @parc.DateCreation.ToLongDateString()</p>
-                </div>
-            </div>
+            <div class="blur blur-0"></div>
+            <div class="blur blur-1"></div>
+            <div class="blur blur-2"></div>
         </div>
     }
 
