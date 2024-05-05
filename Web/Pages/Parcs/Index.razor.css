@@ -6,7 +6,8 @@
     justify-content: center;
     align-items: center;
     gap: 2rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #454545;
 }
 
 .parc-form {
@@ -99,6 +100,8 @@
 
 .parc-infos {
     width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 .parc-info {
@@ -110,13 +113,28 @@
 
 .logo-div {
     margin-bottom: 2rem;
-}
-
-.parc-info img {
     width: 15rem;
     height: 15rem;
     border: 1px solid #c7c7c7;
-    border-radius: 50%;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 1px 1px 5px #c7c7c7;
+}
+
+    .logo-div img {
+        width: 100%;
+        border-radius: 25px;
+    }
+
+.btn-edite-img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
 }
 
 .infos {
