@@ -29,16 +29,18 @@
                 HorizontalOptions="Center" />
 
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
+                x:Name="Btn_login"
+                Text="Se Connecter"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="GoToLogin"
                 HorizontalOptions="Center" />
 
-            <Entry Placeholder="Nom" IsPassword="True" IsTextPredictionEnabled="True"/>
-            <Editor InputTransparent="False" Placeholder="Email" IsTextPredictionEnabled="True" Keyboard="Email"/>
-
-            <Switch/>
+            <Button
+                 x:Name="Btn_register"
+                 Text="Créer un compte"
+                 SemanticProperties.Hint="Counts the number of times you click"
+                 Clicked="GoToRegister"
+                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
     </ScrollView>

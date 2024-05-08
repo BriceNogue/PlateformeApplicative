@@ -4,11 +4,56 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Mobile"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:views="clr-namespace:Mobile.Views"
+    Shell.FlyoutBehavior="Flyout">
 
-    <ShellContent
-        Title="Home"
+    <Shell.FlyoutHeader>
+        <Label Text="User" FontSize="18"/>
+    </Shell.FlyoutHeader>
+    
+    <FlyoutItem Title="Tableau de bord">
+        <ShellContent
+            Title="Tableau de bord"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage">
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Parc">
+        <ShellContent
+            Title="Parc"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage">
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Utilisateurs">
+        <ShellContent
+            Title="Utilisateurs"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage">
+        </ShellContent>
+        <ShellContent
+             Title="Utilisateurs"
+             ContentTemplate="{DataTemplate local:MainPage}"
+             Route="MainPage">
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Salles">
+        <ShellContent
+            Title="Salles"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage">
+        </ShellContent>
+    </FlyoutItem>
+    <FlyoutItem Title="Postes">
+        <ShellContent
+        Title="Poste"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Route="MainPage">
+        </ShellContent>
+        <ShellContent
+         Title="Postes 1"
+         ContentTemplate="{DataTemplate local:MainPage}"
+         Route="MainPage">
+        </ShellContent>
+    </FlyoutItem>
 </Shell>

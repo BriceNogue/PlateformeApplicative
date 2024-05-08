@@ -52,4 +52,20 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Views\vLogin.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\vRegister.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\Postes\" />
+	  <Folder Include="Views\Salles\" />
+	  <Folder Include="Views\Utilisateurs\" />
+	  <Folder Include="Views\Parcs\" />
+	</ItemGroup>
+
 </Project>
