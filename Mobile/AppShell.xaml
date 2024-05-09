@@ -5,54 +5,61 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Mobile"
     xmlns:views="clr-namespace:Mobile.Views"
+    xmlns:parks="clr-namespace:Mobile.Views.Parks"
+    xmlns:users="clr-namespace:Mobile.Views.Users"
+    xmlns:rooms="clr-namespace:Mobile.Views.Rooms"
+    xmlns:posts="clr-namespace:Mobile.Views.Posts"
     Shell.FlyoutBehavior="Flyout">
 
     <Shell.FlyoutHeader>
         <Label Text="User" FontSize="18"/>
     </Shell.FlyoutHeader>
-    
+
+    <ShellContent 
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage">
+    </ShellContent>
+
     <FlyoutItem Title="Tableau de bord">
         <ShellContent
             Title="Tableau de bord"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage">
+            ContentTemplate="{DataTemplate views:vDashboard}"
+            Route="Dashboard">
         </ShellContent>
     </FlyoutItem>
     <FlyoutItem Title="Parc">
         <ShellContent
             Title="Parc"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage">
+            ContentTemplate="{DataTemplate parks:vParks}">
         </ShellContent>
     </FlyoutItem>
     <FlyoutItem Title="Utilisateurs">
         <ShellContent
             Title="Utilisateurs"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage">
+            ContentTemplate="{DataTemplate users:vUsers}">
         </ShellContent>
         <ShellContent
-             Title="Utilisateurs"
-             ContentTemplate="{DataTemplate local:MainPage}"
-             Route="MainPage">
+             Title="Utilisateurs Liste"
+             ContentTemplate="{DataTemplate users:vUsers}">
         </ShellContent>
     </FlyoutItem>
     <FlyoutItem Title="Salles">
         <ShellContent
             Title="Salles"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage">
+            ContentTemplate="{DataTemplate rooms:vRooms}">
         </ShellContent>
     </FlyoutItem>
     <FlyoutItem Title="Postes">
         <ShellContent
         Title="Poste"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage">
+        ContentTemplate="{DataTemplate posts:vPosts}">
         </ShellContent>
         <ShellContent
          Title="Postes 1"
-         ContentTemplate="{DataTemplate local:MainPage}"
+         ContentTemplate="{DataTemplate posts:vPosts}"
          Route="MainPage">
         </ShellContent>
     </FlyoutItem>
