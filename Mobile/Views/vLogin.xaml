@@ -4,18 +4,81 @@
              x:Class="Mobile.Views.vLogin"
              Title="Se Connecter"
              Shell.FlyoutItemIsVisible="False"
-             Shell.FlyoutBehavior="Disabled">
-    <VerticalStackLayout>
-        <Label 
-            Text="Se Connecter"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Shell.FlyoutBehavior="Disabled"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
 
-        <Button
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Frame 
+            Grid.Row="0" 
+            HorizontalOptions="Start"
+            BorderColor="Transparent"
+            HeightRequest="500"
+            WidthRequest="500">
+            <Frame.Background>
+                <RadialGradientBrush Center="0.0,0.5">
+                    <GradientStop Color="{StaticResource Primary}"
+                        Offset="0.1" />
+                    <GradientStop Color="Transparent"
+                        Offset="1.0" />
+                </RadialGradientBrush>
+            </Frame.Background>
+        </Frame>
+
+        <Grid Grid.Row="1">
+            <VerticalStackLayout 
+        Spacing="15"
+        Padding="25"
+        VerticalOptions="Center">
+
+                <material:TextField
+            x:Name="txt_email"
+            Title="Email"
+            AccentColor="DeepSkyBlue"
+            BorderColor="Grey"
+            Keyboard="Email"/>
+
+                <material:TextField
+            x:Name="txt_pwd"
+            Title="Mot de passe"
+            AccentColor="DeepSkyBlue"
+            BorderColor="Grey"
+            Keyboard="Default"/>
+
+                <Button
             x:Name="Btn_login"
+            Margin="0, 25, 0, 0"
+            HeightRequest="50"
             Text="Se Connecter"
-            SemanticProperties.Hint="Counts the number of times you click"
-            Clicked="Login"
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+            FontAttributes="Bold"
+            FontSize="18"
+            CornerRadius="10"
+            Background="{StaticResource Primary}"
+            Clicked="Login"/>
+
+            </VerticalStackLayout>
+        </Grid>
+
+        <Frame 
+            Grid.Row="2" 
+            HorizontalOptions="End"
+            BorderColor="Transparent"
+            HeightRequest="500"
+            WidthRequest="500">
+            <Frame.Background>
+                <RadialGradientBrush Center="1.0,0.5">
+                    <GradientStop Color="{StaticResource Primary}"
+                        Offset="0.1" />
+                    <GradientStop Color="Transparent"
+                        Offset="1.0" />
+                </RadialGradientBrush>
+            </Frame.Background>
+        </Frame>
+    </Grid>
+    
 </ContentPage>
