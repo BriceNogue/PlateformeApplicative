@@ -54,7 +54,6 @@
                 WidthRequest="300"
                 FontSize="15"
                 FontAttributes="Bold"
-                Background="DodgerBlue"
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="GoToRegister"
                 HorizontalOptions="Center"/>
