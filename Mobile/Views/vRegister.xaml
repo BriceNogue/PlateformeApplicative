@@ -5,10 +5,40 @@
              Title="Créer un compte"
              Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
-    <VerticalStackLayout>
+
+    <VerticalStackLayout
+        Padding="25"
+        Spacing="25">
         <Label 
             Text="Créer un compte"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+
+        <Border
+            HeightRequest="50">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Entry
+                x:Name="txt_name"
+                Placeholder="Nom"
+                Keyboard="Text"
+                FontSize="18"             
+                Margin="10,0,10,0"/>
+        </Border>
+        
+        <Border
+            HeightRequest="50">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="5"/>
+            </Border.StrokeShape>
+            <Entry
+            x:Name="txt_nam"
+            Placeholder="Nom"
+            Keyboard="Text"
+            FontSize="18"             
+            Margin="10,0,10,0"/>
+        </Border>
+
     </VerticalStackLayout>
 </ContentPage>

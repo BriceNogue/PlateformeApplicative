@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
+using Microsoft.Maui.Platform;
+using UraniumUI;
 
 namespace Mobile
 {
@@ -7,6 +9,14 @@ namespace Mobile
     {
         public static MauiApp CreateMauiApp()
         {
+#if ANDROID
+            // Supprimer la bar des entries (input text)
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("NoUnderline", (h, v) =>
+            {
+                h.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToPlatform());
+            });
+
+#endif
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -15,6 +25,10 @@ namespace Mobile
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
+            #region /// Package UraniumUI
+                .UseUraniumUI()
+                .UseUraniumUIMaterial()
+            #endregion
                 .ConfigureLifecycleEvents(events =>
                 {
 #if ANDROID
