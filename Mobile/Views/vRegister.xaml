@@ -8,169 +8,215 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
 
-    <Grid 
-        Padding="25">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>
             <RowDefinition />
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
+
+        <Frame 
+            Grid.Row="0" 
+            HorizontalOptions="Start"
+            BorderColor="Transparent"
+            CornerRadius="0"
+            HeightRequest="400"
+            WidthRequest="400">
+            <Frame.Background>
+                <RadialGradientBrush Center="0.0,0.5">
+                    <GradientStop Color="{StaticResource Primary}"
+                Offset="0.1" />
+                    <GradientStop Color="Transparent"
+                Offset="1.0" />
+                </RadialGradientBrush>
+            </Frame.Background>
+        </Frame>
         
-        <Label
-            Grid.Row="0"
-            Text="Créer un compte"
-            VerticalOptions="Center"
-            HorizontalOptions="Center" />
+        <Grid
+            Grid.Row="1"
+            Padding="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-        <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
-            <Border x:Name="indicator_one" HeightRequest="15" WidthRequest="15" Background="{StaticResource Primary}">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5"/>
-                </Border.StrokeShape>
-            </Border>
-            <Border x:Name="indicator_two" HeightRequest="15" WidthRequest="15">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="5"/>
-                </Border.StrokeShape>
-            </Border>
-        </HorizontalStackLayout>
+            <Label
+                Grid.Row="0"
+                Text="Créer un compte"
+                VerticalOptions="Center"
+                HorizontalOptions="Center" />
 
-        <Border
-            Grid.Row="2"
-            x:Name="border_one"
-            VerticalOptions="Center"
-            StrokeThickness="0">
+            <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
+                <Border x:Name="indicator_one" HeightRequest="15" WidthRequest="15" Background="{StaticResource Primary}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5"/>
+                    </Border.StrokeShape>
+                </Border>
+                <Border x:Name="indicator_two" HeightRequest="15" WidthRequest="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5"/>
+                    </Border.StrokeShape>
+                </Border>
+            </HorizontalStackLayout>
 
-            <VerticalStackLayout Spacing="15">
-                <material:TextField
-                    x:Name="txt_f_name"
-                    Title="Nom"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"
-                    Keyboard="Text"/>
+            <Border
+                Grid.Row="2"
+                x:Name="border_one"
+                VerticalOptions="Center"
+                StrokeThickness="0"
+                Background="Transparent">
 
-                <material:TextField
-                    x:Name="txt_l_name"
-                    Title="Prénom"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"
-                    Keyboard="Text"/>
+                <VerticalStackLayout Spacing="15">
+                    <material:TextField
+                        x:Name="txt_f_name"
+                        Title="Nom"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"
+                        Keyboard="Text"/>
 
-                <material:DatePickerField
-                    x:Name="dp_birthday"
-                    Title="Date de naissance"
-                    BorderColor="Grey"
-                    Date="01/01"/>
-                
-                <material:TextField
-                    x:Name="txt_phone"
-                    Title="Téléphone"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"
-                    Keyboard="Telephone"/>
+                    <material:TextField
+                        x:Name="txt_l_name"
+                        Title="Prénom"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"
+                        Keyboard="Text"/>
 
-                <ImageButton
-                    x:Name="btn_first_next"
-                    Margin="0, 25, 0, 0"
-                    HeightRequest="50"
-                    CornerRadius="10"
-                    Background="{StaticResource Primary}"
-                    Clicked="ToggleDisplayBorder"
-                    Aspect="Center">
-                    
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.ArrowRightLong}" Color="White" />
-                    </ImageButton.Source>
-                </ImageButton>
-            </VerticalStackLayout>
-        </Border>
+                    <material:DatePickerField
+                        x:Name="dp_birthday"
+                        Title="Date de naissance"
+                        BorderColor="Grey"
+                        Date="01/01"/>
 
-        <Border
-            Grid.Row="2"
-            x:Name="border_two"
-            StrokeThickness="0"
-            HeightRequest="0"
-            VerticalOptions="Center">
-            
-            <VerticalStackLayout Spacing="15">
-                <material:TextField
-                    x:Name="txt_email"
-                    Title="Email"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"
-                    Keyboard="Email"/>
+                    <material:TextField
+                        x:Name="txt_phone"
+                        Title="Téléphone"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"
+                        Keyboard="Telephone"/>
 
-                <material:TextField
-                    x:Name="txt_pwd"
-                    Title="Mot de passe"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"/>
-
-                <material:TextField
-                    x:Name="txt_c_pwd"
-                    Title="Confirmer le mot de passe"
-                    AccentColor="DeepSkyBlue"
-                    BorderColor="Grey"/>
-
-                <Grid 
-                    ColumnDefinitions="40, 300"
-                      Margin="0, 25, 0, 0">
-                    <material:CheckBox
-                        Grid.Column="0"
-                        HeightRequest="40"
-                        WidthRequest="40"
-                        HorizontalOptions="Start"                    
-                        LineBreakMode="NoWrap"/>
-
-                    <Label
-                        Grid.Column="1"
-                        HorizontalOptions="Start"
-                        Text="Je reconnais avoir lu et approuvé les Conditions Générales d'Utilisation"
-                        VerticalOptions="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Je reconnais avoir lu et approuvé les "/>
-                                <Span 
-                                    Text="Conditions Générales d'Utilisation" 
-                                    FontAttributes="Italic,Bold" 
-                                    TextColor="{StaticResource Primary}" 
-                                    TextDecorations="Underline">
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
-                    </Label>
-                </Grid>
-
-                <Grid 
-                    ColumnDefinitions="50, *"
-                    ColumnSpacing="25"
-                    Margin="0, 25, 0, 0">
-                    <Button
-                        Grid.Column="0"
-                        x:Name="btn_Second_next"
+                    <ImageButton
+                        x:Name="btn_first_next"
+                        Margin="0, 25, 0, 0"
                         HeightRequest="50"
-                        CornerRadius="8"
-                        Background="Transparent"
-                        BorderColor="{StaticResource Primary}"
-                        BorderWidth="1"
-                        Clicked="ToggleDisplayBorder">
+                        CornerRadius="10"
+                        Background="{StaticResource Primary}"
+                        Clicked="ToggleDisplayBorder"
+                        Aspect="Center">
 
-                        <Button.ImageSource>
-                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.ArrowLeftLong}" Color="{StaticResource Primary}"/>
-                        </Button.ImageSource>
-                    </Button>
+                        <ImageButton.Source>
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.ArrowRightLong}" Color="White" />
+                        </ImageButton.Source>
+                    </ImageButton>
+                </VerticalStackLayout>
+            </Border>
 
-                    <Button 
-                        Grid.Column="1" 
-                        Text="Créer"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        HeightRequest="50"
-                        CornerRadius="10"/>
-                </Grid>
-            </VerticalStackLayout>
-        </Border>
+            <Border
+                Grid.Row="2"
+                x:Name="border_two"
+                StrokeThickness="0"
+                HeightRequest="0"
+                VerticalOptions="Center"
+                Background="Transparent">
 
-        <!-- Text="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.User}}" -->
+                <VerticalStackLayout Spacing="15">
+                    <material:TextField
+                        x:Name="txt_email"
+                        Title="Email"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"
+                        Keyboard="Email"/>
+
+                    <material:TextField
+                        x:Name="txt_pwd"
+                        Title="Mot de passe"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"/>
+
+                    <material:TextField
+                        x:Name="txt_c_pwd"
+                        Title="Confirmer le mot de passe"
+                        AccentColor="DeepSkyBlue"
+                        BorderColor="Grey"/>
+
+                    <Grid 
+                        ColumnDefinitions="40, 300"
+                          Margin="0, 25, 0, 0">
+                        <material:CheckBox
+                            Grid.Column="0"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            HorizontalOptions="Start"                    
+                            LineBreakMode="NoWrap"/>
+
+                        <Label
+                            Grid.Column="1"
+                            HorizontalOptions="Start"
+                            Text="Je reconnais avoir lu et approuvé les Conditions Générales d'Utilisation"
+                            VerticalOptions="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Je reconnais avoir lu et approuvé les "/>
+                                    <Span 
+                                Text="Conditions Générales d'Utilisation" 
+                                FontAttributes="Italic,Bold" 
+                                TextColor="{StaticResource Primary}" 
+                                TextDecorations="Underline">
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Grid>
+
+                    <Grid 
+                        ColumnDefinitions="50, *"
+                        ColumnSpacing="25"
+                        Margin="0, 25, 0, 0">
+                        <Button
+                            Grid.Column="0"
+                            x:Name="btn_Second_next"
+                            HeightRequest="50"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            BorderColor="{StaticResource Primary}"
+                            BorderWidth="1"
+                            Clicked="ToggleDisplayBorder">
+
+                            <Button.ImageSource>
+                                <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.ArrowLeftLong}" Color="{StaticResource Primary}"/>
+                            </Button.ImageSource>
+                        </Button>
+
+                        <Button 
+                            Grid.Column="1" 
+                            Text="Créer"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HeightRequest="50"
+                            CornerRadius="10"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Text="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.User}}" -->
+        </Grid>
+        
+        <Frame
+            Grid.Row="2"
+            HorizontalOptions="End"
+            BorderColor="Transparent"
+            HeightRequest="400"
+            CornerRadius="0"
+            WidthRequest="400"
+            ZIndex="-1">
+            <Frame.Background>
+                <RadialGradientBrush Center="1.0,0.5">
+                    <GradientStop Color="{StaticResource Primary}"
+                Offset="0.1" />
+                    <GradientStop Color="Transparent"
+                Offset="1.0" />
+                </RadialGradientBrush>
+            </Frame.Background>
+        </Frame>
     </Grid>
 </ContentPage>

@@ -18,8 +18,9 @@
             Grid.Row="0" 
             HorizontalOptions="Start"
             BorderColor="Transparent"
-            HeightRequest="500"
-            WidthRequest="500">
+            CornerRadius="0"
+            HeightRequest="400"
+            WidthRequest="400">
             <Frame.Background>
                 <RadialGradientBrush Center="0.0,0.5">
                     <GradientStop Color="{StaticResource Primary}"
@@ -32,34 +33,42 @@
 
         <Grid Grid.Row="1">
             <VerticalStackLayout 
-        Spacing="15"
-        Padding="25"
-        VerticalOptions="Center">
+                Spacing="15"
+                Padding="25"
+                VerticalOptions="Center">
+
+                <Label
+                    Text="Connexion"
+                    TextColor="{StaticResource Primary}"
+                    FontSize="25"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"
+                    Padding="0,0,0,100"/>
 
                 <material:TextField
-            x:Name="txt_email"
-            Title="Email"
-            AccentColor="DeepSkyBlue"
-            BorderColor="Grey"
-            Keyboard="Email"/>
+                    x:Name="txt_email"
+                    Title="Email"
+                    AccentColor="{StaticResource Primary}"
+                    BorderColor="Grey"
+                    Keyboard="Email"/>
 
                 <material:TextField
-            x:Name="txt_pwd"
-            Title="Mot de passe"
-            AccentColor="DeepSkyBlue"
-            BorderColor="Grey"
-            Keyboard="Default"/>
+                    x:Name="txt_pwd"
+                    Title="Mot de passe"
+                    AccentColor="{StaticResource Primary}"
+                    BorderColor="Grey"
+                    Keyboard="Default"/>
 
                 <Button
-            x:Name="Btn_login"
-            Margin="0, 25, 0, 0"
-            HeightRequest="50"
-            Text="Se Connecter"
-            FontAttributes="Bold"
-            FontSize="18"
-            CornerRadius="10"
-            Background="{StaticResource Primary}"
-            Clicked="Login"/>
+                    x:Name="Btn_login"
+                    Margin="0, 25, 0, 0"
+                    HeightRequest="50"
+                    Text="Se Connecter"
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Background="{StaticResource Primary}"
+                    Clicked="Login"/>
 
             </VerticalStackLayout>
         </Grid>
@@ -68,8 +77,10 @@
             Grid.Row="2" 
             HorizontalOptions="End"
             BorderColor="Transparent"
-            HeightRequest="500"
-            WidthRequest="500">
+            HeightRequest="400"
+            WidthRequest="400"            
+            CornerRadius="0"
+            ZIndex="-1">
             <Frame.Background>
                 <RadialGradientBrush Center="1.0,0.5">
                     <GradientStop Color="{StaticResource Primary}"

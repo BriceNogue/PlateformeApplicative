@@ -29,7 +29,8 @@
             VerticalOptions="Start"/>
 
         <VerticalStackLayout
-                Grid.Row="2">
+            Grid.Row="2"
+            Padding="25">
             <Label
                 Text="La plateforme de gestion de parc"
                 Padding="0"
@@ -52,23 +53,20 @@
             <Button
                 x:Name="Btn_register"
                 Text="Créer un compte"
-                WidthRequest="300"
                 FontSize="15"
+                HeightRequest="50"
                 FontAttributes="Bold"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="GoToRegister"
-                HorizontalOptions="Center"/>
+                Clicked="GoToRegister"/>
 
             <Button
                 x:Name="Btn_login"
                 Text="Vous avez déja un compte ?"
                 BorderWidth="0"
                 FontSize="15"
+                HeightRequest="50"
                 Margin="0,10,0,0"
                 BackgroundColor="Transparent"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="GoToLogin"
-                HorizontalOptions="Center"/>
+                Clicked="GoToLogin"/>
         </VerticalStackLayout>
     </Grid>
 </ContentPage>
