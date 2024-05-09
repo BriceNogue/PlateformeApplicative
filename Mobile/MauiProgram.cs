@@ -25,7 +25,7 @@ namespace Mobile
                     {
                         //activity.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
                         //activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
-                        //activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+                        activity.Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#6074C6"));
                     }
 #endif
                 });

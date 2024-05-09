@@ -8,7 +8,7 @@
     <VerticalStackLayout>
         <Label 
             Text="Créer un compte"
-            VerticalOptions="Center" 
+            VerticalOptions="Center"
             HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentPage>
