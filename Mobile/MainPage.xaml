@@ -23,7 +23,7 @@
             Text="IT-M"
             TextColor="White"
             SemanticProperties.HeadingLevel="Level1"
-            FontSize="32"
+            FontSize="52"
             FontAttributes="Bold"
             HorizontalOptions="Center"
             VerticalOptions="Start"/>
@@ -31,6 +31,7 @@
         <VerticalStackLayout
             Grid.Row="2"
             Padding="25">
+            
             <Label
                 Text="La plateforme de gestion de parc"
                 Padding="0"
@@ -53,7 +54,7 @@
             <Button
                 x:Name="Btn_register"
                 Text="Créer un compte"
-                FontSize="15"
+                FontSize="18"
                 HeightRequest="50"
                 FontAttributes="Bold"
                 Clicked="GoToRegister"/>
@@ -62,7 +63,7 @@
                 x:Name="Btn_login"
                 Text="Vous avez déja un compte ?"
                 BorderWidth="0"
-                FontSize="15"
+                FontSize="16"
                 HeightRequest="50"
                 Margin="0,10,0,0"
                 BackgroundColor="Transparent"

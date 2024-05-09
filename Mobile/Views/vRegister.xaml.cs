@@ -15,7 +15,7 @@ public partial class vRegister : ContentPage
 		if(border_two.HeightRequest == 0)
 		{
             border_one.HeightRequest = 0;
-            border_two.HeightRequest = 400;
+            border_two.HeightRequest = 440;
 
             indicator_one.Background = Colors.White;
             indicator_two.Background = Color.Parse("#6074C6");
@@ -26,7 +26,7 @@ public partial class vRegister : ContentPage
         else
         {
             border_two.HeightRequest = 0;
-            border_one.HeightRequest = 400;
+            border_one.HeightRequest = 440;
 
             indicator_one.Background = Color.Parse("#6074C6");
             indicator_two.Background = Colors.White;

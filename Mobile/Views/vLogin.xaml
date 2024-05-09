@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.vLogin"
-             Title="Se Connecter"
              Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
@@ -21,8 +20,9 @@
             CornerRadius="0"
             HeightRequest="400"
             WidthRequest="400">
+            
             <Frame.Background>
-                <RadialGradientBrush Center="0.0,0.5">
+                <RadialGradientBrush Center="1.0,0.5">
                     <GradientStop Color="{StaticResource Primary}"
                         Offset="0.1" />
                     <GradientStop Color="Transparent"
@@ -48,15 +48,17 @@
                 <material:TextField
                     x:Name="txt_email"
                     Title="Email"
-                    AccentColor="{StaticResource Primary}"
-                    BorderColor="Grey"
+                    TitleColor="Gray"
+                    AccentColor="#FF9988"
+                    BorderColor="{StaticResource Primary}"
                     Keyboard="Email"/>
 
                 <material:TextField
                     x:Name="txt_pwd"
                     Title="Mot de passe"
-                    AccentColor="{StaticResource Primary}"
-                    BorderColor="Grey"
+                    TitleColor="Gray"
+                    AccentColor="#FF9988"
+                    BorderColor="{StaticResource Primary}"
                     Keyboard="Default"/>
 
                 <Button
@@ -82,8 +84,8 @@
             CornerRadius="0"
             ZIndex="-1">
             <Frame.Background>
-                <RadialGradientBrush Center="1.0,0.5">
-                    <GradientStop Color="{StaticResource Primary}"
+                <RadialGradientBrush Center="0.0,0.5">
+                    <GradientStop Color="#FF9988"
                         Offset="0.1" />
                     <GradientStop Color="Transparent"
                         Offset="1.0" />

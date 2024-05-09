@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.vRegister"
-             Title="Créer un compte"
              Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
@@ -31,7 +30,7 @@
                 </RadialGradientBrush>
             </Frame.Background>
         </Frame>
-        
+
         <Grid
             Grid.Row="1"
             Padding="25">
@@ -44,8 +43,10 @@
             <Label
                 Grid.Row="0"
                 Text="Créer un compte"
-                VerticalOptions="Center"
-                HorizontalOptions="Center" />
+                TextColor="{StaticResource Primary}"
+                FontSize="25"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"/>
 
             <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
                 <Border x:Name="indicator_one" HeightRequest="15" WidthRequest="15" Background="{StaticResource Primary}">
@@ -71,28 +72,31 @@
                     <material:TextField
                         x:Name="txt_f_name"
                         Title="Nom"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
                         Keyboard="Text"/>
 
                     <material:TextField
                         x:Name="txt_l_name"
                         Title="Prénom"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
                         Keyboard="Text"/>
 
                     <material:DatePickerField
                         x:Name="dp_birthday"
                         Title="Date de naissance"
-                        BorderColor="Grey"
-                        Date="01/01"/>
+                        TitleColor="Gray"
+                        BorderColor="{StaticResource Primary}"/>
 
                     <material:TextField
                         x:Name="txt_phone"
                         Title="Téléphone"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
                         Keyboard="Telephone"/>
 
                     <ImageButton
@@ -123,21 +127,26 @@
                     <material:TextField
                         x:Name="txt_email"
                         Title="Email"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
                         Keyboard="Email"/>
 
                     <material:TextField
                         x:Name="txt_pwd"
                         Title="Mot de passe"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"/>
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
+                        IsPassword="True"/>
 
                     <material:TextField
                         x:Name="txt_c_pwd"
                         Title="Confirmer le mot de passe"
-                        AccentColor="DeepSkyBlue"
-                        BorderColor="Grey"/>
+                        TitleColor="Gray"
+                        AccentColor="#FF9988"
+                        BorderColor="{StaticResource Primary}"
+                        IsPassword="True"/>
 
                     <Grid 
                         ColumnDefinitions="40, 300"
@@ -189,7 +198,7 @@
 
                         <Button 
                             Grid.Column="1" 
-                            Text="Créer"
+                            Text="Inscription"
                             FontSize="18"
                             FontAttributes="Bold"
                             HeightRequest="50"
@@ -200,7 +209,7 @@
 
             <!-- Text="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.User}}" -->
         </Grid>
-        
+
         <Frame
             Grid.Row="2"
             HorizontalOptions="End"
@@ -211,7 +220,7 @@
             ZIndex="-1">
             <Frame.Background>
                 <RadialGradientBrush Center="1.0,0.5">
-                    <GradientStop Color="{StaticResource Primary}"
+                    <GradientStop Color="#FF9988"
                 Offset="0.1" />
                     <GradientStop Color="Transparent"
                 Offset="1.0" />
