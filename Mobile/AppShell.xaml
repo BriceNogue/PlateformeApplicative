@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
+    xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
     x:Class="Mobile.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Mobile"
     xmlns:views="clr-namespace:Mobile.Views"
+    xmlns:vm="clr-namespace:Mobile.ViewModels"
     xmlns:parks="clr-namespace:Mobile.Views.Parks"
     xmlns:users="clr-namespace:Mobile.Views.Users"
     xmlns:rooms="clr-namespace:Mobile.Views.Rooms"
@@ -12,9 +14,27 @@
     Shell.FlyoutBehavior="Locked">
 
     <Shell.FlyoutHeader>
-        <Grid>
-            <Label Text="User" FontSize="18"/>
-        </Grid>
+        <VerticalStackLayout 
+            Spacing="25"
+            Padding="25,50,25,25">
+            <Frame
+                WidthRequest="100"
+                HeightRequest="100"
+                CornerRadius="50"
+                BorderColor="LightGray"
+                BackgroundColor="Transparent">
+
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Camera}" Color="{StaticResource Primary}" />
+                    </Image.Source>
+                </Image>
+            </Frame>
+            <VerticalStackLayout>
+                <Label Text="User Name" FontSize="15" HorizontalOptions="Center"/>
+                <Label Text="User Role" FontSize="15" HorizontalOptions="Center" FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
     </Shell.FlyoutHeader>
 
     <ShellContent 
@@ -65,4 +85,32 @@
          Route="MainPage">
         </ShellContent>
     </FlyoutItem>
+
+    <Shell.FlyoutContent>
+        <CollectionView>
+            <CollectionView.ItemsSource>
+                <x:Array Type="{x:Type vm:FlyoutPageItem}">
+                    
+                </x:Array>
+            </CollectionView.ItemsSource>
+        </CollectionView>
+    </Shell.FlyoutContent>
+
+    <Shell.FlyoutContentTemplate>
+        <DataTemplate>
+            <Grid Padding="5,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding IconSource}" />
+                <Label Grid.Column="1"
+                    Margin="20,0"
+                    Text="{Binding Title}"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" />
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutContentTemplate>
 </Shell>
