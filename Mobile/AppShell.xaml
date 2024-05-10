@@ -6,12 +6,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Mobile"
     xmlns:views="clr-namespace:Mobile.Views"
-    xmlns:vm="clr-namespace:Mobile.ViewModels"
     xmlns:parks="clr-namespace:Mobile.Views.Parks"
     xmlns:users="clr-namespace:Mobile.Views.Users"
     xmlns:rooms="clr-namespace:Mobile.Views.Rooms"
     xmlns:posts="clr-namespace:Mobile.Views.Posts"
-    Shell.FlyoutBehavior="Locked">
+    Shell.FlyoutBehavior="Locked"
+    x:Name="shell">
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout 
@@ -45,7 +45,9 @@
         Route="MainPage">
     </ShellContent>
 
-    <FlyoutItem Title="Tableau de bord">
+     <FlyoutItem 
+         Title="Tableau de bord"
+         Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.BorderAll}, Color={StaticResource Primary}}">
         <ShellContent
             Title="Tableau de bord"
             ContentTemplate="{DataTemplate views:vDashboard}"
@@ -86,31 +88,22 @@
         </ShellContent>
     </FlyoutItem>
 
-    <Shell.FlyoutContent>
-        <CollectionView>
-            <CollectionView.ItemsSource>
-                <x:Array Type="{x:Type vm:FlyoutPageItem}">
-                    
-                </x:Array>
-            </CollectionView.ItemsSource>
-        </CollectionView>
-    </Shell.FlyoutContent>
-
-    <Shell.FlyoutContentTemplate>
+    <!-- Pour Personnaliser l'affichage du menu Flyout ;-) -->
+    <Shell.ItemTemplate>
         <DataTemplate>
             <Grid Padding="5,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding IconSource}" />
+                <Image Source="{Binding FlyoutIcon}" />
                 <Label Grid.Column="1"
                     Margin="20,0"
                     Text="{Binding Title}"
-                    FontSize="20"
+                    FontSize="18"
                     FontAttributes="Bold"
                     VerticalOptions="Center" />
             </Grid>
-        </DataTemplate>
-    </Shell.FlyoutContentTemplate>
+        </DataTemplate>
+    </Shell.ItemTemplate>
 </Shell>
