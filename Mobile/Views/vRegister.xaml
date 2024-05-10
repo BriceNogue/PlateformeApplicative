@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
              x:Class="Mobile.Views.vRegister"
              Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled"
+             xmlns:vm="clr-namespace:Mobile.ViewModels"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
 
+    <ContentPage.BindingContext>
+        <vm:RegisterViewModel/>
+    </ContentPage.BindingContext>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition />
-            <RowDefinition Height="80"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Frame 
-            Grid.Row="0" 
-            HorizontalOptions="Start"
-            BorderColor="Transparent"
-            CornerRadius="0"
-            HeightRequest="400"
-            WidthRequest="400">
-            <Frame.Background>
-                <RadialGradientBrush Center="0.0,0.5">
-                    <GradientStop Color="{StaticResource Primary}"
-                Offset="0.1" />
-                    <GradientStop Color="Transparent"
-                Offset="1.0" />
-                </RadialGradientBrush>
-            </Frame.Background>
-        </Frame>
+        <!--
+            <Frame 
+    Grid.Row="0"
+    HorizontalOptions="Start"
+    VerticalOptions="Start"
+    BorderColor="Transparent"
+    CornerRadius="0"
+    HeightRequest="200"
+    WidthRequest="200">
+    <Frame.Background>
+        <RadialGradientBrush Center="0.0,0.0">
+            <GradientStop Color="{StaticResource Primary}"
+        Offset="0.1" />
+            <GradientStop Color="Transparent"
+        Offset="1.0" />
+        </RadialGradientBrush>
+    </Frame.Background>
+</Frame>
+        -->
 
         <Grid
-            Grid.Row="1"
+            Grid.Row="0"
             Padding="25">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -66,6 +73,7 @@
                 x:Name="border_one"
                 VerticalOptions="Center"
                 StrokeThickness="0"
+                IsVisible="{Binding IsBorderOneVisible}"
                 Background="Transparent">
 
                 <VerticalStackLayout Spacing="15">
@@ -89,7 +97,8 @@
                         x:Name="dp_birthday"
                         Title="Date de naissance"
                         TitleColor="Gray"
-                        BorderColor="{StaticResource Primary}"/>
+                        BorderColor="{StaticResource Primary}"
+                        Date="{Binding Source={x:Static sys:DateTime.Now},StringFormat='{0:dd MMMM, yyyy}'}"/>
 
                     <material:TextField
                         x:Name="txt_phone"
@@ -119,7 +128,7 @@
                 Grid.Row="2"
                 x:Name="border_two"
                 StrokeThickness="0"
-                HeightRequest="0"
+                IsVisible="{Binding IsBorderTwoVisible}"
                 VerticalOptions="Center"
                 Background="Transparent">
 
@@ -210,22 +219,25 @@
             <!-- Text="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.User}}" -->
         </Grid>
 
-        <Frame
-            Grid.Row="2"
-            HorizontalOptions="End"
-            BorderColor="Transparent"
-            HeightRequest="400"
-            CornerRadius="0"
-            WidthRequest="400"
-            ZIndex="-1">
-            <Frame.Background>
-                <RadialGradientBrush Center="1.0,0.5">
-                    <GradientStop Color="#FF9988"
-                Offset="0.1" />
-                    <GradientStop Color="Transparent"
-                Offset="1.0" />
-                </RadialGradientBrush>
-            </Frame.Background>
-        </Frame>
+        <!--
+            <Frame
+    Grid.Row="2"
+    HorizontalOptions="End"
+    VerticalOptions="End"
+    BorderColor="Transparent"
+    HeightRequest="200"
+    CornerRadius="0"
+    WidthRequest="200"
+    ZIndex="-1">
+    <Frame.Background>
+        <RadialGradientBrush Center="1.0,1.0">
+            <GradientStop Color="#FF9988"
+        Offset="0.1" />
+            <GradientStop Color="Transparent"
+        Offset="1.0" />
+        </RadialGradientBrush>
+    </Frame.Background>
+</Frame>
+        -->
     </Grid>
 </ContentPage>

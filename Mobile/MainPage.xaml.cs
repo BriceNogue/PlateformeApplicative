@@ -19,8 +19,6 @@ namespace Mobile
         private async void GoToRegister(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new vRegister());
-
-            //SemanticScreenReader.Announce("");
         }
     }
 

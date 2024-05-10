@@ -10,13 +10,12 @@
     xmlns:users="clr-namespace:Mobile.Views.Users"
     xmlns:rooms="clr-namespace:Mobile.Views.Rooms"
     xmlns:posts="clr-namespace:Mobile.Views.Posts"
-    Shell.FlyoutBehavior="Locked"
-    x:Name="shell">
+    Shell.FlyoutBehavior="Flyout">
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout 
             Spacing="25"
-            Padding="25,50,25,25">
+            Padding="10,50,10,25">
             <Frame
                 WidthRequest="100"
                 HeightRequest="100"
@@ -34,6 +33,8 @@
                 <Label Text="User Name" FontSize="15" HorizontalOptions="Center"/>
                 <Label Text="User Role" FontSize="15" HorizontalOptions="Center" FontAttributes="Bold"/>
             </VerticalStackLayout>
+
+            <Line X1="300" Stroke="LightGray" HorizontalOptions="Center"/>
         </VerticalStackLayout>
     </Shell.FlyoutHeader>
 
@@ -54,13 +55,17 @@
             Route="Dashboard">
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Title="Parc">
+    <FlyoutItem 
+        Title="Parc"
+        Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HouseLaptop}, Color={StaticResource Primary}}">
         <ShellContent
             Title="Parc"
             ContentTemplate="{DataTemplate parks:vParks}">
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Title="Utilisateurs">
+    <FlyoutItem 
+        Title="Utilisateurs"
+        Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Users}, Color={StaticResource Primary}}">
         <ShellContent
             Title="Utilisateurs"
             ContentTemplate="{DataTemplate users:vUsers}">
@@ -70,40 +75,96 @@
              ContentTemplate="{DataTemplate users:vUsers}">
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Title="Salles">
+    <FlyoutItem 
+        Title="Salles"
+        Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.LayerGroup}, Color={StaticResource Primary}}">
         <ShellContent
             Title="Salles"
             ContentTemplate="{DataTemplate rooms:vRooms}">
         </ShellContent>
     </FlyoutItem>
-    <FlyoutItem Title="Postes">
+    <FlyoutItem
+        Title="Postes"
+        Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Display}, Color={StaticResource Primary}}">
         <ShellContent
-        Title="Poste"
-        ContentTemplate="{DataTemplate posts:vPosts}">
+            Title="Poste"
+            ContentTemplate="{DataTemplate posts:vPosts}">
         </ShellContent>
         <ShellContent
-         Title="Postes 1"
-         ContentTemplate="{DataTemplate posts:vPosts}"
-         Route="MainPage">
+             Title="Postes 1"
+             ContentTemplate="{DataTemplate posts:vPosts}"
+             Route="MainPage">
         </ShellContent>
     </FlyoutItem>
 
     <!-- Pour Personnaliser l'affichage du menu Flyout ;-) -->
     <Shell.ItemTemplate>
         <DataTemplate>
-            <Grid Padding="5,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Image Source="{Binding FlyoutIcon}" />
-                <Label Grid.Column="1"
-                    Margin="20,0"
-                    Text="{Binding Title}"
-                    FontSize="18"
-                    FontAttributes="Bold"
-                    VerticalOptions="Center" />
-            </Grid>
+            <Border
+                Margin="10,10,10,0"
+                HeightRequest="50"
+                Padding="15,10"
+                StrokeShape="RoundRectangle 5">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Border.BackgroundColor" Value="Transparent" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="Border.Stroke" Value="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="{Binding FlyoutIcon}" VerticalOptions="Center"/>
+                    
+                    <Label Grid.Column="1"
+                        Margin="20,0"
+                        Text="{Binding Title}"
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"
+                        VerticalOptions="Center" />
+                    <Image Grid.Column="2" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.AngleRight}, Color={StaticResource Primary}}"/>
+                </Grid>
+            </Border>
         </DataTemplate>
     </Shell.ItemTemplate>
+
+    <Shell.FlyoutFooter>
+        <VerticalStackLayout 
+            Spacing="25"
+            Padding="10,0,10,10">
+            
+            <VerticalStackLayout>
+                <Button
+                    x:Name="btn_logout"
+                    ImageSource="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.PowerOff}, Size=15}"
+                    Text="Se Deconnecter"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    HeightRequest="50"
+                    BackgroundColor="Red"/>
+
+                <Grid ColumnDefinitions="*,*" Margin="0,30,0,0">
+                    <Image Grid.Column="0" HorizontalOptions="Start" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Copyright}, Color=Gray, Size=15}"/>
+                    <Label Grid.Column="0" Margin="20,0,0,0" Text="2024" FontSize="13" HorizontalOptions="Start"/>
+                    <Label Grid.Column="1" Text="v.1" FontSize="13" HorizontalOptions="End" FontAttributes="Bold"/>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Shell.FlyoutFooter>
 </Shell>
