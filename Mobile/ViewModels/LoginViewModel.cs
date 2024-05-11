@@ -11,8 +11,8 @@ namespace Mobile.ViewModels
             get { return Email; }
             set 
             { 
-                _Email = value;
-                OnPropertyChanged(nameof(_Email));
+                Email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
 
@@ -21,8 +21,8 @@ namespace Mobile.ViewModels
             get { return Password; }
             set
             {
-                _Password = value;
-                OnPropertyChanged(nameof(_Password));
+                Password = value;
+                OnPropertyChanged(nameof(Password));
             }
         }
 

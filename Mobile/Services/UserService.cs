@@ -8,7 +8,11 @@ namespace Mobile.Services
     public class UserService
     {
         private readonly HttpClient _httpClient = default!;
-        private readonly string _URL = "https://localhost:7281/api/users";
+
+        // Definit l'url de base en local en fonction de la plateforme car l'émultateur n'a pas directement accès à notre ordi
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5001" : "https://localhost:5001";
+
+        private readonly string _URL = $"{BaseAddress}/api/users";
 
         public UserService() 
         {
@@ -40,39 +44,34 @@ namespace Mobile.Services
         {
             try
             {
-                var userLogin = new LoginResponse(false, null, string.Empty);
-
                 StringContent content = (StringContent)SetRequestContent(loginM);
 
                 HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/login", content);
 
-                if(response.IsSuccessStatusCode)
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                var userLogin = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
+
+                if (userLogin.Flag)
                 {
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    userLogin = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
-
-                    if (userLogin.Flag)
+                    if (userLogin.Token!.StartsWith("Bearer "))
                     {
-                        if (userLogin.Token!.StartsWith("Bearer "))
-                        {
-                            string userToken = userLogin.Token!.Substring("Bearer ".Length);
-                            //SaveUserToken(userToken);
-                        }
-                        else
-                        {
-                            //SaveUserToken(userLogin.Token);
-                        }
+                        string userToken = userLogin.Token!.Substring("Bearer ".Length);
+                        //SaveUserToken(userToken);
+                    }
+                    else
+                    {
+                        //SaveUserToken(userLogin.Token);
                     }
                 }
 
                 return userLogin;
-
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return null!;
+                throw new Exception(ex.Message.ToString());
             }
         }
     }
