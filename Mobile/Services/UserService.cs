@@ -10,13 +10,20 @@ namespace Mobile.Services
         private readonly HttpClient _httpClient = default!;
 
         // Definit l'url de base en local en fonction de la plateforme car l'émultateur n'a pas directement accès à notre ordi
-        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:5001" : "https://localhost:5001";
+        public static string BaseAddress = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:7281" : "https://localhost:7281";
 
         private readonly string _URL = $"{BaseAddress}/api/users";
 
         public UserService() 
         {
-            _httpClient = new HttpClient();
+
+#if DEBUG
+             HttpsClientHandlerService handler = new HttpsClientHandlerService();
+             _httpClient = new HttpClient(handler.GetPlatformMessageHandler());
+#else
+             _httpClient  = new HttpClient();
+#endif
+
         }
 
         // Pour addapter le contenu de la requete

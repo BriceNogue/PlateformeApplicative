@@ -47,13 +47,20 @@ public partial class vLogin : ContentPage
         DisplayToat("XXXX");
         if (isValid)
         {
-            var res = await userService.Login(loginM);
-            DisplayToat(res.Message);
+            try
+            {
+                var res = await userService.Login(loginM);
+                DisplayToat(res.Message);
 
-            if (res.Flag)
-            {               
-                await Shell.Current.GoToAsync("//Dashboard");
-            }          
+                if (res.Flag)
+                {
+                    await Shell.Current.GoToAsync("//Dashboard");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
     }
 }
