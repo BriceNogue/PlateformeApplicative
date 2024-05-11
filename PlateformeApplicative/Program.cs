@@ -10,7 +10,7 @@ using Shareds.Interfaces;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Text;
-using Shareds.Hubs;
+using Infrastructure.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 

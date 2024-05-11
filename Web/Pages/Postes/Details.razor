@@ -3,7 +3,7 @@
 
 @using Microsoft.AspNetCore.SignalR.Client
 @using Shareds.Modeles;
-@using Shareds.Hubs;
+@using Web.Hubs;
 @using Services;
 
 @inject UserService userService
@@ -183,7 +183,7 @@
         instHub = new InstructionsHub();
         await instHub.ConnectToHub();
 
-        instHub.GetScreenImage(SetScreenImage);
+        await instHub.GetScreenImage(SetScreenImage);
 
         StateHasChanged();
     }

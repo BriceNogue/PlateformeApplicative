@@ -10,7 +10,7 @@ using Timer = System.Threading.Timer;
 
 namespace Desktop.Hubs
 {
-    public class InstructionsHub : Hub
+    public class InstructionsHub
     {
         private HubConnection? HC;
         private readonly string _hubURL = "https://localhost:7281/instructionshub"; // Adresse du backend

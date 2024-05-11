@@ -82,9 +82,15 @@ namespace Desktop
         // Se connecter au group signalR pour la reception des instruction par id poste
         private async Task JoinGroup()
         {
-            if (posteM != null)
-                await Task.Delay(10000);
-                await instsHub.JoinPostGroup(posteM!.Id);
+            try
+            {
+                if (posteM != null)
+                    await Task.Delay(10000);
+                    await instsHub.JoinPostGroup(posteM!.Id);
+            }catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         private void LoadIndexPage(object sender, RoutedEventArgs e)

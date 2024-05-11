@@ -1,7 +1,5 @@
 using Web.Data;
 using Web.Services;
-using Microsoft.AspNetCore.ResponseCompression;
-using Shareds.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +35,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
-//app.MapHub<InstructionsHub>("/instructionshub");
+
 app.MapFallbackToPage("/_Host");
 
 app.Run();

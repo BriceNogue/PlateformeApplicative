@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Primitives;
-using Shareds.Modeles;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Shareds.Hubs
+namespace Infrastructure.Hubs
 {
     public class InstructionsHub : Hub
     {
@@ -13,9 +12,7 @@ namespace Shareds.Hubs
 
         public bool IsConnected => HC?.State == HubConnectionState.Connected;
 
-        private string screenImageSource = string.Empty;
-
-        public InstructionsHub() 
+        public InstructionsHub()
         {
             instructions = new List<string>();
         }
@@ -27,11 +24,11 @@ namespace Shareds.Hubs
                 .WithAutomaticReconnect()
                 .Build();
 
-            HC.On<int, string>("ReceiveInstruction", (postId, instruction) =>
+            /*HC.On<int, string>("ReceiveInstruction", (postId, instruction) =>
             {
                 var formattedMessage = $"{postId}: {instruction}";
                 instructions.Add(formattedMessage);
-            });
+            }); */
 
             await HC.StartAsync();
         }
@@ -43,24 +40,12 @@ namespace Shareds.Hubs
         }
 
         // Definit le client pour l'envoi de l'instruction
-        public Task ToSend(int postId, string instruction)
+        public Task SendInstruction(int postId, string instruction)
         {
             return Clients.Group(postId.ToString()).SendAsync("ReceiveInstruction", postId, instruction);
         }
 
-        public async Task SendInstruction(int postId, string instruction)
-        {
-            if (HC is not null)
-            {
-                await HC.SendAsync("ToSend", postId, instruction);
-            }
-        }
-
-        public List<string> GetInstructions()
-        {
-            return instructions;
-        }
-
+        // Deconnecter le Hub
         public async ValueTask DisposeAsync()
         {
             if (HC is not null)
@@ -69,10 +54,12 @@ namespace Shareds.Hubs
             }
         }
 
-        // Methode appellée depuis WPF pour envoyer les images
+        // Methode invoquée depuis WPF pour envoyer les images
         public Task SendScreenImage(byte[] imageBytes)
         {
-            return Clients.All.SendAsync("ReceiveScreenImage", imageBytes);
+            string base64Image = SetScreenImage(imageBytes);
+
+            return Clients.All.SendAsync("ReceiveScreenImage", base64Image);
         }
 
         private string SetScreenImage(byte[] imageBytes)
@@ -81,7 +68,8 @@ namespace Shareds.Hubs
             return base64Image;
         }
 
-        public string GetScreenImage(Action<string> callback)
+        // Methode appellée depuis Blazor pour recevoir les images
+        /*public Task GetScreenImage(Action<string> callback)
         {
             var base64Image = "";
 
@@ -95,8 +83,8 @@ namespace Shareds.Hubs
                 });
             }
 
-            return "";
-        }
+            return Task.CompletedTask;
+        }*/
 
     }
 }
