@@ -4,8 +4,13 @@
              x:Class="Mobile.Views.vLogin"
              Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled"
+             xmlns:vm="clr-namespace:Mobile.ViewModels"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel/>
+    </ContentPage.BindingContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -48,6 +53,7 @@
                 <material:TextField
                     x:Name="txt_email"
                     Title="Email"
+                    Text="{Binding _Email}"
                     TitleColor="Gray"
                     AccentColor="#FF9988"
                     BorderColor="{StaticResource Primary}"
@@ -56,6 +62,7 @@
                 <material:TextField
                     x:Name="txt_pwd"
                     Title="Mot de passe"
+                    Text="{Binding _Password}"
                     TitleColor="Gray"
                     AccentColor="#FF9988"
                     BorderColor="{StaticResource Primary}"

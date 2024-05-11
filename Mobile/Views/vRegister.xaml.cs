@@ -6,22 +6,22 @@ namespace Mobile.Views;
 
 public partial class vRegister : ContentPage
 {
-    RegisterViewModel rvm;
+    RegisterViewModel RegisterVM;
 	public vRegister()
 	{
 		InitializeComponent();
 
-        rvm = (RegisterViewModel)BindingContext;
-        rvm.IsBorderOneVisible = true;
-        rvm.IsBorderTwoVisible = false;
+        RegisterVM = (RegisterViewModel)BindingContext;
+        RegisterVM.IsBorderOneVisible = true;
+        RegisterVM.IsBorderTwoVisible = false;
     }
 
 	private async void ToggleDisplayBorder(object sender, EventArgs e)
 	{
-		if(!rvm.IsBorderTwoVisible)
+		if(!RegisterVM.IsBorderTwoVisible)
 		{
-            rvm.IsBorderOneVisible = false;
-            rvm.IsBorderTwoVisible = true;
+            RegisterVM.IsBorderOneVisible = false;
+            RegisterVM.IsBorderTwoVisible = true;
 
             indicator_one.Background = Colors.White;
             indicator_two.Background = Color.Parse("#6074C6");
@@ -31,8 +31,8 @@ public partial class vRegister : ContentPage
         }
         else
         {
-            rvm.IsBorderTwoVisible = false;
-            rvm.IsBorderOneVisible = true;
+            RegisterVM.IsBorderTwoVisible = false;
+            RegisterVM.IsBorderOneVisible = true;
 
             indicator_one.Background = Color.Parse("#6074C6");
             indicator_two.Background = Colors.White;
