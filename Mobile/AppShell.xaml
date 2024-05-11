@@ -45,8 +45,22 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage">
     </ShellContent>
+    <ShellContent 
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False"
+        ContentTemplate="{DataTemplate views:vRegister}"
+        Route="Register">
+    </ShellContent>
+    <ShellContent 
+        FlyoutItemIsVisible="False"
+        Shell.FlyoutBehavior="Disabled"
+        Shell.NavBarIsVisible="False"
+        ContentTemplate="{DataTemplate views:vLogin}"
+        Route="Login">
+    </ShellContent>
 
-     <FlyoutItem 
+    <FlyoutItem 
          Title="Tableau de bord"
          Icon="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.BorderAll}, Color={StaticResource Primary}}">
         <ShellContent
