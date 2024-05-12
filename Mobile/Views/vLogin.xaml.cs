@@ -4,6 +4,12 @@ using Shareds.Modeles;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using Mobile.Domain.Repositories;
+using Mobile.Domain.Entities;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using UserSession = Mobile.Domain.Entities.UserSession;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Mobile.Views;
 
@@ -12,15 +18,17 @@ public partial class vLogin : ContentPage
 	public LoginViewModel LoginVM;
 
 	public UserService userService;
+    public UserSessionRepository userSR;
 
-	public vLogin()
+    public vLogin()
 	{
 		InitializeComponent();
 
 		LoginVM = (LoginViewModel)BindingContext;
 
 		userService = new UserService();
-	}
+        userSR = new UserSessionRepository();
+    }
 
     // Pour afficher une notification toast
     private async void DisplayToat(string message)
@@ -44,7 +52,7 @@ public partial class vLogin : ContentPage
         var validationContext = new ValidationContext(loginM, serviceProvider: null, items: null);
 
         bool isValid = Validator.TryValidateObject(loginM, validationContext, validationResults, validateAllProperties: true);
-        DisplayToat("XXXX");
+        
         if (isValid)
         {
             try
@@ -54,6 +62,11 @@ public partial class vLogin : ContentPage
 
                 if (res.Flag)
                 {
+                    UserSession userSession = new UserSession();
+                    userSession = SetUserSession(res.Token);
+
+                    await userSR.CreateUserSession(userSession);
+
                     await Shell.Current.GoToAsync("//Dashboard");
                 }
             }
@@ -62,5 +75,44 @@ public partial class vLogin : ContentPage
                 throw new Exception(ex.Message.ToString());
             }
         }
+    }
+
+    // Récupère le Token à la connexion et crée une userSession
+    public UserSession SetUserSession(string token)
+    {
+        UserSession userSession = new UserSession();
+
+        if (token is not null)
+        {
+            if (token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+            }
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var tokenDecoded = tokenHandler.ReadJwtToken(token);
+
+            // Accès aux revendications (données) du token JWT et èxtraction des infos
+            var claims = tokenDecoded.Claims;
+
+            if (claims is not null)
+            {
+                string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
+                string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+                string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
+                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+                userSession = new UserSession()
+                {
+                    Id = int.Parse(id),
+                    Name = name,
+                    Role = role,
+                    Token = token,
+                };
+                string jsonUserS = JsonConvert.SerializeObject(userSession);
+            }
+        }
+
+        return userSession;
     }
 }
