@@ -30,8 +30,8 @@
                 </Image>
             </Frame>
             <VerticalStackLayout>
-                <Label Text="User Name" FontSize="15" HorizontalOptions="Center"/>
-                <Label Text="User Role" FontSize="15" HorizontalOptions="Center" FontAttributes="Bold"/>
+                <Label x:Name="txt_user_name" Text="User Name" FontSize="15" HorizontalOptions="Center"/>
+                <Label x:Name="txt_user_role" Text="User Role" FontSize="15" HorizontalOptions="Center" FontAttributes="Bold"/>
             </VerticalStackLayout>
 
             <Line X1="300" Stroke="LightGray" HorizontalOptions="Center"/>
@@ -52,7 +52,7 @@
         ContentTemplate="{DataTemplate views:vRegister}"
         Route="Register">
     </ShellContent>
-    <ShellContent 
+    <ShellContent
         FlyoutItemIsVisible="False"
         Shell.FlyoutBehavior="Disabled"
         Shell.NavBarIsVisible="False"
@@ -171,7 +171,8 @@
                     FontSize="15"
                     FontAttributes="Bold"
                     HeightRequest="50"
-                    BackgroundColor="Red"/>
+                    BackgroundColor="Red"
+                    Clicked="Logout"/>
 
                 <Grid ColumnDefinitions="*,*" Margin="0,30,0,0">
                     <Image Grid.Column="0" HorizontalOptions="Start" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Copyright}, Color=Gray, Size=15}"/>
