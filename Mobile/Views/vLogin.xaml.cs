@@ -18,7 +18,10 @@ public partial class vLogin : ContentPage
 	public LoginViewModel LoginVM;
 
 	public UserService userService;
+    public ParkService parkService;
+
     public UserSessionRepository userSR;
+    public ParcSessionRepository parcSR;
 
     public vLogin()
 	{
@@ -27,7 +30,10 @@ public partial class vLogin : ContentPage
 		LoginVM = (LoginViewModel)BindingContext;
 
 		userService = new UserService();
+        parkService = new ParkService();
+
         userSR = new UserSessionRepository();
+        parcSR = new ParcSessionRepository();
     }
 
     // Pour afficher une notification toast
@@ -64,10 +70,18 @@ public partial class vLogin : ContentPage
                 {
                     UserSession userSession = new UserSession();
                     userSession = SetUserSession(res.Token);
-
                     await userSR.CreateUserSession(userSession);
 
-                    await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
+                    var userParcs = await parkService.GetAllByUser(userSession.Id, userSession.Token);
+                    if (userParcs.Count > 1)
+                    {
+                        LoginVM.IsBorderOneVisible = false;
+                        LoginVM.IsBorderTwoVisible = true;
+                    }
+                    else
+                    {
+                        await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
+                    }                   
                 }
             }
             catch (Exception ex)

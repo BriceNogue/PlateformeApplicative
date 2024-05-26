@@ -49,6 +49,7 @@ namespace Mobile
                 });
 
             builder.Services.AddSingleton<UserSessionRepository>();
+            builder.Services.AddSingleton<ParcSessionRepository>();
 
 #if DEBUG
             builder.Logging.AddDebug();
