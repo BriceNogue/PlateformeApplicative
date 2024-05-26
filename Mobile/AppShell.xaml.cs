@@ -35,7 +35,8 @@ namespace Mobile
             if (userSession != null)
             {
                 await userSR.DeleteUserSession(userSession);
-                await Navigation.PushAsync(new MainPage());
+                //await Navigation.PushAsync(new MainPage());
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
             }
         }
     }

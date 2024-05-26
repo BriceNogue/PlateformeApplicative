@@ -1,33 +1,45 @@
 ﻿using Mobile.Domain.Entities;
+using SQLite;
 
 namespace Mobile.Domain.Repositories
 {
     public class UserSessionRepository
     {
-        private LocalDB _db;
-        public UserSessionRepository()
+        private SQLiteAsyncConnection _db;
+
+        public UserSessionRepository(){}
+
+        async Task Init()
         {
-            _db = new LocalDB();
+            if (_db is not null)
+                return;
+
+            _db = new SQLiteAsyncConnection(LocalDB.DatabasePath, LocalDB.Flags);
+            var result = await _db.CreateTableAsync<UserSession>();
         }
 
         public async Task<UserSession> GetUserSession()
         {
-            return await _db._connection.Table<UserSession>().FirstOrDefaultAsync();
+            await Init();
+            return await _db.Table<UserSession>().FirstOrDefaultAsync();
         }
 
         public async Task CreateUserSession(UserSession userSession)
         {
-            await _db._connection.InsertAsync(userSession);
+            await Init();
+            await _db.InsertAsync(userSession);
         }
 
         public async Task UpdateUserSession(UserSession userSession)
         {
-            await _db._connection.UpdateAsync(userSession);
+            await Init();
+            await _db.UpdateAsync(userSession);
         }
 
         public async Task DeleteUserSession(UserSession userSession)
         {
-            await _db._connection.DeleteAsync(userSession);
+            await Init();
+            await _db.DeleteAsync(userSession);
         }
     }
 }

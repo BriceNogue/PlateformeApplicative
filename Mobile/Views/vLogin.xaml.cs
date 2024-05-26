@@ -67,7 +67,7 @@ public partial class vLogin : ContentPage
 
                     await userSR.CreateUserSession(userSession);
 
-                    await Shell.Current.GoToAsync("//Dashboard");
+                    await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
                 }
             }
             catch (Exception ex)

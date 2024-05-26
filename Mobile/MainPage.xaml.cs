@@ -6,6 +6,7 @@ namespace Mobile
     public partial class MainPage : ContentPage
     {
         UserSessionRepository userSR;
+
         public MainPage()
         {
             InitializeComponent();
@@ -13,18 +14,6 @@ namespace Mobile
             userSR = new UserSessionRepository();
 
             _ = CheckUserSession();
-        }
-
-        private async void GoToLogin(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new vLogin());
-
-            //SemanticScreenReader.Announce("");
-        }
-
-        private async void GoToRegister(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new vRegister());
         }
 
         public async Task<bool> CheckUserSession()
@@ -40,6 +29,18 @@ namespace Mobile
                 await Shell.Current.GoToAsync("//Dashboard");
                 return true;
             }
+        }
+
+        private async void GoToLogin(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new vLogin());
+
+            //SemanticScreenReader.Announce("");
+        }
+
+        private async void GoToRegister(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new vRegister());
         }
     }
 

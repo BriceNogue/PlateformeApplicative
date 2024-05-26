@@ -56,7 +56,7 @@ namespace Desktop.Hubs
                             System.Windows.Application.Current.Shutdown();
                             break;
                         case "STARTSCREENCAPTURE":
-                            _deviceManagerS = new DeviceManagerService(100, SendScreenCapture);
+                            _deviceManagerS = new DeviceManagerService(1000, SendScreenCapture);
                             _deviceManagerS.StartCapture();
                             break;
                         case "STOPSCREENCAPTURE":

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Microsoft.Maui.Platform;
+using Mobile.Domain.Repositories;
 using UraniumUI;
 
 namespace Mobile
@@ -47,8 +48,10 @@ namespace Mobile
 #endif
                 });
 
+            builder.Services.AddSingleton<UserSessionRepository>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();
