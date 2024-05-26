@@ -8,6 +8,7 @@ namespace Mobile.ViewModels
     {
         private bool isBorderOneVisible;
         private bool isBorderTwoVisible;
+        private List<EtablissementModele> parks;
 
         public string _Email
         {
@@ -50,6 +51,19 @@ namespace Mobile.ViewModels
                 if (isBorderTwoVisible != value)
                 {
                     isBorderTwoVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<EtablissementModele> Parks
+        {
+            get { return parks; }
+            set
+            {
+                if (parks != value)
+                {
+                    parks = value;
                     OnPropertyChanged();
                 }
             }

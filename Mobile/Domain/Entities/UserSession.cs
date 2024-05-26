@@ -10,6 +10,9 @@ namespace Mobile.Domain.Entities
         [Column("id")]
         public int Id { get; set; }
 
+        [Column("user_id")]
+        public int UserId { get; set; }
+
         [Column("name")]
         public string Name { get; set; }
 

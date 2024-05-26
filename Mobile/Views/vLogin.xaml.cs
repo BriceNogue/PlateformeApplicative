@@ -9,6 +9,7 @@ using Mobile.Domain.Entities;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using UserSession = Mobile.Domain.Entities.UserSession;
+using ParcSession = Mobile.Domain.Entities.ParcSession;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Mobile.Views;
@@ -23,13 +24,18 @@ public partial class vLogin : ContentPage
     public UserSessionRepository userSR;
     public ParcSessionRepository parcSR;
 
+    public UserSession userSession;
+    public ParcSession parcSession;
+
     public vLogin()
 	{
 		InitializeComponent();
 
 		LoginVM = (LoginViewModel)BindingContext;
+        LoginVM.IsBorderOneVisible = true;
+        LoginVM.IsBorderTwoVisible = false;
 
-		userService = new UserService();
+        userService = new UserService();
         parkService = new ParkService();
 
         userSR = new UserSessionRepository();
@@ -68,18 +74,19 @@ public partial class vLogin : ContentPage
 
                 if (res.Flag)
                 {
-                    UserSession userSession = new UserSession();
+                    userSession = new UserSession();
                     userSession = SetUserSession(res.Token);
-                    await userSR.CreateUserSession(userSession);
 
-                    var userParcs = await parkService.GetAllByUser(userSession.Id, userSession.Token);
+                    var userParcs = await parkService.GetAllByUser(userSession.UserId, userSession.Token);
                     if (userParcs.Count > 1)
                     {
+                        LoginVM.Parks = userParcs;
                         LoginVM.IsBorderOneVisible = false;
                         LoginVM.IsBorderTwoVisible = true;
                     }
                     else
                     {
+                        await userSR.CreateUserSession(userSession);
                         await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
                     }                   
                 }
@@ -88,6 +95,34 @@ public partial class vLogin : ContentPage
             {
                 throw new Exception(ex.Message.ToString());
             }
+        }
+    }
+
+    private async void OnValidSelectedPark(object sender, EventArgs e)
+    {
+        if (parcSession != null)
+        {
+            await parcSR.Create(parcSession);
+            await userSR.CreateUserSession(userSession);
+            await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
+        }
+        else
+        {
+            DisplayToat("Veillez sélectionner un établissement.");
+        }
+    }
+
+    public void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        EtablissementModele parc = ((Picker)sender).SelectedItem as EtablissementModele;
+
+        if (parc != null)
+        {
+            parcSession = new ParcSession();
+            parcSession.ParcId = parc.Id;
+            parcSession.Name = parc.Nom;
+
+            DisplayToat(parcSession.Name);
         }
     }
 
@@ -118,7 +153,7 @@ public partial class vLogin : ContentPage
 
                 userSession = new UserSession()
                 {
-                    Id = int.Parse(id),
+                    UserId = int.Parse(id),
                     Name = name,
                     Role = role,
                     Token = token,
