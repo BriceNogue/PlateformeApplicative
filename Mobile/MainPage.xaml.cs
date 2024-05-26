@@ -26,7 +26,7 @@ namespace Mobile
             }
             else
             {
-                await Shell.Current.GoToAsync("//Dashboard");
+                await Shell.Current.GoToAsync("//vDashboard");
                 return true;
             }
         }
