@@ -6,6 +6,9 @@ namespace Mobile.ViewModels
 {
     public class LoginViewModel : UserLoginModele, INotifyPropertyChanged
     {
+        private bool isBorderOneVisible;
+        private bool isBorderTwoVisible;
+
         public string _Email
         {
             get { return Email; }
@@ -23,6 +26,32 @@ namespace Mobile.ViewModels
             {
                 Password = value;
                 OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public bool IsBorderOneVisible
+        {
+            get { return isBorderOneVisible; }
+            set
+            {
+                if (isBorderOneVisible != value)
+                {
+                    isBorderOneVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsBorderTwoVisible
+        {
+            get { return isBorderTwoVisible; }
+            set
+            {
+                if (isBorderTwoVisible != value)
+                {
+                    isBorderTwoVisible = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

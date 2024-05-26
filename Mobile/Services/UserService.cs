@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Mobile.Domain.Repositories;
+using Newtonsoft.Json;
 using Shareds.Modeles;
+using System.Net.Http.Headers;
 using System.Text;
 using static Shareds.Modeles.ResponsesModels;
 
@@ -14,14 +16,16 @@ namespace Mobile.Services
 
         private readonly string _URL = $"{BaseAddress}/api/users";
 
+        UserSessionRepository userSR;
+
         public UserService() 
         {
-
+            userSR = new UserSessionRepository();
 #if DEBUG
-             HttpsClientHandlerService handler = new HttpsClientHandlerService();
-             _httpClient = new HttpClient(handler.GetPlatformMessageHandler());
+            HttpsClientHandlerService handler = new HttpsClientHandlerService();
+            _httpClient = new HttpClient(handler.GetPlatformMessageHandler());
 #else
-             _httpClient  = new HttpClient();
+            _httpClient  = new HttpClient();
 #endif
 
         }
@@ -79,6 +83,63 @@ namespace Mobile.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public async Task<string> GetUserToken()
+        {
+            try
+            {
+                var res = await userSR.GetUserSession();
+
+                if (res == null)
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    string token = res.Token;
+                    return token;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<UserModele>> GetAllByParc(int parcId)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc/id?id={parcId}");
+
+                string token = await GetUserToken();
+
+                if (token is not null)
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var res = await _httpClient.SendAsync(request);
+
+                    if (res.IsSuccessStatusCode)
+                    {
+                        var jsonString = await res.Content.ReadAsStringAsync();
+                        var data = JsonConvert.DeserializeObject<List<UserModele>>(jsonString);
+                        return data!;
+                    }
+                    else
+                    {
+                        return new List<UserModele>();
+                    }
+                }
+                else
+                {
+                    return new List<UserModele>();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

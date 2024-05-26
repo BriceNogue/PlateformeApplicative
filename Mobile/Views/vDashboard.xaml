@@ -12,7 +12,7 @@
             
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10 15">
+                Padding="10,15">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
@@ -31,7 +31,7 @@
                         HorizontalOptions="End" />
                     <Label
                         Grid.Row="2" Grid.Column="1"
-                        x:Name="lb_nbr_room_txt"
+                        x:Name="lb_room"
                         Text="Salle"
                         FontSize="15"
                         FontAttributes="Bold"
@@ -41,7 +41,7 @@
             </Border>
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10 15">
+                Padding="10,15">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
@@ -60,7 +60,7 @@
                         HorizontalOptions="End" />
                     <Label
                         Grid.Row="2" Grid.Column="1"
-                        x:Name="lb_nbr_post_txt"
+                        x:Name="lb_post"
                         Text="Poste"
                         FontSize="15"
                         FontAttributes="Bold"
@@ -70,7 +70,7 @@
             </Border>
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10 15">
+                Padding="10,15">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
@@ -89,8 +89,8 @@
                         HorizontalOptions="End" />
                     <Label
                         Grid.Row="2" Grid.Column="1"
-                        x:Name="lb_nbr_user_txt"
-                        Text="Poste"
+                        x:Name="lb_user"
+                        Text="Utilisateur"
                         FontSize="15"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
