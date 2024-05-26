@@ -2,11 +2,101 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.vDashboard"
-             Title="Tableau de bord">
-    <VerticalStackLayout>
-        <Label 
-            Text="Tableau de bord"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Tableau de bord"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
+
+    <ScrollView>
+        <VerticalStackLayout            
+            Padding="20"
+            Spacing="10">
+            
+            <Border
+                StrokeShape="RoundRectangle 5"
+                Padding="10 15">
+                <Grid 
+                    RowDefinitions="20,20,20"
+                    ColumnDefinitions="30, *">
+                    <Image Grid.Row="1" Grid.Column="0">
+                        <Image.Source>
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.LayerGroup}" Color="{StaticResource Primary}" />
+                        </Image.Source>
+                    </Image>
+                    <Label
+                        Grid.Row="0" Grid.Column="1"
+                        x:Name="lb_nbr_room"
+                        Text="0"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                    <Label
+                        Grid.Row="2" Grid.Column="1"
+                        x:Name="lb_nbr_room_txt"
+                        Text="Salle"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                </Grid>
+            </Border>
+            <Border
+                StrokeShape="RoundRectangle 5"
+                Padding="10 15">
+                <Grid 
+                    RowDefinitions="20,20,20"
+                    ColumnDefinitions="30, *">
+                    <Image Grid.Row="1" Grid.Column="0">
+                        <Image.Source>
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Display}" Color="{StaticResource Primary}" />
+                        </Image.Source>
+                    </Image>
+                    <Label
+                        Grid.Row="0" Grid.Column="1"
+                        x:Name="lb_nbr_post"
+                        Text="0"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                    <Label
+                        Grid.Row="2" Grid.Column="1"
+                        x:Name="lb_nbr_post_txt"
+                        Text="Poste"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                </Grid>
+            </Border>
+            <Border
+                StrokeShape="RoundRectangle 5"
+                Padding="10 15">
+                <Grid 
+                    RowDefinitions="20,20,20"
+                    ColumnDefinitions="30, *">
+                    <Image Grid.Row="1" Grid.Column="0">
+                        <Image.Source>
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Users}" Color="{StaticResource Primary}" />
+                        </Image.Source>
+                    </Image>
+                    <Label
+                        Grid.Row="0" Grid.Column="1"
+                        x:Name="lb_nbr_user"
+                        Text="0"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                    <Label
+                        Grid.Row="2" Grid.Column="1"
+                        x:Name="lb_nbr_user_txt"
+                        Text="Poste"
+                        FontSize="15"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
