@@ -21,11 +21,12 @@ public partial class vLogin : ContentPage
 	public UserService userService;
     public ParkService parkService;
 
-    public UserSessionRepository userSR;
-    public ParcSessionRepository parcSR;
+    //public UserSessionRepository userSR;
+    //public ParcSessionRepository parcSR;
 
     public UserSession userSession;
     public ParcSession parcSession;
+    private string userToken;
 
     public vLogin()
 	{
@@ -38,8 +39,8 @@ public partial class vLogin : ContentPage
         userService = new UserService();
         parkService = new ParkService();
 
-        userSR = new UserSessionRepository();
-        parcSR = new ParcSessionRepository();
+        //userSR = new UserSessionRepository();
+        //parcSR = new ParcSessionRepository();
     }
 
     // Pour afficher une notification toast
@@ -75,7 +76,7 @@ public partial class vLogin : ContentPage
                 if (res.Flag)
                 {
                     userSession = new UserSession();
-                    userSession = SetUserSession(res.Token);
+                    userSession = userService.SetUserSession(res.Token);
 
                     var userParcs = await parkService.GetAllByUser(userSession.UserId, userSession.Token);
                     if (userParcs.Count > 1)
@@ -83,10 +84,13 @@ public partial class vLogin : ContentPage
                         LoginVM.Parks = userParcs;
                         LoginVM.IsBorderOneVisible = false;
                         LoginVM.IsBorderTwoVisible = true;
+
+                        userToken = res.Token;
                     }
                     else
                     {
-                        await userSR.CreateUserSession(userSession);
+                        //await userSR.CreateUserSession(userSession);
+                        userService.SaveUserPreferences(res.Token);
                         await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
                     }                   
                 }
@@ -96,26 +100,6 @@ public partial class vLogin : ContentPage
                 throw new Exception(ex.Message.ToString());
             }
         }
-    }
-
-    private async void OnValidSelectedPark(object sender, EventArgs e)
-    {
-        if (parcSession != null)
-        {
-            await parcSR.Create(parcSession);
-            await userSR.CreateUserSession(userSession);
-            await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
-        }
-        else
-        {
-            DisplayToat("Veillez sélectionner un établissement.");
-        }
-    }
-
-    private void OnCancelSelectedPark(object sender, EventArgs e)
-    {
-        LoginVM.IsBorderOneVisible = true;
-        LoginVM.IsBorderTwoVisible = false;
     }
 
     public void OnPickerSelectedIndexChanged(object sender, EventArgs e)
@@ -132,43 +116,25 @@ public partial class vLogin : ContentPage
         }
     }
 
-    // Récupère le Token à la connexion et crée une userSession
-    public UserSession SetUserSession(string token)
+    private async void OnValidSelectedPark(object sender, EventArgs e)
     {
-        UserSession userSession = new UserSession();
-
-        if (token is not null)
+        if (parcSession != null && !string.IsNullOrEmpty(userToken))
         {
-            if (token.StartsWith("Bearer "))
-            {
-                token = token.Substring("Bearer ".Length);
-            }
-            var tokenHandler = new JwtSecurityTokenHandler();
+            //await parcSR.Create(parcSession);
+            //await userSR.CreateUserSession(userSession);
 
-            var tokenDecoded = tokenHandler.ReadJwtToken(token);
-
-            // Accès aux revendications (données) du token JWT et èxtraction des infos
-            var claims = tokenDecoded.Claims;
-
-            if (claims is not null)
-            {
-                string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
-                string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
-                string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
-                string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
-
-                userSession = new UserSession()
-                {
-                    UserId = int.Parse(id),
-                    Name = name,
-                    Email = email,
-                    Role = role,
-                    Token = token,
-                };
-                string jsonUserS = JsonConvert.SerializeObject(userSession);
-            }
+            userService.SaveUserPreferences(userToken);
+            await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
         }
+        else
+        {
+            DisplayToat("Veillez sélectionner un établissement.");
+        }
+    }
 
-        return userSession;
+    private void OnCancelSelectedPark(object sender, EventArgs e)
+    {
+        LoginVM.IsBorderOneVisible = true;
+        LoginVM.IsBorderTwoVisible = false;
     }
 }

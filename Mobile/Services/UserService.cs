@@ -2,9 +2,12 @@
 using Mobile.Domain.Repositories;
 using Newtonsoft.Json;
 using Shareds.Modeles;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using static Shareds.Modeles.ResponsesModels;
+using UserSession = Mobile.Domain.Entities.UserSession;
 
 namespace Mobile.Services
 {
@@ -17,12 +20,12 @@ namespace Mobile.Services
 
         private readonly string _URL = $"{BaseAddress}/api/users";
 
-        UserSessionRepository userSR;
-        public static Domain.Entities.UserSession userSession = null;
+        //UserSessionRepository userSR;
+        //public static Domain.Entities.UserSession userSession = null;
 
         public UserService() 
         {
-            userSR = new UserSessionRepository();
+            //userSR = new UserSessionRepository();
 #if DEBUG
             HttpsClientHandlerService handler = new HttpsClientHandlerService();
             _httpClient = new HttpClient(handler.GetPlatformMessageHandler());
@@ -71,7 +74,7 @@ namespace Mobile.Services
                 {
                     if (userLogin.Token!.StartsWith("Bearer "))
                     {
-                        string userToken = userLogin.Token!.Substring("Bearer ".Length);
+                        //string userToken = userLogin.Token!.Substring("Bearer ".Length);
                         //SaveUserToken(userToken);
                     }
                     else
@@ -88,11 +91,60 @@ namespace Mobile.Services
             }
         }
 
-        public async Task<string> GetUserToken()
+        // Récupère le Token à la connexion et crée une userSession
+        public UserSession SetUserSession(string token)
+        {
+            UserSession userSession = new UserSession();
+
+            if (token is not null)
+            {
+                if (token.StartsWith("Bearer "))
+                {
+                    token = token.Substring("Bearer ".Length);
+                }
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                var tokenDecoded = tokenHandler.ReadJwtToken(token);
+
+                // Accès aux revendications (données) du token JWT et èxtraction des infos
+                var claims = tokenDecoded.Claims;
+
+                if (claims is not null)
+                {
+                    string name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value!;
+                    string email = claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value!;
+                    string role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value!;
+                    string id = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!;
+
+                    userSession = new UserSession()
+                    {
+                        UserId = int.Parse(id),
+                        Name = name,
+                        Email = email,
+                        Role = role,
+                        Token = token,
+                    };
+                    string jsonUserS = JsonConvert.SerializeObject(userSession);
+                }
+            }
+
+            return userSession;
+        }
+
+        public void SaveUserPreferences(string token)
+        {
+            UserSession userSession = new UserSession();
+            userSession = SetUserSession(token);
+
+            string jsonUserSession = JsonConvert.SerializeObject(userSession);
+            Preferences.Default.Set("user_session", jsonUserSession);
+        }
+
+        public UserSession GetUserPreferences()
         {
             try
             {
-                var res = await userSR.GetUserSession();
+                /*var res = await userSR.GetUserSession();
 
                 if (res == null)
                 {
@@ -102,7 +154,20 @@ namespace Mobile.Services
                 {
                     string token = res.Token;
                     return token;
+                }*/
+
+                UserSession userSession = null;
+                bool haskey = Preferences.Default.ContainsKey("user_session");
+
+                if (haskey)
+                {
+                    var jsonUserSession = Preferences.Default.Get("user_session", "{}");
+
+                    userSession = new UserSession();
+                    userSession = JsonConvert.DeserializeObject<UserSession>(jsonUserSession);
                 }
+
+                return userSession;
             }
             catch (Exception ex)
             {
@@ -116,9 +181,11 @@ namespace Mobile.Services
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/users_parc/id?id={parcId}");
 
-                string token = await GetUserToken();
+                UserSession userSession = new UserSession();
+                userSession = GetUserPreferences();
+                string token = userSession.Token;
 
-                if (token is not null)
+                if (!string.IsNullOrEmpty(token))
                 {
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                     var res = await _httpClient.SendAsync(request);
