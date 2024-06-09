@@ -14,11 +14,11 @@
 
     <Shell.FlyoutHeader>
         <VerticalStackLayout 
-            Spacing="25"
-            Padding="10,50,10,25">
+            Spacing="10"
+            Padding="10,20,10,10">
             <Frame
-                WidthRequest="100"
-                HeightRequest="100"
+                WidthRequest="80"
+                HeightRequest="80"
                 CornerRadius="50"
                 BorderColor="LightGray"
                 BackgroundColor="Transparent">
@@ -170,7 +170,7 @@
                     Text="Se Deconnecter"
                     FontSize="15"
                     FontAttributes="Bold"
-                    HeightRequest="50"
+                    HeightRequest="45"
                     BackgroundColor="Red"
                     Clicked="Logout"/>
 
