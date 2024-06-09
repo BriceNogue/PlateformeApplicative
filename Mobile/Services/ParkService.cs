@@ -106,5 +106,31 @@ namespace Mobile.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<EtablissementModele> GetById(int id, string userToken)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, _URL + $"/id?id={id}");
+
+            try
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+                var res = await _httpClient.SendAsync(request);
+
+                if (res.IsSuccessStatusCode)
+                {
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<EtablissementModele>(jsonString);
+                    return data!;
+                }
+                else
+                {
+                    return new EtablissementModele();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
