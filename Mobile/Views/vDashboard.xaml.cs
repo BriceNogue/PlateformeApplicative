@@ -6,18 +6,20 @@ namespace Mobile.Views;
 public partial class vDashboard : ContentPage
 {
 	UserService userService;
+    ParkService parkService;
 
-    UserSessionRepository userSR;
-    ParcSessionRepository parcSR;
+    //UserSessionRepository userSR;
+    //ParcSessionRepository parcSR;
 
     public vDashboard()
 	{
 		InitializeComponent();
 
 		userService = new UserService();
+        parkService = new ParkService();
 
-        userSR = new UserSessionRepository();
-        parcSR = new ParcSessionRepository();
+        //userSR = new UserSessionRepository();
+        //parcSR = new ParcSessionRepository();
 
         _ = GetSessionInfo();
         _ = GetParcDetails();
@@ -25,7 +27,7 @@ public partial class vDashboard : ContentPage
 
     public async Task GetSessionInfo()
     {
-        var userS = await userSR.GetUserSession();
+        /*var userS = await userSR.GetUserSession();
         var parcS = await parcSR.Get();
 
         if (userS != null)
@@ -38,18 +40,21 @@ public partial class vDashboard : ContentPage
         {
             ParkService.parcSession = new Domain.Entities.ParcSession();
             ParkService.parcSession = parcS;
-        }
+        }*/
+    
     }
 
     public async Task GetParcDetails()
 	{
 		try
 		{
-            var parcS = await parcSR.Get();
-            
-            if(parcS != null)
+            //var pakcS = await parcSR.Get();
+
+            var parkS = parkService.GetParkPreferences();
+
+            if (parkS != null)
             {
-                var users = await userService.GetAllByParc(parcS.ParcId);
+                var users = await userService.GetAllByParc(parkS.ParcId);
 
                 lb_nbr_user.Text = users.Count.ToString();
                 if (users.Count > 1)

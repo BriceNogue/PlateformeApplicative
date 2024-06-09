@@ -90,7 +90,22 @@ public partial class vLogin : ContentPage
                     else
                     {
                         //await userSR.CreateUserSession(userSession);
+                        
                         userService.SaveUserPreferences(res.Token);
+
+                        var park = userParcs.FirstOrDefault();
+                        if (park != null)
+                        {
+                            ParcSession parkSession = new ParcSession()
+                            {
+                                Id = park.Id,
+                                ParcId = park.Id,
+                                Name = park.Nom
+                            };
+
+                            parkService.SaveParkPreferences(parkSession);
+                        }
+
                         await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
                     }                   
                 }
@@ -109,6 +124,7 @@ public partial class vLogin : ContentPage
         if (parc != null)
         {
             parcSession = new ParcSession();
+            parcSession.Id = parc.Id;
             parcSession.ParcId = parc.Id;
             parcSession.Name = parc.Nom;
 
@@ -124,6 +140,7 @@ public partial class vLogin : ContentPage
             //await userSR.CreateUserSession(userSession);
 
             userService.SaveUserPreferences(userToken);
+            parkService.SaveParkPreferences(parcSession);
             await Shell.Current.GoToAsync($"//{nameof(vDashboard)}");
         }
         else

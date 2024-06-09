@@ -1,8 +1,12 @@
 ﻿
+using Mobile.Domain.Entities;
 using Mobile.Domain.Repositories;
 using Newtonsoft.Json;
 using Shareds.Modeles;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using ParcSession = Mobile.Domain.Entities.ParcSession;
 
 namespace Mobile.Services
 {
@@ -17,7 +21,7 @@ namespace Mobile.Services
 
         ParcSessionRepository parkSR;
 
-        public static Domain.Entities.ParcSession parcSession = null;
+        //public static ParcSession parcSession = null;
 
         public ParkService()
         {
@@ -29,6 +33,52 @@ namespace Mobile.Services
             _httpClient  = new HttpClient();
 #endif
 
+        }
+
+        public void SaveParkPreferences(ParcSession parkSession)
+        {
+            string jsonParkSession = JsonConvert.SerializeObject(parkSession);
+            Preferences.Default.Set("park_session", jsonParkSession);
+        }
+
+        public ParcSession GetParkPreferences()
+        {
+            try
+            {
+                ParcSession parkSession = null;
+                bool haskey = Preferences.Default.ContainsKey("park_session");
+
+                if (haskey)
+                {
+                    var jsonParkSession = Preferences.Default.Get("park_session", "{}");
+
+                    parkSession = new ParcSession();
+                    parkSession = JsonConvert.DeserializeObject<ParcSession>(jsonParkSession);
+                }
+
+                return parkSession;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void DeleteParkPreferences()
+        {
+            try
+            {
+                bool haskey = Preferences.Default.ContainsKey("park_session");
+
+                if (haskey)
+                {
+                    Preferences.Default.Remove("park_session");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<List<EtablissementModele>> GetAllByUser(int id, string userToken)

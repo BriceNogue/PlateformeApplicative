@@ -175,6 +175,23 @@ namespace Mobile.Services
             }
         }
 
+        public void DeleteUserPreferences()
+        {
+            try
+            {
+                bool haskey = Preferences.Default.ContainsKey("user_session");
+
+                if (haskey)
+                {
+                    Preferences.Default.Remove("user_session");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<List<UserModele>> GetAllByParc(int parcId)
         {
             try
