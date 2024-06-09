@@ -1,3 +1,4 @@
+using Mobile.Domain.Repositories;
 using Mobile.Services;
 
 namespace Mobile.Views;
@@ -5,24 +6,56 @@ namespace Mobile.Views;
 public partial class vDashboard : ContentPage
 {
 	UserService userService;
-	public vDashboard()
+
+    UserSessionRepository userSR;
+    ParcSessionRepository parcSR;
+
+    public vDashboard()
 	{
 		InitializeComponent();
 
 		userService = new UserService();
-		_ = GetParcDetails();
+
+        userSR = new UserSessionRepository();
+        parcSR = new ParcSessionRepository();
+
+        _ = GetSessionInfo();
+        _ = GetParcDetails();
     }
 
-	public async Task GetParcDetails()
+    public async Task GetSessionInfo()
+    {
+        var userS = await userSR.GetUserSession();
+        var parcS = await parcSR.Get();
+
+        if (userS != null)
+        {
+            UserService.userSession = new Domain.Entities.UserSession();
+            UserService.userSession = userS;
+        }
+
+        if (parcS != null)
+        {
+            ParkService.parcSession = new Domain.Entities.ParcSession();
+            ParkService.parcSession = parcS;
+        }
+    }
+
+    public async Task GetParcDetails()
 	{
 		try
 		{
-            var users = await userService.GetAllByParc(1);
+            var parcS = await parcSR.Get();
+            
+            if(parcS != null)
+            {
+                var users = await userService.GetAllByParc(parcS.ParcId);
 
-            lb_nbr_user.Text = users.Count.ToString();
-            if (users.Count > 1)
-			{
-                lb_user.Text = "Utilisateurs";
+                lb_nbr_user.Text = users.Count.ToString();
+                if (users.Count > 1)
+                {
+                    lb_user.Text = "Utilisateurs";
+                }
             }
         }
         catch (Exception ex)

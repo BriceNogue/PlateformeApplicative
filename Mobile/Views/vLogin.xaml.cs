@@ -112,6 +112,12 @@ public partial class vLogin : ContentPage
         }
     }
 
+    private void OnCancelSelectedPark(object sender, EventArgs e)
+    {
+        LoginVM.IsBorderOneVisible = true;
+        LoginVM.IsBorderTwoVisible = false;
+    }
+
     public void OnPickerSelectedIndexChanged(object sender, EventArgs e)
     {
         EtablissementModele parc = ((Picker)sender).SelectedItem as EtablissementModele;
@@ -122,7 +128,7 @@ public partial class vLogin : ContentPage
             parcSession.ParcId = parc.Id;
             parcSession.Name = parc.Nom;
 
-            DisplayToat(parcSession.Name);
+            DisplayToat($"{parcSession.Name} {parcSession.ParcId}");
         }
     }
 
@@ -155,6 +161,7 @@ public partial class vLogin : ContentPage
                 {
                     UserId = int.Parse(id),
                     Name = name,
+                    Email = email,
                     Role = role,
                     Token = token,
                 };

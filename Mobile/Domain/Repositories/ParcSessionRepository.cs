@@ -36,10 +36,10 @@ namespace Mobile.Domain.Repositories
             await _db.UpdateAsync(parcSession);
         }
 
-        public async Task Delete(ParcSession parcSession)
+        public async Task Delete()
         {
             await Init();
-            await _db.DeleteAsync(parcSession);
+            await _db.DeleteAllAsync<ParcSession>();
         }
     }
 }

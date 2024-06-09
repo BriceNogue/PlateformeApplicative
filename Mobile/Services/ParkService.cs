@@ -17,6 +17,8 @@ namespace Mobile.Services
 
         ParcSessionRepository parkSR;
 
+        public static Domain.Entities.ParcSession parcSession = null;
+
         public ParkService()
         {
             parkSR = new ParcSessionRepository();

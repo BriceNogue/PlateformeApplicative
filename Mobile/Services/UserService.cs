@@ -1,4 +1,5 @@
-﻿using Mobile.Domain.Repositories;
+﻿using Mobile.Domain.Entities;
+using Mobile.Domain.Repositories;
 using Newtonsoft.Json;
 using Shareds.Modeles;
 using System.Net.Http.Headers;
@@ -17,6 +18,7 @@ namespace Mobile.Services
         private readonly string _URL = $"{BaseAddress}/api/users";
 
         UserSessionRepository userSR;
+        public static Domain.Entities.UserSession userSession = null;
 
         public UserService() 
         {

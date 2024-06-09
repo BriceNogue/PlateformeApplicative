@@ -15,5 +15,7 @@ namespace Mobile.Domain.Entities
 
         [Column("name")]
         public string Name { get; set; }
+
+        public ParcSession() { }
     }
 }

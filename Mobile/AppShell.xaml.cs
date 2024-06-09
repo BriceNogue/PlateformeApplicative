@@ -1,43 +1,64 @@
 ﻿using Mobile.Domain.Entities;
 using Mobile.Domain.Repositories;
+using Mobile.Services;
 
 namespace Mobile
 {
     public partial class AppShell : Shell
     {
         UserSessionRepository userSR;
+        ParcSessionRepository parcSR;
+
         UserSession userSession;
+        ParcSession parcSession;
 
         public AppShell()
         {
             InitializeComponent();
 
             userSR = new UserSessionRepository();
+            parcSR = new ParcSessionRepository();
 
-            GetUserSession();
+            GetSessionInfo();
         }
 
-        public async void GetUserSession()
+        public void GetSessionInfo()
         {
-            var res = await userSR.GetUserSession();
-            if (res != null)
+            if (UserService.userSession != null)
             {
-                userSession = new UserSession();
-                userSession = res;
+                txt_user_name.Text = UserService.userSession.Name;
+                txt_user_role.Text = UserService.userSession.Role;
+            }
 
-                txt_user_name.Text = userSession.Name;
-                txt_user_role.Text = userSession.Role;
+            if (ParkService.parcSession != null)
+            {
+                parcSession = ParkService.parcSession;
             }
         }
 
         public async void Logout(object sender, EventArgs e)
         {
+            parcSession = await parcSR.Get();
+            userSession = await userSR.GetUserSession();
+
+            if (parcSession != null)
+            {
+                await parcSR.Delete();
+            }
+
             if (userSession != null)
             {
-                await userSR.DeleteUserSession(userSession);
+                await userSR.DeleteUserSession();
+            }
+
+            parcSession = await parcSR.Get();
+            userSession = await userSR.GetUserSession();
+
+            if (parcSession == null && userSession == null)
+            {
                 //await Navigation.PushAsync(new MainPage());
                 await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-            }
+            }         
         }
     }
 }
