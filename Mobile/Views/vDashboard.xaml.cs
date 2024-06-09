@@ -7,6 +7,8 @@ public partial class vDashboard : ContentPage
 {
 	UserService userService;
     ParkService parkService;
+    RoomService roomService;
+    PostService postService;
 
     //UserSessionRepository userSR;
     //ParcSessionRepository parcSR;
@@ -17,6 +19,8 @@ public partial class vDashboard : ContentPage
 
 		userService = new UserService();
         parkService = new ParkService();
+        roomService = new RoomService();
+        postService = new PostService();
 
         //userSR = new UserSessionRepository();
         //parcSR = new ParcSessionRepository();
@@ -50,11 +54,30 @@ public partial class vDashboard : ContentPage
 		{
             //var pakcS = await parcSR.Get();
 
-            var parkS = parkService.GetParkPreferences();
+            var userSession = userService.GetUserPreferences();
+            var parkSession = parkService.GetParkPreferences();
 
-            if (parkS != null)
+            if (userSession != null && parkSession != null)
             {
-                var users = await userService.GetAllByParc(parkS.ParcId);
+                var rooms = await roomService.GetAllByParc(parkSession.ParcId, userSession.Token);
+                var postes = await postService.GetAllByParc(parkSession.ParcId, userSession.Token);
+
+                lb_nbr_room.Text = rooms.Count.ToString();
+                if (rooms.Count > 1)
+                {
+                    lb_room.Text = "Salles";
+                }
+
+                lb_nbr_post.Text = postes.Count.ToString();
+                if (postes.Count > 1)
+                {
+                    lb_post.Text = "Postes";
+                }
+            }
+
+            if (parkSession != null)
+            {
+                var users = await userService.GetAllByParc(parkSession.ParcId);
 
                 lb_nbr_user.Text = users.Count.ToString();
                 if (users.Count > 1)

@@ -59,7 +59,7 @@ namespace Web.Services
             }
             catch (Exception ex)
             {
-                return null!;
+                throw new Exception(ex.Message);
             }
 
         }
