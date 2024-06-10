@@ -8,7 +8,7 @@ public partial class vParks : ContentPage
 	UserService userService;
 	ParkService parkService;
 
-	public ParkViewModel ParkVM;
+	ParkViewModel ParkVM;
 
 	public vParks()
 	{
@@ -18,6 +18,8 @@ public partial class vParks : ContentPage
 		parkService = new ParkService();
 
 		ParkVM = (ParkViewModel)BindingContext;
+        ParkVM.IsLabelVisible = true;
+        ParkVM.IsContentVisible = false;
 
         _ = GetParkInfos();
     }
@@ -31,18 +33,26 @@ public partial class vParks : ContentPage
 
             if (userSession != null && parkSession != null)
             {
+                await Task.Delay(1000);
                 var park = await parkService.GetById(parkSession.ParcId, userSession.Token);
                 if (park != null)
                 {
-					ParkVM.Nom = park.Nom;
-                    ParkVM.Telephone = park.Telephone;
-                    ParkVM.Email = park.Email;
-                    ParkVM.Pays = park.Pays;
-                    ParkVM.CodePostal = park.CodePostal;
-                    ParkVM.Ville = park.Ville;
-                    ParkVM.NumeroRue = park.NumeroRue;
-                    ParkVM.LibelleRue = park.LibelleRue;
-                    ParkVM.DateCreation = park.DateCreation;
+					ParkVM._Nom = park.Nom;
+                    ParkVM._Telephone = park.Telephone;
+                    ParkVM._Email = park.Email;
+                    ParkVM._Pays = park.Pays;
+                    ParkVM._CodePostal = park.CodePostal;
+                    ParkVM._Ville = park.Ville;
+                    ParkVM._NumeroRue = park.NumeroRue;
+                    ParkVM._LibelleRue = park.LibelleRue;
+                    ParkVM._DateCreation = park.DateCreation;
+
+                    ParkVM.IsLabelVisible = false;
+                    ParkVM.IsContentVisible = true;
+                }
+                else
+                {
+                    lbl_loading.Text = "Merci de vous rendre sur notre plateforme web pour créer votre premier établissement.";
                 }
             }
         }

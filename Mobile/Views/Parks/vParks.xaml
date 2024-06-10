@@ -2,17 +2,88 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.Parks.vParks"
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
              xmlns:vm="clr-namespace:Mobile.ViewModels"
-             Title="Parc">
+             Title="A propos du parc">
 
     <ContentPage.BindingContext>
         <vm:ParkViewModel/>
     </ContentPage.BindingContext>
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding Nom}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="10, 20" Spacing="10">
+
+            <Label x:Name="lbl_loading" Text="Veillez patienter..." TextColor="Gray" IsVisible="{Binding IsLabelVisible}"/>
+
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+                <Image
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Source="logo_alpha_n.png"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+                <VerticalStackLayout>
+                    <Label Text="Nom :" TextColor="Gray"/>
+                    <Label Text="{Binding Nom}" TextColor="Gray"/>
+                </VerticalStackLayout>
+            </Border>
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+                <Grid RowDefinitions="20,*,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Contact" HorizontalOptions="Center" TextColor="Gray"/>
+                    <HorizontalStackLayout Grid.Row="1" Spacing="5">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Phone}" Color="{StaticResource Primary}" Size="13"/>
+                            </Image.Source>
+                        </Image>
+                        <Label Text="{Binding Telephone}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="2" Spacing="5">
+                        <Image>
+                            <Image.Source>
+                                <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Envelope}" Color="{StaticResource Primary}" Size="13"/>
+                            </Image.Source>
+                        </Image>
+                        <Label Text="{Binding Email}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+                <Grid RowDefinitions="20,*,*,*,*,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Adresse" HorizontalOptions="Center" TextColor="Gray"/>
+                    <HorizontalStackLayout Grid.Row="1">
+                        <Label Text="Pays : " TextColor="Gray"/>
+                        <Label Text="{Binding Pays}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="2">
+                        <Label Text="Code Postal : " TextColor="Gray"/>
+                        <Label Text="{Binding CodePostal}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="3">
+                        <Label Text="Ville : " TextColor="Gray"/>
+                        <Label Text="{Binding Ville}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="4">
+                        <Label Text="N° Rue : " TextColor="Gray"/>
+                        <Label Text="{Binding NumeroRue}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Row="5">
+                        <Label Text="Libellé Rue : " TextColor="Gray"/>
+                        <Label Text="{Binding LibelleRue}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+                <Grid RowDefinitions="20,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Infos complémentaires" HorizontalOptions="Center" TextColor="Gray"/>
+                    <HorizontalStackLayout Grid.Row="1">
+                        <Label Text="Vous nous avez rejoints le " TextColor="Gray"/>
+                        <Label Text="{Binding DateCreation}" TextColor="Gray"/>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

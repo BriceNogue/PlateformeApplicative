@@ -6,6 +6,9 @@ namespace Mobile.ViewModels
 {
     public class ParkViewModel : EtablissementModele, INotifyPropertyChanged
     {
+        private bool isLabelVisible;
+        private bool isContentVisible;
+
         public string _Nom
         {
             get { return Nom; }
@@ -93,6 +96,32 @@ namespace Mobile.ViewModels
             {
                 DateCreation = value;
                 OnPropertyChanged(nameof(DateCreation));
+            }
+        }
+
+        public bool IsLabelVisible
+        {
+            get { return isLabelVisible; }
+            set
+            {
+                if (isLabelVisible != value)
+                {
+                    isLabelVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsContentVisible
+        {
+            get { return isContentVisible; }
+            set
+            {
+                if (isContentVisible != value)
+                {
+                    isContentVisible = value;
+                    OnPropertyChanged();
+                }
             }
         }
 

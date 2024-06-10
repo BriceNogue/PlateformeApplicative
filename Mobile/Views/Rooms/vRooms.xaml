@@ -2,11 +2,38 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.Rooms.vRooms"
-             Title="vRooms">
+             xmlns:vm="clr-namespace:Mobile.ViewModels"
+             Title="Salles">
+
+    <ContentPage.BindingContext>
+        <vm:RoomViewModel/>
+    </ContentPage.BindingContext>
+
     <VerticalStackLayout>
         <Label 
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Rooms}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Row="0"
+                            Text="{Binding Numero}"
+                            FontAttributes="Bold" />
+                        <Label Grid.Row="1"
+                            Text="{Binding Location}"
+                            FontAttributes="Italic"
+                            VerticalOptions="End" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>
