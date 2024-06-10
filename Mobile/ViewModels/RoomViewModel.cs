@@ -11,6 +11,9 @@ namespace Mobile.ViewModels
 {
     class RoomViewModel : SalleModele, INotifyPropertyChanged
     {
+        private bool isLabelVisible;
+        private bool isContentVisible;
+        private int nbrPost;
         private List<SalleModele> rooms;
 
         public int _Numero
@@ -21,6 +24,45 @@ namespace Mobile.ViewModels
                 if (Numero != value)
                 {
                     Numero = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public int NbrPost
+        {
+            get { return nbrPost; }
+            set
+            {
+                if (nbrPost != value)
+                {
+                    nbrPost = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsLabelVisible
+        {
+            get { return isLabelVisible; }
+            set
+            {
+                if (isLabelVisible != value)
+                {
+                    isLabelVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsContentVisible
+        {
+            get { return isContentVisible; }
+            set
+            {
+                if (isContentVisible != value)
+                {
+                    isContentVisible = value;
                     OnPropertyChanged();
                 }
             }

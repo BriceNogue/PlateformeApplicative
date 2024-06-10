@@ -21,6 +21,8 @@ public partial class vRooms : ContentPage
         roomService = new RoomService();
 
         RoomVM = (RoomViewModel)BindingContext;
+        RoomVM.IsLabelVisible = true;
+        RoomVM.IsContentVisible = false;
 
         _ = GetAllRooms();
     }
@@ -39,6 +41,13 @@ public partial class vRooms : ContentPage
                 if (rooms != null)
                 {
                     RoomVM.Rooms = rooms;
+
+                    RoomVM.IsLabelVisible = false;
+                    RoomVM.IsContentVisible = true;
+                }
+                else
+                {
+                    lbl_loading.Text = "Merci de vous rendre sur notre plateforme web pour créer des salles.";
                 }
             }
         }

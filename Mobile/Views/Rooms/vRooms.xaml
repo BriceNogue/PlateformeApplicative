@@ -9,28 +9,44 @@
         <vm:RoomViewModel/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout>
+    <VerticalStackLayout Padding="10">
         <Label 
-            Text="Welcome to .NET MAUI!"
+            x:Name="lbl_loading" 
+            Text="Veillez patienter..." 
+            TextColor="Gray"
+            IsVisible="{Binding IsLabelVisible}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Rooms}">
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Rooms}" IsVisible="{Binding IsContentVisible}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="5" VerticalItemSpacing="5"/>
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0"
-                            Text="{Binding Numero}"
-                            FontAttributes="Bold" />
-                        <Label Grid.Row="1"
-                            Text="{Binding Location}"
-                            FontAttributes="Italic"
-                            VerticalOptions="End" />
-                    </Grid>
+                    <Border StrokeShape="RoundRectangle 5">
+                        <Grid Padding="10" RowSpacing="15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <HorizontalStackLayout Grid.Row="0" Spacing="5" HorizontalOptions="Start">
+                                <Label Text="N°" VerticalOptions="Center" FontSize="15"/>
+                                <Label
+                                    Text="{Binding Numero}"
+                                    VerticalOptions="Center"
+                                    FontSize="15" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End">
+                                <Label
+                                    Text="Capacite : "
+                                    VerticalOptions="End" />
+                                <Label
+                                    Text="{Binding Capacite}"
+                                    VerticalOptions="End" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             
