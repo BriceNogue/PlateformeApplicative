@@ -2,11 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.Posts.vPosts"
-             Title="vPosts">
-    <VerticalStackLayout>
+             xmlns:vm="clr-namespace:Mobile.ViewModels"
+             Title="Postes">
+
+    <ContentPage.BindingContext>
+        <vm:PostViewModel/>
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="10">
         <Label 
-            Text="Welcome to .NET MAUI!"
+            x:Name="lbl_loading" 
+            Text="Veillez patienter..." 
+            TextColor="Gray"
+            IsVisible="{Binding IsLabelVisible}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Postes}" IsVisible="{Binding IsContentVisible}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border StrokeShape="RoundRectangle 5">
+                        <Grid Padding="10" RowSpacing="15">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <HorizontalStackLayout Grid.Row="0" Spacing="5" HorizontalOptions="Start">
+                                <Label Text="N°" VerticalOptions="Center" FontSize="15"/>
+                                <Label
+                                Text="{Binding Numero}"
+                                VerticalOptions="Center"
+                                FontSize="15" />
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End">
+                                <Label
+                                Text="IP : "
+                                VerticalOptions="End" />
+                                <Label
+                                Text="{Binding AdresseIP}"
+                                VerticalOptions="End" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
     </VerticalStackLayout>
 </ContentPage>

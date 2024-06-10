@@ -84,10 +84,6 @@
             Title="Utilisateurs"
             ContentTemplate="{DataTemplate users:vUsers}">
         </ShellContent>
-        <ShellContent
-             Title="Utilisateurs Liste"
-             ContentTemplate="{DataTemplate users:vUsers}">
-        </ShellContent>
     </FlyoutItem>
     <FlyoutItem 
         Title="Salles"
@@ -103,11 +99,6 @@
         <ShellContent
             Title="Poste"
             ContentTemplate="{DataTemplate posts:vPosts}">
-        </ShellContent>
-        <ShellContent
-             Title="Postes 1"
-             ContentTemplate="{DataTemplate posts:vPosts}"
-             Route="Postee">
         </ShellContent>
     </FlyoutItem>
 
