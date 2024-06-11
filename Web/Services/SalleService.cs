@@ -46,11 +46,14 @@ namespace Web.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
 
-                List<SalleModele>? salles = await _httpClient.GetFromJsonAsync<List<SalleModele>>(_URL + $"/all/id?id={parcId}");
+                var res = await _httpClient.GetAsync(_URL + $"/all/id?id={parcId}");
 
-                if (salles != null)
+                if (res.IsSuccessStatusCode)
                 {
-                    return salles;
+                    var jsonString = await res.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<SalleModele>>(jsonString);
+
+                    return data!;
                 }
                 else
                 {
