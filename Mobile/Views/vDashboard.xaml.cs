@@ -1,5 +1,6 @@
 using Mobile.Domain.Repositories;
 using Mobile.Services;
+using Mobile.ViewModels;
 
 namespace Mobile.Views;
 
@@ -9,6 +10,8 @@ public partial class vDashboard : ContentPage
     ParkService parkService;
     RoomService roomService;
     PostService postService;
+
+    DashboardViewModel DashbordVM;
 
     //UserSessionRepository userSR;
     //ParcSessionRepository parcSR;
@@ -21,6 +24,10 @@ public partial class vDashboard : ContentPage
         parkService = new ParkService();
         roomService = new RoomService();
         postService = new PostService();
+
+        DashbordVM = (DashboardViewModel)BindingContext;
+        DashbordVM.IsLabelVisible = true;
+        DashbordVM.IsContentVisible = false;
 
         //userSR = new UserSessionRepository();
         //parcSR = new ParcSessionRepository();
@@ -59,8 +66,20 @@ public partial class vDashboard : ContentPage
 
             if (userSession != null && parkSession != null)
             {
+                await Task.Delay(1000);
                 var rooms = await roomService.GetAllByParc(parkSession.ParcId, userSession.Token);
                 var postes = await postService.GetAllByParc(parkSession.ParcId, userSession.Token);
+                var users = await userService.GetAllByParc(parkSession.ParcId);
+
+                if (rooms != null || postes != null || users != null)
+                {
+                    DashbordVM.IsLabelVisible = false;
+                    DashbordVM.IsContentVisible = true;
+                }
+                else
+                {
+                    lbl_loading.Text = "Aucun élément à afficher.";
+                }
 
                 lb_nbr_room.Text = rooms.Count.ToString();
                 if (rooms.Count > 1)
@@ -73,11 +92,6 @@ public partial class vDashboard : ContentPage
                 {
                     lb_post.Text = "Postes";
                 }
-            }
-
-            if (parkSession != null)
-            {
-                var users = await userService.GetAllByParc(parkSession.ParcId);
 
                 lb_nbr_user.Text = users.Count.ToString();
                 if (users.Count > 1)

@@ -3,16 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.Views.vDashboard"
              Title="Tableau de bord"
-             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
+             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:vm="clr-namespace:Mobile.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:DashboardViewModel/>
+    </ContentPage.BindingContext>
 
     <ScrollView>
         <VerticalStackLayout            
-            Padding="20"
+            Padding="10,15"
             Spacing="10">
-            
+
+            <Label 
+                x:Name="lbl_loading" 
+                Text="Veillez patienter..." 
+                TextColor="Gray"
+                IsVisible="{Binding IsLabelVisible}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" />
+
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10,15">
+                Padding="10,15"
+                IsVisible="{Binding IsContentVisible}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
@@ -41,7 +55,8 @@
             </Border>
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10,15">
+                Padding="10,15"
+                IsVisible="{Binding IsContentVisible}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
@@ -70,7 +85,8 @@
             </Border>
             <Border
                 StrokeShape="RoundRectangle 5"
-                Padding="10,15">
+                Padding="10,15"
+                IsVisible="{Binding IsContentVisible}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">

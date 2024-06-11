@@ -4,13 +4,8 @@ using Shareds.Modeles;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using Mobile.Domain.Repositories;
-using Mobile.Domain.Entities;
-using Newtonsoft.Json;
-using System.Security.Claims;
 using UserSession = Mobile.Domain.Entities.UserSession;
 using ParcSession = Mobile.Domain.Entities.ParcSession;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Mobile.Views;
 

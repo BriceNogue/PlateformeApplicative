@@ -11,6 +11,10 @@ namespace Mobile.ViewModels
     class DashboardViewModel : INotifyPropertyChanged
     {
         private bool isLabelVisible;
+        private bool isRoomsVisible;
+        private bool isPostsVisible;
+        private bool isUsersVisible;
+
         private bool isContentVisible;
 
         public bool IsLabelVisible
@@ -21,6 +25,45 @@ namespace Mobile.ViewModels
                 if (isLabelVisible != value)
                 {
                     isLabelVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsRoomsVisible
+        {
+            get { return isRoomsVisible; }
+            set
+            {
+                if (isRoomsVisible != value)
+                {
+                    isRoomsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsPostsVisible
+        {
+            get { return isPostsVisible; }
+            set
+            {
+                if (isRoomsVisible != value)
+                {
+                    isRoomsVisible = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool IsUsersVisible
+        {
+            get { return isUsersVisible; }
+            set
+            {
+                if (isUsersVisible != value)
+                {
+                    isUsersVisible = value;
                     OnPropertyChanged();
                 }
             }
