@@ -19,7 +19,8 @@
             <div class="header-option">
                 @if (userSession is not null)
                 {
-                    <span class="list-item" @onclick="@(()=>ToggleInfos())">
+                    <span class="oi oi-person" aria-hidden="true"></span>
+                    <span class="list-item user_conected" @onclick="@(()=>ToggleInfos())">
                         @userSession.Name
                     </span>
                 }
