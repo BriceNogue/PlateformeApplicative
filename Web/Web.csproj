@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <None Remove="Pages\Dashboard.razor.css" />
-    <None Remove="wwwroot\Ressources\Images\appIcon.png" />
     <None Remove="Shared\AppLayout.razor.css" />
   </ItemGroup>
 
@@ -39,9 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\Ressources\Images\appIcon.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="wwwroot\Ressources\Images\poste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
