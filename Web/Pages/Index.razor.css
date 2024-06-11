@@ -55,6 +55,10 @@ p {
     transform: scale(1.5);
 }
 
-.welcome img {
+.welcome-img img {
     width: 100%;
+}
+
+.logo {
+    width: 10rem;
 }

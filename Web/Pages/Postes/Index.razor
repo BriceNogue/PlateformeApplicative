@@ -15,11 +15,11 @@
         <div>
             @if (postes.Count == 0 || postes.Count == 1)
             {
-                <h3>@postes.Count Poste</h3>
+                <p>@postes.Count Poste</p>
             }
             else
             {
-                <h3>@postes.Count Postes</h3>
+                <p>@postes.Count Postes</p>
             }
         </div>
         <div class="form-group">
@@ -64,17 +64,18 @@
                                 <div class="card-img">
                                 </div>
                                 <p>@poste.Marque</p>
-                                <p>IP : @poste.AdresseIP</p>
-                                <p>SE : @poste.SE</p>
 
                                 @{
                                     var type = types.FirstOrDefault(t => t.Id == poste.IdType);
                                     if (type != null)
                                     {
-                                        <p>TYPE : @type.Libelle</p>
+                                        <p>Type: @type.Libelle</p>
                                     }
                                 }
-                                <p>STATUT : @poste.Statut</p>
+
+                                <p>IP: @poste.AdresseIP</p>
+                                <p>MAC : @poste.AdresseMAC</p>
+                                <p>SE: @poste.SE</p>
                             </div>
                             <div class="card-footer">
                                 @{
@@ -88,62 +89,7 @@
                         </div>
                         <div class="card-back"></div>
                     </div>
-                }
-                @*<table class="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Numéro</th>
-                            <th>Marque</th>
-                            <th>Adresse IP</th>
-                            <th>Adresse MAC</th>
-                            <th>SE</th>
-                            <th>ROM</th>
-                            <th>RAM</th>
-                            <th>Salle</th>
-                            <th>Type</th>
-                            <th>Statut</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var poste in postes)
-                        {
-                            <tr @onclick="(()=> GetPosteDetails(poste.Id))">
-                                <td>@poste.Id</td>
-                                <td>Poste @poste.Numero</td>
-                                <td>@poste.Marque</td>
-                                <td>@poste.AdresseIP</td>
-                                <td>@poste.AdresseMAC</td>
-                                <td>@poste.SE</td>
-                                <td>@poste.ROM</td>
-                                <td>@poste.RAM</td>
-
-                                @{
-                                    var salle = salles.Where(s => s.Id == poste.IdSalle);
-                                    foreach (var s in salle)
-                                    {
-                                        <td>@s.Numero</td>
-                                    }
-
-                                    var type = types.Where(t => t.Id == poste.IdType);
-                                    foreach (var t in type)
-                                    {
-                                        <td>@t.Libelle</td>
-                                    }
-                                }
-
-                                @if (poste.Statut == true)
-                                {
-                                    <td>Connecté</td>
-                                }
-                                else
-                                {
-                                    <td>Déconnecté</td>
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>*@
+                }               
             }
         </div>
     </div>
