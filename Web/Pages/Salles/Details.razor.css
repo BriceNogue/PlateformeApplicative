@@ -1,0 +1,28 @@
+﻿.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.table-container {
+    width: 100%;
+    max-height: 400px;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px gray;
+}
+
+.d-table-row {
+    cursor: pointer;
+}
+
+.nbr-div-i {
+    display: flex;
+    gap: 10px;
+}
+
+.nbr-salles p {
+    font-weight: bold;
+}

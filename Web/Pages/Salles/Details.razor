@@ -6,21 +6,23 @@
 
 @inject NavigationManager NavigationM
 @inject UserService userService
+@inject ParcService parcService
 
 <PageTitle>Details salle</PageTitle>
 
-<h3>ID @id</h3>
-<h3>Salle @salle.Id</h3>
-<h3>Nom @salle.Numero</h3>
-
 <div class="container">
-    <div>
+    <div class="nbr-div nbr-salles">
+        <p>Salle @salle.Numero</p>
     </div>
-    <div>
-        <table class="table">
+
+    <div class="table-container">
+        <div class="nbr-div-i">
+            <span class="oi oi-monitor" aria-hidden="true"></span>
+            <p>@postes.Count Postes</p>
+        </div>
+        <table class="table table-hover table-bordered">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Numéro</th>
                     <th>Marque</th>
                     <th>Adresse IP</th>
@@ -30,14 +32,12 @@
                     <th>RAM</th>
                     <th>Salle</th>
                     <th>Type</th>
-                    <th>Statut</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach(var poste in postes)
                 {
-                    <tr>
-                        <td>@poste.Id</td>
+                    <tr @onclick="(() => GetPostDetails(poste.Id))">
                         <td>Poste @poste.Numero</td>
                         <td>@poste.Marque</td>
                         <td>@poste.AdresseIP</td>
@@ -53,15 +53,6 @@
                             {
                                 <td>@t.Libelle</td>
                             }                          
-                        }
-                        
-                        @if(poste.Statut == true)
-                        {
-                            <td>Connecté</td>
-                        }
-                        else
-                        {
-                            <td>Déconnecté</td>
                         }
                     </tr>
                 }
@@ -94,8 +85,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         salle = await GetSalleById(id);
-        var res = await posteService.GetAll();
-        postes = res.Where(p => p.IdSalle == id).ToList<PosteModele>();
+        postes = await GetRoomPosts(id);
 
         StateHasChanged();
     }
@@ -107,5 +97,29 @@
         var res = await salleService.GetById(id, userToken);
 
         return res;
+    }
+
+    private async Task<List<PosteModele>> GetRoomPosts(int roomId)
+    {
+        var posts = new List<PosteModele>();
+
+        string userToken = await userService.GetUserToken();
+        var parc = await parcService.GetParcSession();
+
+        if (parc != null && userToken != null)
+        {
+            var res = await posteService.GetAllByParc(parc.Id, userToken);
+
+            if (res != null)
+                posts = res;
+        }
+
+        return posts.Where(p => p.IdSalle == roomId).ToList();
+    }
+
+    private void GetPostDetails(int id)
+    {
+        var url = $"/postes/details/{id}";
+        NavigationM.NavigateTo(url);
     }
 }
