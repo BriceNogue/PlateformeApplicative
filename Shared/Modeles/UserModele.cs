@@ -37,5 +37,7 @@ namespace Shareds.Modeles
 
         public DateTime DateInscription { get; set; }
         public int IdType { get; set; }
+
+        public string UserRole { get; set; } = string.Empty;
     }
 }
