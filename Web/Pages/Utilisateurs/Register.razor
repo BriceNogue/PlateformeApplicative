@@ -9,10 +9,14 @@
 <PageTitle>Créer un compte</PageTitle>
 
 <div class="container">
+    <div class="blur blur-0"></div>
+    <div class="blur blur-1"></div>
+
     <div class="form login-form">
         <form>
             <div class="form-header">
-                <h3>Connexion</h3>
+                <img src="Ressources/Images/AppLogo_B.png" />
+                <p>Inscription</p>
             </div>
             <div>
                 <p>@resText</p>
@@ -50,11 +54,11 @@
                     <input type="checkbox" class="form-check-input" @bind="isConditionsAcept" />
                     <label>Je reconnais avoir pris connaissance des <a href="">Conditions générales d'utilisation.</a></label>
                 </div>
-                <div>
+                <div class="have-account">
                     <a href="" @onclick="(()=>GoToLogin())">Vous avez déja un compte ?</a>
                 </div>
             </div>
-            <div class="form-control">
+            <div class="form-controls">
                 <div>
                     <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> ToRegister(newUser))">S'inscrire</button>
                 </div>
