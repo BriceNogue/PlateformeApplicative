@@ -26,11 +26,11 @@
 }
 
 .io-onsearch {
-    color: dodgerblue;
+    color: #1b6ec2;
 }
 
 .btn-primary {
-    background: dodgerblue;
+    background: #1b6ec2;
 }
 
 .btn-primary:hover {
@@ -40,7 +40,7 @@
 .form-input:focus {
     border: none;
     outline: 1px solid;
-    outline-color: dodgerblue;
+    outline-color: #1b6ec2;
     box-shadow: 1px 1px 5px skyblue;
 }
 
