@@ -14,19 +14,28 @@
     <div class="container-nbr">
         <div class="nbr-div nbr-users">
             <p> @users.Count </p>
-            <p>Utilisateurs</p>
+            <div class="nbr-div-i">
+                <span class="oi oi-person" aria-hidden="true"></span>
+                <p>Utilisateurs</p>
+            </div>
             <div class="blur blur-users-top"></div>
             <div class="blur blur-users-bottom"></div>
         </div>
         <div class="nbr-div nbr-salles">
             <p> @salles.Count</p>
-            <p>Salles</p>
+            <div class="nbr-div-i">
+                <span class="oi oi-layers" aria-hidden="true"></span>
+                <p>Salles</p>
+            </div>
             <div class="blur blur-salles-top"></div>
             <div class="blur blur-salles-bottom"></div>
         </div>
         <div class="nbr-div nbr-postes">
             <p> @postes.Count </p>
-            <p>Postes</p>
+            <div class="nbr-div-i">
+                <span class="oi oi-monitor" aria-hidden="true"></span>
+                <p>Postes</p>
+            </div>
             <div class="blur blur-postes-top"></div>
             <div class="blur blur-postes-bottom"></div>
         </div>
@@ -39,31 +48,24 @@
         }
         else
         {
-            <div>
-                <table class="table">
+            <div class="table-container">
+                <table class="table table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Numéro</th>
                             <th>Capacité</th>
-                            <th>Status</th>
                             <th>Type</th>
-                            <th>Etablissement</th>
+                            <th>Nombre de postes</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var salle in salles)
                         {
                             <tr class="d-table-row" @onclick="(()=> GetSalleDetails(salle.Id))">
-                                <td>@salle.Id</td>
                                 <td>@salle.Numero</td>
                                 <td>@salle.Capacite</td>
-                                <td>@salle.Status</td>
-                                <td>@salle.IdType</td>
-                                <td>@salle.IdEtablissement</td>
-                                <!--<td>
-                                    <a href="@($"salles/details/{salle.Id}")">Details</a>
-                                </td>-->
+                                <td>@types.FirstOrDefault(t => t.Id == salle.IdType)!.Libelle.ToUpper()</td>
+                                <td>@postes.Where(p => p.IdSalle == salle.Id).Count()</td>
                             </tr>
                         }
                     </tbody>
@@ -86,9 +88,13 @@
     private SalleService salleService = new SalleService();
     private List<SalleModele> salles = new List<SalleModele>();
 
-    protected override void OnInitialized()
-    {
+    private TypeService typeService = new TypeService();
+    private List<TypeModele> types = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var resTypes = await typeService.GetAll();
+        types = resTypes.Where(t => t.Objet == "Salle").ToList();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -8,6 +8,10 @@
     justify-content: space-between;
 }
 
+.top-div p {
+    font-weight: bold;
+}
+
 .list-salles-div {
     width: 100%;
 }
@@ -34,12 +38,12 @@
     border: solid 1px gray;
 }
 
-.form-input:focus {
-    border: none;
-    outline: 1px solid;
-    outline-color: dodgerblue;
-    box-shadow: 1px 1px 5px skyblue;
-}
+    .form-input:focus {
+        border: none;
+        outline: 1px solid;
+        outline-color: #1b6ec2;
+        box-shadow: 1px 1px 5px skyblue;
+    }
 
 .form-action {
     display: flex;
@@ -53,7 +57,7 @@
 }
 
 .btn-create {
-    background: dodgerblue;
+    background: #1b6ec2;
     color: white;
 }
 
@@ -145,7 +149,7 @@ input:checked + .slider:before {
 }
 
 .table-container {
-    width: 700px;
+    width: 100%;
     max-height: 400px;
     overflow-y: scroll;
     scrollbar-width: thin;
@@ -154,11 +158,6 @@ input:checked + .slider:before {
     box-shadow: 1px 1px 5px gray;
 }
 
-.table-action {
-    display: flex;
-    gap: 30px;
-}
-
-.oi-pencil {
-    color: dodgerblue;
+.d-table-row {
+    cursor: pointer;
 }

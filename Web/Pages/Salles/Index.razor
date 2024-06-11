@@ -14,7 +14,7 @@
 <div class="container">
     <div class="top-div">
         <div>
-            <h3>Salles du parc</h3>
+            <P>Salles du parc</P>
         </div>
         <div>
             <button class="btn btn-primary" @onclick="(() => ToggleModal())">Créer une salle +</button>
@@ -41,40 +41,23 @@
             else
             {
                 <div class="table-container">
-                    <table class="table table-hover">
+                    <table class="table table-hover table-bordered">
                         <thead class="table-header">
-                            <tr class="d-table-row">
+                            <tr>
                                 <th class="d-table-cell">Numéro</th>
                                 <th class="d-table-cell">Capacité</th>
-                                <th class="d-table-cell">Statut</th>
-                                <th class="d-table-cell">Actions</th>
+                                <th class="d-table-cell">Type</th>
+                                <th class="d-table-cell">Nombre de postes</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach(SalleModele salle in salles)
                             {
-                                <tr>
+                                <tr class="d-table-row" @onclick="(()=> GetSalleDetails(salle.Id))">
                                     <td>@salle.Numero</td>
                                     <td>@salle.Capacite</td>
-                                    @if (salle.Status)
-                                    {
-                                        <td>Disponible</td>
-                                    }
-                                    else
-                                    {
-                                        <td>Indisponible</td>
-                                    }
-                                    <td class="table-action">
-                                        <div>
-                                            <label class="switch status">
-                                                <input type="checkbox" id="status" @bind="salle.Status"/>
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <span class="oi oi-pencil" aria-hidden="true"></span>
-                                        </div>
-                                    </td>
+                                    <td>@types.FirstOrDefault(t => t.Id == salle.IdType)!.Libelle.ToUpper()</td>
+                                    <td>@postes.Where(p => p.IdSalle == salle.Id).Count()</td>
                                 </tr>
                             }
                         </tbody>
@@ -149,9 +132,11 @@
 @code {
     private SalleService salleService = new SalleService();
     private TypeService typeService = new TypeService();
+    private PosteService posteService = new PosteService();
 
     private List<SalleModele> salles = new List<SalleModele>();
     private List<TypeModele> types = new List<TypeModele>();
+    private List<PosteModele> postes = new();
 
     private SalleModele? newSalle;
     private int typeId = 0;
@@ -172,6 +157,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         salles = await GetParcSalles();
+        postes = await GetParcPosts();
 
         StateHasChanged();
     }
@@ -192,6 +178,24 @@
         }
 
         return salles;
+    }
+
+    private async Task<List<PosteModele>> GetParcPosts()
+    {
+        var posts = new List<PosteModele>();
+
+        string userToken = await userService.GetUserToken();
+        var parc = await parcService.GetParcSession();
+
+        if (parc != null && userToken != null)
+        {
+            var res = await posteService.GetAllByParc(parc.Id, userToken);
+
+            if (res != null)
+                posts = res;
+        }
+
+        return posts;
     }
 
     private void GetSalleDetails(int id)
