@@ -8,8 +8,9 @@ namespace Mobile.ViewModels
     {
         private bool isLabelVisible;
         private bool isContentVisible;
+        private int roomNumber;
 
-        private List<PosteModele> postes;
+        private List<PosteModele> posts;
 
         public bool IsLabelVisible
         {
@@ -37,14 +38,27 @@ namespace Mobile.ViewModels
             }
         }
 
-        public List<PosteModele> Postes
+        public int RoomNumber
         {
-            get { return postes; }
+            get { return roomNumber; }
             set
             {
-                if (postes != value)
+                if (roomNumber != value)
                 {
-                    postes = value;
+                    roomNumber = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<PosteModele> Posts
+        {
+            get { return posts; }
+            set
+            {
+                if (posts != value)
+                {
+                    posts = value;
                     OnPropertyChanged();
                 }
             }

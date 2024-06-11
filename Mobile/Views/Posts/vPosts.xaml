@@ -18,30 +18,42 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Postes}" IsVisible="{Binding IsContentVisible}">
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Posts}" IsVisible="{Binding IsContentVisible}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 5">
+                    <Border StrokeShape="RoundRectangle 5" Margin="0,0,0,5">
                         <Grid Padding="10" RowSpacing="15">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <HorizontalStackLayout Grid.Row="0" Spacing="5" HorizontalOptions="Start">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="5" HorizontalOptions="Start">
                                 <Label Text="N°" VerticalOptions="Center" FontSize="15"/>
                                 <Label
                                 Text="{Binding Numero}"
                                 VerticalOptions="Center"
                                 FontSize="15" />
                             </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End">
-                                <Label
-                                Text="IP : "
+                            <Label
+                                Grid.Row="0"  Grid.Column="1" HorizontalOptions="End"
+                                Text="{Binding Marque}"
                                 VerticalOptions="End" />
+                            <HorizontalStackLayout Grid.Row="1"  Grid.Column="0" HorizontalOptions="Start">
                                 <Label
+                                    Text="Salle : "
+                                    VerticalOptions="End" />
+                                <Label
+                                    Text="{Binding IdSalle}"
+                                    VerticalOptions="End" />
+                            </HorizontalStackLayout>
+                            <Label
+                                Grid.Row="1"  Grid.Column="1" HorizontalOptions="End"
                                 Text="{Binding AdresseIP}"
                                 VerticalOptions="End" />
-                            </HorizontalStackLayout>
                         </Grid>
                     </Border>
                 </DataTemplate>
