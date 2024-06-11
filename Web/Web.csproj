@@ -47,4 +47,13 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\Ressources\Images\AppLogo_B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\Ressources\Images\AppLogo_W.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
