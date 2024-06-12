@@ -62,3 +62,29 @@ p {
 .logo {
     width: 10rem;
 }
+
+.blur {
+    width: 25%;
+    height: 20vh;
+    position: absolute;
+    z-index: -1;
+}
+
+.blur-0 {
+    background: dodgerblue;
+    filter: blur(150px);
+}
+
+.blur-1 {
+    top: 40%;
+    left: 40%;
+    background: red;
+    filter: blur(150px);
+}
+
+.blur-2 {
+    bottom: 0;
+    right: 0;
+    background: blue;
+    filter: blur(150px);
+}
