@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.MainPage"
-             BackgroundImageSource="main_background.jpg">
+             BackgroundImageSource="main_background_blue.jpg">
 
     <Grid Padding="0" RowSpacing="25">
         <Grid.RowDefinitions>
@@ -16,14 +16,14 @@
             HeightRequest="100"
             HorizontalOptions="Center"
             VerticalOptions="Center"
-            Source="logo_alpha_n.png"/>
+            Source="app_logo_w.png"/>
 
         <Label
             Grid.Row="1"
-            Text="IT-M"
+            Text="IT.M"
             TextColor="White"
             SemanticProperties.HeadingLevel="Level1"
-            FontSize="52"
+            FontSize="50"
             FontAttributes="Bold"
             HorizontalOptions="Center"
             VerticalOptions="Start"/>
@@ -54,8 +54,9 @@
             <Button
                 x:Name="Btn_register"
                 Text="Créer un compte"
-                FontSize="18"
-                HeightRequest="50"
+                TextTransform="Uppercase"
+                FontSize="15"
+                HeightRequest="45"
                 FontAttributes="Bold"
                 Clicked="GoToRegister"/>
 
@@ -64,7 +65,7 @@
                 Text="Vous avez déja un compte ?"
                 BorderWidth="0"
                 FontSize="16"
-                HeightRequest="50"
+                HeightRequest="45"
                 Margin="0,10,0,0"
                 BackgroundColor="Transparent"
                 Clicked="GoToLogin"/>

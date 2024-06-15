@@ -42,4 +42,10 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Ressources\Images\AppIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

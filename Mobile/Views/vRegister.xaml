@@ -42,18 +42,26 @@
             Grid.Row="0"
             Padding="25">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Label
-                Grid.Row="0"
-                Text="Créer un compte"
-                TextColor="{StaticResource Primary}"
-                FontSize="25"
-                FontAttributes="Bold"
-                HorizontalOptions="Center"/>
+            <VerticalStackLayout  Grid.Row="0">
+                <Image
+                    HeightRequest="100"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Source="app_logo_b.png"/>
+
+                <Label
+                    Text="Créer un compte"
+                    TextTransform="Uppercase"
+                    TextColor="{StaticResource Gray900}"
+                    FontSize="15"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
 
             <HorizontalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="10">
                 <Border x:Name="indicator_one" HeightRequest="15" WidthRequest="15" Background="{StaticResource Primary}">
@@ -80,32 +88,32 @@
                     <material:TextField
                         x:Name="txt_f_name"
                         Title="Nom"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         Keyboard="Text"/>
 
                     <material:TextField
                         x:Name="txt_l_name"
                         Title="Prénom"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         Keyboard="Text"/>
 
                     <material:DatePickerField
                         x:Name="dp_birthday"
                         Title="Date de naissance"
-                        TitleColor="Gray"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        BorderColor="LightGray"
                         Date="{Binding Source={x:Static sys:DateTime.Now},StringFormat='{0:dd MMMM, yyyy}'}"/>
 
                     <material:TextField
                         x:Name="txt_phone"
                         Title="Téléphone"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         Keyboard="Telephone"/>
 
                     <ImageButton
@@ -136,25 +144,25 @@
                     <material:TextField
                         x:Name="txt_email"
                         Title="Email"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         Keyboard="Email"/>
 
                     <material:TextField
                         x:Name="txt_pwd"
                         Title="Mot de passe"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         IsPassword="True"/>
 
                     <material:TextField
                         x:Name="txt_c_pwd"
                         Title="Confirmer le mot de passe"
-                        TitleColor="Gray"
-                        AccentColor="#FF9988"
-                        BorderColor="{StaticResource Primary}"
+                        TitleColor="LightGray"
+                        AccentColor="{StaticResource Primary}"
+                        BorderColor="LightGray"
                         IsPassword="True"/>
 
                     <Grid 
@@ -170,16 +178,15 @@
                         <Label
                             Grid.Column="1"
                             HorizontalOptions="Start"
-                            Text="Je reconnais avoir lu et approuvé les Conditions Générales d'Utilisation"
                             VerticalOptions="Center">
                             <Label.FormattedText>
                                 <FormattedString>
                                     <Span Text="Je reconnais avoir lu et approuvé les "/>
                                     <Span 
-                                Text="Conditions Générales d'Utilisation" 
-                                FontAttributes="Italic,Bold" 
-                                TextColor="{StaticResource Primary}" 
-                                TextDecorations="Underline">
+                                        Text="Conditions Générales d'Utilisation" 
+                                        FontAttributes="Italic,Bold" 
+                                        TextColor="{StaticResource Primary}" 
+                                        TextDecorations="Underline">
                                     </Span>
                                 </FormattedString>
                             </Label.FormattedText>
@@ -208,7 +215,8 @@
                         <Button 
                             Grid.Column="1" 
                             Text="Inscription"
-                            FontSize="18"
+                            TextTransform="Uppercase"
+                            FontSize="15"
                             FontAttributes="Bold"
                             HeightRequest="50"
                             CornerRadius="10"/>

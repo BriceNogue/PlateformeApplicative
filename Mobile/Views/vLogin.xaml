@@ -14,21 +14,22 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="1"/>
             <RowDefinition/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="1"/>
         </Grid.RowDefinitions>
         <Frame 
             Grid.Row="0" 
-            HorizontalOptions="Start"
+            HorizontalOptions="End"
             BorderColor="Transparent"
             CornerRadius="0"
-            HeightRequest="400"
-            WidthRequest="400">
+            HeightRequest="200"
+            WidthRequest="200"
+            ZIndex="-1">
             
             <Frame.Background>
                 <RadialGradientBrush Center="1.0,0.5">
-                    <GradientStop Color="{StaticResource Primary}"
+                    <GradientStop Color="SkyBlue"
                         Offset="0.1" />
                     <GradientStop Color="Transparent"
                         Offset="1.0" />
@@ -36,112 +37,124 @@
             </Frame.Background>
         </Frame>
 
-        <Grid Grid.Row="1" IsVisible="{Binding IsBorderOneVisible}">
-            <VerticalStackLayout 
-                Spacing="15"
-                Padding="25"
-                VerticalOptions="Center">
 
-                <Label
-                    Text="Connexion"
-                    TextColor="{StaticResource Primary}"
-                    FontSize="25"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    Padding="0,0,0,100"/>
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="15"
+            Padding="25"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsBorderOneVisible}">
 
-                <material:TextField
-                    x:Name="txt_email"
-                    Title="Email"
-                    Text="{Binding _Email}"
-                    TitleColor="Gray"
-                    AccentColor="#FF9988"
-                    BorderColor="{StaticResource Primary}"
-                    Keyboard="Email"/>
+            <Image
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                Source="app_logo_b.png"/>
 
-                <material:TextField
-                    x:Name="txt_pwd"
-                    Title="Mot de passe"
-                    Text="{Binding _Password}"
-                    TitleColor="Gray"
-                    AccentColor="#FF9988"
-                    BorderColor="{StaticResource Primary}"
-                    Keyboard="Default"/>
+            <Label
+                Text="Connexion"
+                TextTransform="Uppercase"
+                TextColor="{StaticResource Gray900}"
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Padding="0,0,0,100"/>
 
-                <Button
-                    x:Name="Btn_login"
-                    Margin="0, 25, 0, 0"
-                    HeightRequest="50"
-                    Text="Se Connecter"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    CornerRadius="5"
-                    Background="{StaticResource Primary}"
-                    Clicked="Login"/>
+            <material:TextField
+                x:Name="txt_email"
+                Title="Email"
+                Text="{Binding _Email}"
+                TitleColor="LightGray"
+                AccentColor="{StaticResource Primary}"
+                BorderColor="LightGray"
+                Keyboard="Email"/>
 
-            </VerticalStackLayout>
-        </Grid>
+            <material:TextField
+                x:Name="txt_pwd"
+                Title="Mot de passe"
+                IsPassword="True"
+                Text="{Binding _Password}"
+                TitleColor="LightGray"
+                AccentColor="{StaticResource Primary}"
+                BorderColor="LightGray"
+                Keyboard="Default"/>
 
-        <Grid Grid.Row="1" IsVisible="{Binding IsBorderTwoVisible}">
-            <VerticalStackLayout 
-                Spacing="15"
-                Padding="25"
-                VerticalOptions="Center">
+            <Button
+                x:Name="Btn_login"
+                Margin="0, 25, 0, 0"
+                HeightRequest="45"
+                Text="Se Connecter"
+                TextTransform="Uppercase"
+                FontAttributes="Bold"
+                FontSize="15"
+                CornerRadius="5"
+                Background="{StaticResource Primary}"
+                Clicked="Login"/>
 
-                <Label
-                    Text="Vos établissements"
-                    TextColor="{StaticResource Primary}"
-                    FontSize="25"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center"
-                    Padding="0,0,0,100"/>
+        </VerticalStackLayout>
 
-                <Border Padding="5,10,5,0" StrokeShape="RoundRectangle 5">
-                    <Picker
-                        x:Name="pk_parks"
-                        Title="Sélectionner un parc"
-                        ItemsSource="{Binding Parks}"
-                        ItemDisplayBinding="{Binding Nom}"
-                        SelectedIndexChanged="OnPickerSelectedIndexChanged">
+        <VerticalStackLayout
+            Grid.Row="1"
+            Spacing="15"
+            Padding="25"
+            VerticalOptions="Center"
+            IsVisible="{Binding IsBorderTwoVisible}">
 
-                    </Picker>
-                </Border>
+            <Label
+                Text="Vos établissements"
+                TextColor="{StaticResource Gray600}"
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Padding="0,0,0,100"/>
 
-                <Button
-                    x:Name="Btn_parp"
-                    Margin="0, 25, 0, 0"
-                    HeightRequest="50"
-                    Text="Terminer"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    CornerRadius="5"
-                    Background="{StaticResource Primary}"
-                    Clicked="OnValidSelectedPark"/>
+            <Border Padding="5,0,5,0" StrokeShape="RoundRectangle 5">
+                <Picker
+                    x:Name="pk_parks"
+                    Title="-- Sélectionner un établissement --"
+                    ItemsSource="{Binding Parks}"
+                    ItemDisplayBinding="{Binding Nom}"
+                    SelectedIndexChanged="OnPickerSelectedIndexChanged">
 
-                <Button
-                    x:Name="Btn_cancel"
-                    Margin="0, 10, 0, 0"
-                    HeightRequest="50"
-                    Text="Annuler"
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    CornerRadius="5"
-                    Background="Red"/>
+                </Picker>
+            </Border>
 
-            </VerticalStackLayout>
-        </Grid>
+            <Button
+                x:Name="Btn_parp"
+                Margin="0, 25, 0, 0"
+                HeightRequest="45"
+                Text="Terminer"
+                TextTransform="Uppercase"
+                FontAttributes="Bold"
+                FontSize="15"
+                CornerRadius="5"
+                Background="{StaticResource Primary}"
+                Clicked="OnValidSelectedPark"/>
+
+            <Button
+                x:Name="Btn_cancel"
+                Margin="0, 10, 0, 0"
+                HeightRequest="45"
+                Text="Annuler"
+                TextTransform="Uppercase"
+                FontAttributes="Bold"
+                FontSize="15"
+                CornerRadius="5"
+                Background="Red"/>
+
+        </VerticalStackLayout>
 
         <Frame 
-            Grid.Row="2" 
-            HorizontalOptions="End"
+            Grid.Row="2"
+            HorizontalOptions="Start"
             BorderColor="Transparent"
-            HeightRequest="400"
-            WidthRequest="400"            
+            HeightRequest="200"
+            WidthRequest="200"            
             CornerRadius="0"
             ZIndex="-1">
             <Frame.Background>
-                <RadialGradientBrush Center="0.0,0.5">
-                    <GradientStop Color="#FF9988"
+                <RadialGradientBrush Center="0.1,0.5">
+                    <GradientStop Color="SkyBlue"
                         Offset="0.1" />
                     <GradientStop Color="Transparent"
                         Offset="1.0" />

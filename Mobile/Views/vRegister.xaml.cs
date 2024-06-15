@@ -24,7 +24,7 @@ public partial class vRegister : ContentPage
             RegisterVM.IsBorderTwoVisible = true;
 
             indicator_one.Background = Colors.White;
-            indicator_two.Background = Color.Parse("#6074C6");
+            indicator_two.Background = Color.Parse("#1b6ec2");
 
             await border_two.TranslateTo(TranslationY = 100, 0, 0);
             await border_two.TranslateTo(TranslationY = 1, 0, 200);
@@ -34,7 +34,7 @@ public partial class vRegister : ContentPage
             RegisterVM.IsBorderTwoVisible = false;
             RegisterVM.IsBorderOneVisible = true;
 
-            indicator_one.Background = Color.Parse("#6074C6");
+            indicator_one.Background = Color.Parse("#1b6ec2");
             indicator_two.Background = Colors.White;
 
             await border_one.TranslateTo(TranslationY = -100, 0, 0);

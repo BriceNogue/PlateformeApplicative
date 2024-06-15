@@ -15,30 +15,30 @@
 
             <Label x:Name="lbl_loading" Text="Veillez patienter..." TextColor="Gray" IsVisible="{Binding IsLabelVisible}"/>
 
-            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}" Stroke="{StaticResource Gray600}">
                 <Image
                     HeightRequest="100"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    Source="logo_alpha_n.png"/>
+                    Source="app_logo_b.png"/>
             </Border>
 
-            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}" Stroke="{StaticResource Gray600}">
                 <VerticalStackLayout>
-                    <Label Text="Nom :" TextColor="Gray"/>
+                    <Label Text="Etablissement :" TextColor="Gray" FontAttributes="Bold"/>
                     <Label Text="{Binding Nom}" TextColor="Gray"/>
                 </VerticalStackLayout>
             </Border>
-            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}" Stroke="{StaticResource Gray600}">
                 <Grid RowDefinitions="20,*,*" RowSpacing="5">
-                    <Label Grid.Row="0" Text="Contact" HorizontalOptions="Center" TextColor="Gray"/>
+                    <Label Grid.Row="0" Text="Contact" HorizontalOptions="Center" TextColor="{StaticResource Gray600}" FontAttributes="Bold"/>
                     <HorizontalStackLayout Grid.Row="1" Spacing="5">
                         <Image>
                             <Image.Source>
                                 <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Phone}" Color="{StaticResource Primary}" Size="13"/>
                             </Image.Source>
                         </Image>
-                        <Label Text="{Binding Telephone}" TextColor="Gray"/>
+                        <Label Text="{Binding Telephone}" TextColor="{StaticResource Gray600}" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="2" Spacing="5">
                         <Image>
@@ -46,38 +46,38 @@
                                 <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Envelope}" Color="{StaticResource Primary}" Size="13"/>
                             </Image.Source>
                         </Image>
-                        <Label Text="{Binding Email}" TextColor="Gray"/>
+                        <Label Text="{Binding Email}" TextColor="{StaticResource Gray600}"/>
                     </HorizontalStackLayout>
                 </Grid>
             </Border>
-            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}" Stroke="{StaticResource Gray600}">
                 <Grid RowDefinitions="20,*,*,*,*,*" RowSpacing="5">
-                    <Label Grid.Row="0" Text="Adresse" HorizontalOptions="Center" TextColor="Gray"/>
+                    <Label Grid.Row="0" Text="Adresse" HorizontalOptions="Center" TextColor="{StaticResource Gray600}" FontAttributes="Bold"/>
                     <HorizontalStackLayout Grid.Row="1">
-                        <Label Text="Pays : " TextColor="Gray"/>
+                        <Label Text="Pays : " TextColor="{StaticResource Gray600}"/>
                         <Label Text="{Binding Pays}" TextColor="Gray"/>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="2">
-                        <Label Text="Code Postal : " TextColor="Gray"/>
+                        <Label Text="Code Postal : " TextColor="{StaticResource Gray600}"/>
                         <Label Text="{Binding CodePostal}" TextColor="Gray"/>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="3">
-                        <Label Text="Ville : " TextColor="Gray"/>
+                        <Label Text="Ville : " TextColor="{StaticResource Gray600}"/>
                         <Label Text="{Binding Ville}" TextColor="Gray"/>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="4">
-                        <Label Text="N° Rue : " TextColor="Gray"/>
+                        <Label Text="N° Rue : " TextColor="{StaticResource Gray600}"/>
                         <Label Text="{Binding NumeroRue}" TextColor="Gray"/>
                     </HorizontalStackLayout>
                     <HorizontalStackLayout Grid.Row="5">
-                        <Label Text="Libellé Rue : " TextColor="Gray"/>
+                        <Label Text="Libellé Rue : " TextColor="{StaticResource Gray600}"/>
                         <Label Text="{Binding LibelleRue}" TextColor="Gray"/>
                     </HorizontalStackLayout>
                 </Grid>
             </Border>
-            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}">
+            <Border StrokeShape="RoundRectangle 5" Padding="10, 5" IsVisible="{Binding IsContentVisible}" Stroke="{StaticResource Gray600}">
                 <Grid RowDefinitions="20,*" RowSpacing="5">
-                    <Label Grid.Row="0" Text="Infos complémentaires" HorizontalOptions="Center" TextColor="Gray"/>
+                    <Label Grid.Row="0" Text="Infos complémentaires" HorizontalOptions="Center" TextColor="{StaticResource Gray600}" FontAttributes="Bold"/>
                     <HorizontalStackLayout Grid.Row="1">
                         <Label Text="Vous nous avez rejoints le " TextColor="Gray"/>
                         <Label Text="{Binding DateCreation}" TextColor="Gray"/>
