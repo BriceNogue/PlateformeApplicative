@@ -26,13 +26,15 @@
             <Border
                 StrokeShape="RoundRectangle 5"
                 Padding="10,15"
-                IsVisible="{Binding IsContentVisible}">
+                IsVisible="{Binding IsContentVisible}"                
+                Stroke="{StaticResource Tertiary}"
+                Background="{StaticResource Tertiary}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
                     <Image Grid.Row="1" Grid.Column="0">
                         <Image.Source>
-                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.LayerGroup}" Color="{StaticResource Primary}" />
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.LayerGroup}" Color="{StaticResource White}" />
                         </Image.Source>
                     </Image>
                     <Label
@@ -40,6 +42,7 @@
                         x:Name="lb_nbr_room"
                         Text="0"
                         FontSize="15"
+                        TextColor="{StaticResource White}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
@@ -48,6 +51,7 @@
                         x:Name="lb_room"
                         Text="Salle"
                         FontSize="15"
+                        TextColor="{StaticResource White}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
@@ -56,13 +60,15 @@
             <Border
                 StrokeShape="RoundRectangle 5"
                 Padding="10,15"
-                IsVisible="{Binding IsContentVisible}">
+                IsVisible="{Binding IsContentVisible}"             
+                Stroke="{StaticResource Secondary}"
+                Background="{StaticResource Secondary}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
                     <Image Grid.Row="1" Grid.Column="0">
                         <Image.Source>
-                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Display}" Color="{StaticResource Primary}" />
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Display}" Color="{StaticResource Tertiary}" />
                         </Image.Source>
                     </Image>
                     <Label
@@ -70,6 +76,7 @@
                         x:Name="lb_nbr_post"
                         Text="0"
                         FontSize="15"
+                        TextColor="{StaticResource Tertiary}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
@@ -78,6 +85,7 @@
                         x:Name="lb_post"
                         Text="Poste"
                         FontSize="15"
+                        TextColor="{StaticResource Tertiary}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
@@ -86,13 +94,15 @@
             <Border
                 StrokeShape="RoundRectangle 5"
                 Padding="10,15"
-                IsVisible="{Binding IsContentVisible}">
+                IsVisible="{Binding IsContentVisible}"
+                Stroke="{StaticResource Primary}"
+                Background="{StaticResource Primary}">
                 <Grid 
                     RowDefinitions="20,20,20"
                     ColumnDefinitions="30, *">
                     <Image Grid.Row="1" Grid.Column="0">
                         <Image.Source>
-                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Users}" Color="{StaticResource Primary}" />
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Users}" Color="{StaticResource White}" />
                         </Image.Source>
                     </Image>
                     <Label
@@ -100,6 +110,7 @@
                         x:Name="lb_nbr_user"
                         Text="0"
                         FontSize="15"
+                        TextColor="{StaticResource White}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
@@ -108,6 +119,7 @@
                         x:Name="lb_user"
                         Text="Utilisateur"
                         FontSize="15"
+                        TextColor="{StaticResource White}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />

@@ -19,24 +19,27 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Users}" IsVisible="{Binding IsContentVisible}">
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Users}" IsVisible="{Binding IsContentVisible}" Margin="0,10">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 5" Margin="0,0,0,5">
-                        <Grid Padding="10" RowSpacing="5" ColumnSpacing="15">
+                    <Border StrokeShape="RoundRectangle 5" Margin="0,0,0,10" Stroke="Transparent">
+                        <Grid Padding="0,0" RowSpacing="5" ColumnSpacing="15">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="3">
-                                <Image.Source>
-                                    <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.User}" Color="{StaticResource Primary}" />
-                                </Image.Source>
-                            </Image>
+                            <Border  Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HeightRequest="45" WidthRequest="45" StrokeShape="RoundRectangle 50" Padding="10" Stroke="{StaticResource Primary}" Background="Transparent">
+                                <Image>
+                                    <Image.Source>
+                                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.User}" Color="{StaticResource Primary}" />
+                                    </Image.Source>
+                                </Image>
+                            </Border>
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="5" HorizontalOptions="Start">
                                 <Label
                                     Text="{Binding Nom}"
@@ -50,7 +53,8 @@
                                 Grid.Row="1"  Grid.Column="1" HorizontalOptions="Start"
                                 Text="{Binding UserRole}"
                                 VerticalOptions="End" />
-                            
+
+                            <Line Grid.Row="2"  Grid.Column="1" X1="400" Stroke="LightGray"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
