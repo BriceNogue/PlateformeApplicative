@@ -109,7 +109,7 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpDelete("delete/id")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public IActionResult Delete(int id)
         {
             var isDeleted = _userService.Delete(id);
@@ -119,13 +119,13 @@ namespace PlateformeApplicative.Controllers
         }
 
         [HttpPut("update")]
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin,User")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Update(UserModele user)
         {
-            var isUpdated = await _userService.Update(user);
-            if (isUpdated)
-                return Ok("Utilisateur mis a jour avec succes.");
-            return BadRequest("Mise a jour impossible.");
+            var res = await _userService.Update(user);
+            if (res.Flag)
+                return Ok(res);
+            return BadRequest(res);
         }
     }
 }

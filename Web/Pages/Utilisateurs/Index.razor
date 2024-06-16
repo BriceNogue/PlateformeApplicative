@@ -70,7 +70,7 @@
                         <tbody>
                             @foreach (var user in filteredUsers)
                             {
-                                <tr>
+                                <tr @ondblclick="(() => OnUserClicked(user))">
                                     <td>
                                         <span class="oi oi-person"></span>
                                     </td>
@@ -99,58 +99,121 @@
     <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay">
         <div class="modal-dialog-centered" role="document">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Nouvelle utilisateur</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
-                        </button>
+                @*********************** Add User **********************@
+                @if (!isAnUpdate)
+                {
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Nouvelle utilisateur</h5>
+                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
+                            </button>
+                        </div>
+                        <form class="form modal-body">
+                            <div>
+                                <p>@resText</p>
+                            </div>
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label for="lastName" class="form-label">Nom :</label>
+                                    <input type="text" id="lastName" @bind="newUser!.Nom" placeholder="Nom" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class="form-label">Prénom :</label>
+                                    <input type="text" id="firstName" @bind="newUser!.Prenom" placeholder="Prénom" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="form-label">Email :</label>
+                                    <input type="email" id="email" @bind="newUser!.Email" placeholder="Email" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="role" class="form-label">Role :</label>
+                                    <select class="form-select" id="role" @onchange="HandleOnChangeSelectedRole">
+                                        <option disabled selected>Role</option>
+                                        @foreach (var type in types)
+                                        {
+                                            <option class="select-item" value="@type.Id">@type.Libelle</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Télephone :</label>
+                                    <input type="phone" id="phone" @bind="newUser!.PhoneNumber" placeholder="Téléphone" class="form-input" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                                    <input type="date" id="dateNaissance" value="formatedDate" @oninput="HandleDateInput" placeholder="Date de naissance" class="form-input" />
+                                </div>
+                            </div>
+                            <div class="form-action">
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> SaveUser(newUser!))">Créer</button>
+                                </div>
+                                <div>
+                                    <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form class="form modal-body">
-                        <div>
-                            <p>@resText</p>
+                }
+                @**************************** Update User ****************************@
+                else
+                {
+                    if (updatedUser != null)
+                    {
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Modifier un utilisateur</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModalToUpdate())">
+                                </button>
+                            </div>
+                            <form class="form modal-body">
+                                <div>
+                                    <p>@resText</p>
+                                </div>
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="lastName" class="form-label">Nom :</label>
+                                        <input type="text" id="lastName" @bind="updatedUser!.Nom" placeholder="Nom" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="firstName" class="form-label">Prénom :</label>
+                                        <input type="text" id="firstName" @bind="updatedUser!.Prenom" placeholder="Prénom" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email :</label>
+                                        <input type="email" id="email" @bind="updatedUser!.Email" placeholder="Email" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="role" class="form-label">Role :</label>
+                                        <select class="form-select" id="role" @bind="updatedUser!.IdType">
+                                            <option disabled selected>Role</option>
+                                            @foreach (var type in types)
+                                            {
+                                                <option class="select-item" value="@type.Id">@type.Libelle</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone" class="form-label">Télephone :</label>
+                                        <input type="phone" id="phone" @bind="updatedUser!.PhoneNumber" placeholder="Téléphone" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateNaissance" class="form-label">Date de naissance :</label>
+                                        <input type="date" id="dateNaissance" @bind="updatedUser!.DateNaissance" @oninput="HandleDateInput" placeholder="Date de naissance" class="form-input" />
+                                    </div>
+                                </div>
+                                <div class="form-action">
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> SaveUser(updatedUser!))">Enregistrer</button>
+                                    </div>
+                                    <div>
+                                        <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModalToUpdate())">Annuler</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-body">
-                            <div class="form-group">
-                                <label for="lastName" class="form-label">Nom :</label>
-                                <input type="text" id="lastName" @bind="newUser!.Nom" placeholder="Nom" class="form-input" />
-                            </div>
-                            <div class="form-group">
-                                <label for="firstName" class="form-label">Prénom :</label>
-                                <input type="text" id="firstName" @bind="newUser!.Prenom" placeholder="Prénom" class="form-input" />
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email :</label>
-                                <input type="email" id="email" @bind="newUser!.Email" placeholder="Email" class="form-input" />
-                            </div>
-                            <div class="form-group">
-                                <label for="role" class="form-label">Role :</label>
-                                <select class="form-select" id="role" @onchange="HandleOnChangeSelectedRole">
-                                    <option disabled selected>Role</option>
-                                    @foreach (var type in types)
-                                    {
-                                        <option class="select-item" value="@type.Id">@type.Libelle</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone" class="form-label">Télephone :</label>
-                                <input type="phone" id="phone" @bind="newUser!.PhoneNumber" placeholder="Téléphone" class="form-input" />
-                            </div>
-                            <div class="form-group">
-                                <label for="dateNaissance" class="form-label">Date de naissance :</label>
-                                <input type="date" id="dateNaissance" value="formatedDate" @oninput="HandleDateInput" placeholder="Date de naissance" class="form-input" />
-                            </div>
-                        </div>
-                        <div class="form-action">
-                            <div>
-                                <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> AddUser(newUser!))">Créer</button>
-                            </div>
-                            <div>
-                                <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    }
+                }
             </div>
         </div>
     </div>
@@ -170,6 +233,9 @@
     //private UserService userService = new UserService();
     private UserModele? newUser;
     private int userTypeId = 0;
+
+    private UserModele? updatedUser;
+    private bool isAnUpdate = false;
 
     private List<TypeModele> types = new List<TypeModele>();
     private TypeService typeService = new TypeService();
@@ -236,6 +302,29 @@
         //StateHasChanged();
     }
 
+    private void ToggleModalToUpdate()
+    {
+        if (modalClass == "show")
+        {
+            modalDisplay = "none";
+            modalClass = "";
+            this.isAnUpdate = false;
+            ShowBackdrop = false;
+            newUser = new UserModele();
+        }
+        else
+        {
+            modalDisplay = "block";
+            modalClass = "show";
+            this.isAnUpdate = true;
+            ShowBackdrop = true;
+        }
+
+        userTypeId = 0;
+        resText = "";
+        //StateHasChanged();
+    }
+
     private void HandleOnInputSearchUser(ChangeEventArgs args)
     {
         var keyWord = args.Value!.ToString();
@@ -293,6 +382,11 @@
             if (DateTime.TryParse(formatedDate, out DateTime dateOfBirth))
             {
                 newUser!.DateNaissance = dateOfBirth;
+
+                if (isAnUpdate)
+                {
+                    updatedUser!.DateNaissance = dateOfBirth;
+                }
             }
         }
 
@@ -312,12 +406,19 @@
         }
         else
         {
-            resText = "Vous devez avoir entre 18 et 100 ans";
+            resText = "Vous devez avoir au moins 18 ans.";
             return false;
         }
     }
 
-    private async Task AddUser(UserModele user)
+    private void OnUserClicked(UserModele oldUser)
+    {
+        updatedUser = new UserModele();
+        updatedUser = oldUser;
+        ToggleModalToUpdate();
+    }
+
+    private async Task SaveUser(UserModele user)
     {
         var validationResults = new List<ValidationResult>();
         var validationContext = new ValidationContext(user, serviceProvider: null, items: null);
@@ -329,7 +430,19 @@
             resText = "";
             var parc = await parcService.GetParcSession();
 
-            if (parc != null)
+            if (isAnUpdate)
+            {
+                var res = await userService.UpdateUser(updatedUser!);
+                resText = res.Message;
+                users = await GetUsersParc();
+                filteredUsers = users;
+
+                if (res.Flag)
+                {
+                    ToggleModalToUpdate();
+                }
+            }
+            else if(parc != null)
             {
                 bool isOld = CheckBirthDay(newUser!.DateNaissance);
                 if (isOld)

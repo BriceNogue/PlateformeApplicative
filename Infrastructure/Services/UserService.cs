@@ -168,9 +168,9 @@ namespace Infrastructure.Services
             {
                 return new GeneralResponse(false, "Une erreur est survenue.. veuillez réessayer s'il vous plait.");
             }
-            else if (users.Any(x => (x.PhoneNumber == user.PhoneNumber)))
+            else if (users.Any(x => (x.PhoneNumber == user.PhoneNumber))|| users.Any(x => (x.Email == user.Email)))
             {
-                return new GeneralResponse(false, "Numéro de téléphone déja utilisé.");
+                return new GeneralResponse(false, "Adress mail ou numéro de téléphone déja utilisé.");
             }
             else
             {
@@ -223,13 +223,13 @@ namespace Infrastructure.Services
             }
         }
 
-        public async Task<bool> Update(UserModele user)
+        public async Task<GeneralResponse> Update(UserModele user)
         {
             var oldUser = await _userRepository.Get(user.Id);
             var type = _typeRepository.Get(user.IdType);
             if (oldUser is null || type is null)
             {
-                return false;
+                return new GeneralResponse(false, "Mise a jour impossible.");
             }
             else
             {
@@ -238,10 +238,11 @@ namespace Infrastructure.Services
                 oldUser.DateNaissance = user.DateNaissance;
                 oldUser.PhoneNumber = user.PhoneNumber;
                 oldUser.Email = user.Email;
+                oldUser.UserName = user.Email;
                 oldUser.IdType = user.IdType;
 
                 _userRepository.Update(oldUser);
-                return true;
+                return new GeneralResponse(true, "Utilisateur mis a jour avec succes.");
             }
         }
 

@@ -38,16 +38,23 @@ namespace Web.Services
             return content;
         }
 
-        public async Task<LoginResponse> Register(UserModele user)
+        public async Task<GeneralResponse> Register(UserModele user)
         {
             var content = SetRequestContent(user);
             HttpResponseMessage response = await _httpClient.PostAsync(_URL + "/register", content);
 
-            string responseBody = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                string responseBody = await response.Content.ReadAsStringAsync();
 
-            var res = JsonConvert.DeserializeObject<LoginResponse>(responseBody)!;
+                var res = JsonConvert.DeserializeObject<GeneralResponse>(responseBody)!;
+                return res;
+            }
+            else
+            {
+                return new GeneralResponse(false, "Une erreur est survenue.");
+            }
 
-            return res;
         }
 
         public async Task<LoginResponse> Login(UserLoginModele loginM)
@@ -267,6 +274,38 @@ namespace Web.Services
                     return new GeneralResponse(false, "Une erreur est survenue.");
                 }
             }catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GeneralResponse> UpdateUser(UserModele updatedUser)
+        {
+            try
+            {
+                var content = SetRequestContent(updatedUser);
+                string token = await GetUserToken();
+
+                if (content is not null && token is not null)
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                HttpResponseMessage response = await _httpClient.PutAsync(_URL + "/update", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    var res = JsonConvert.DeserializeObject<GeneralResponse>(responseBody)!;
+                    return res;
+                }
+                else
+                {
+                    return new GeneralResponse(false, "Une erreur est survenue.");
+                }
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
