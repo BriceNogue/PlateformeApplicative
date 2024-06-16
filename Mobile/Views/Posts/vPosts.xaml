@@ -18,10 +18,22 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Posts}" IsVisible="{Binding IsContentVisible}">
+        <Border Padding="5,0,5,0" StrokeShape="RoundRectangle 5" IsVisible="{Binding IsContentVisible}">
+            <Picker
+                x:Name="pk_parks"
+                Title="Tous les postes"
+                ItemsSource="{Binding Rooms}"
+                ItemDisplayBinding="{Binding Numero}"
+                SelectedIndexChanged="OnPickerSelectedIndexChanged">
+            </Picker>
+        </Border>
+
+        <CollectionView x:Name="cv_rooms" ItemsSource="{Binding Posts}" IsVisible="{Binding IsContentVisible}" Margin="0,20,0,0">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 5" Margin="0,0,0,5">
+                    <Border StrokeShape="RoundRectangle 5" Margin="0,0,0,5" 
+                            Stroke="{StaticResource Secondary}"
+                            Background="{StaticResource Secondary}">
                         <Grid Padding="10" RowSpacing="15">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />

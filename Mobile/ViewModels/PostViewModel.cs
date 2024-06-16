@@ -11,6 +11,7 @@ namespace Mobile.ViewModels
         private int roomNumber;
 
         private List<PosteModele> posts;
+        private List<SalleModele> rooms;
 
         public bool IsLabelVisible
         {
@@ -59,6 +60,19 @@ namespace Mobile.ViewModels
                 if (posts != value)
                 {
                     posts = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<SalleModele> Rooms
+        {
+            get { return rooms; }
+            set
+            {
+                if (rooms != value)
+                {
+                    rooms = value;
                     OnPropertyChanged();
                 }
             }

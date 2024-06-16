@@ -11,6 +11,7 @@ public partial class vPosts : ContentPage
     PostService postService;
     RoomService roomService;
 
+    List<PosteModele> postsToDisplay;
     PostViewModel PostVM;
 
     public vPosts()
@@ -21,6 +22,8 @@ public partial class vPosts : ContentPage
         parkService = new ParkService();
         postService = new PostService();
         roomService = new RoomService();
+
+        postsToDisplay = new();
 
         PostVM = (PostViewModel)BindingContext;
         PostVM.IsLabelVisible = true;
@@ -42,7 +45,7 @@ public partial class vPosts : ContentPage
                 var posts = await postService.GetAllByParc(parkSession.ParcId, userSession.Token);
                 var rooms = await roomService.GetAllByParc(parkSession.ParcId, userSession.Token);
 
-                List<PosteModele> postsToDisplay = new();
+                PostVM.Rooms = rooms;
 
                 foreach (var room in rooms)
                 {
@@ -72,6 +75,20 @@ public partial class vPosts : ContentPage
         catch (Exception ex)
         {
             throw new Exception(ex.Message);
+        }
+    }
+
+    public void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        SalleModele room = ((Picker)sender).SelectedItem as SalleModele;
+
+        if (room != null)
+        {
+            PostVM.Posts = postsToDisplay.Where(p => p.IdSalle == room.Numero).ToList();
+        }
+        else
+        {
+            PostVM.Posts = postsToDisplay;
         }
     }
 }

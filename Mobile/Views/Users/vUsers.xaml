@@ -43,15 +43,26 @@
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="5" HorizontalOptions="Start">
                                 <Label
                                     Text="{Binding Nom}"
-                                    FontSize="15" />
+                                    FontSize="15"
+                                    FontAttributes="Bold"
+                                    TextTransform="Uppercase"/>
                                 <Label
                                     Text="{Binding Prenom}"
                                     VerticalOptions="End" />
                             </HorizontalStackLayout>
 
                             <Label
-                                Grid.Row="1"  Grid.Column="1" HorizontalOptions="Start"
+                                Grid.Row="0"  Grid.Column="1" HorizontalOptions="End"
                                 Text="{Binding UserRole}"
+                                FontSize="13"
+                                FontAttributes="Bold"
+                                VerticalOptions="End" />
+
+                            <Label
+                                Grid.Row="1"  Grid.Column="1" HorizontalOptions="Start"
+                                Text="{Binding Email}"
+                                FontSize="13"
+                                FontAttributes="Italic"
                                 VerticalOptions="End" />
 
                             <Line Grid.Row="2"  Grid.Column="1" X1="400" Stroke="LightGray"/>

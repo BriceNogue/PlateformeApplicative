@@ -24,26 +24,29 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeShape="RoundRectangle 5">
+                    <Border StrokeShape="RoundRectangle 5" Stroke="{StaticResource Tertiary}" Background="{StaticResource Tertiary}">
                         <Grid Padding="10" RowSpacing="15">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <HorizontalStackLayout Grid.Row="0" Spacing="5" HorizontalOptions="Start">
-                                <Label Text="N°" VerticalOptions="Center" FontSize="15"/>
+                                <Label Text="N°" VerticalOptions="Center" FontSize="15" TextColor="{StaticResource White}"/>
                                 <Label
                                     Text="{Binding Numero}"
                                     VerticalOptions="Center"
-                                    FontSize="15" />
+                                    FontSize="15"
+                                    TextColor="{StaticResource White}"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Row="1" HorizontalOptions="End">
                                 <Label
                                     Text="Capacite : "
-                                    VerticalOptions="End" />
+                                    VerticalOptions="End"
+                                    TextColor="{StaticResource White}"/>
                                 <Label
                                     Text="{Binding Capacite}"
-                                    VerticalOptions="End" />
+                                    VerticalOptions="End"
+                                    TextColor="{StaticResource White}"/>
                             </HorizontalStackLayout>
                         </Grid>
                     </Border>

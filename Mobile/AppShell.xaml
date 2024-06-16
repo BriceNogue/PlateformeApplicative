@@ -13,29 +13,39 @@
     Shell.FlyoutBehavior="Flyout">
 
     <Shell.FlyoutHeader>
-        <VerticalStackLayout 
-            Spacing="10"
-            Padding="10,20,10,10">
+        <Grid
+            RowDefinitions="*,*,*"
+            ColumnDefinitions="*,*,*"
+            RowSpacing="10"
+            Padding="0,30">
             <Frame
-                WidthRequest="80"
-                HeightRequest="80"
+                Grid.Row="0"
+                Grid.Column="1"
+                WidthRequest="90"
+                HeightRequest="90"
+                Padding="5"
                 CornerRadius="50"
                 BorderColor="LightGray"
                 BackgroundColor="Transparent">
-
-                <Image>
-                    <Image.Source>
-                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Camera}" Color="{StaticResource Primary}" />
-                    </Image.Source>
-                </Image>
+                
+                <Image
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    Source="app_logo_b.png"/>
+             
             </Frame>
-            <VerticalStackLayout>
+            <Image Grid.Row="0" Grid.Column="1" HeightRequest="20" HorizontalOptions="End" VerticalOptions="End">
+                <Image.Source>
+                    <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Camera}" Color="{StaticResource Gray400}" />
+                </Image.Source>
+            </Image>
+            <VerticalStackLayout Grid.Row="1" Grid.Column="1">
                 <Label x:Name="txt_user_name" Text="User Name" FontSize="15" HorizontalOptions="Center"/>
                 <Label x:Name="txt_user_role" Text="User Role" FontSize="15" HorizontalOptions="Center" FontAttributes="Bold"/>
             </VerticalStackLayout>
 
-            <Line X1="300" Stroke="LightGray" HorizontalOptions="Center"/>
-        </VerticalStackLayout>
+            <Line Grid.Row="2" Grid.Column="1" X1="300" Stroke="LightGray" HorizontalOptions="Center"/>
+        </Grid>
     </Shell.FlyoutHeader>
 
     <ShellContent 
@@ -158,7 +168,8 @@
                 <Button
                     x:Name="btn_logout"
                     ImageSource="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.PowerOff}, Size=15}"
-                    Text="Se Deconnecter"
+                    Text="Se Déconnecter"
+                    TextTransform="Uppercase"
                     FontSize="15"
                     FontAttributes="Bold"
                     HeightRequest="45"

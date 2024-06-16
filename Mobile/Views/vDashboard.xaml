@@ -26,6 +26,41 @@
             <Border
                 StrokeShape="RoundRectangle 5"
                 Padding="10,15"
+                IsVisible="{Binding IsContentVisible}"
+                Stroke="{StaticResource Primary}"
+                Background="{StaticResource Primary}">
+                <Grid 
+                    RowDefinitions="20,20,20"
+                    ColumnDefinitions="30, *">
+                    <Image Grid.Row="1" Grid.Column="0">
+                        <Image.Source>
+                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Users}" Color="{StaticResource White}" />
+                        </Image.Source>
+                    </Image>
+                    <Label
+                        Grid.Row="0" Grid.Column="1"
+                        x:Name="lb_nbr_user"
+                        Text="0"
+                        FontSize="15"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                    <Label
+                        Grid.Row="2" Grid.Column="1"
+                        x:Name="lb_user"
+                        Text="Utilisateur"
+                        FontSize="15"
+                        TextColor="{StaticResource White}"
+                        FontAttributes="Bold"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="End" />
+                </Grid>
+            </Border>
+
+            <Border
+                StrokeShape="RoundRectangle 5"
+                Padding="10,15"
                 IsVisible="{Binding IsContentVisible}"                
                 Stroke="{StaticResource Tertiary}"
                 Background="{StaticResource Tertiary}">
@@ -86,40 +121,6 @@
                         Text="Poste"
                         FontSize="15"
                         TextColor="{StaticResource Tertiary}"
-                        FontAttributes="Bold"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="End" />
-                </Grid>
-            </Border>
-            <Border
-                StrokeShape="RoundRectangle 5"
-                Padding="10,15"
-                IsVisible="{Binding IsContentVisible}"
-                Stroke="{StaticResource Primary}"
-                Background="{StaticResource Primary}">
-                <Grid 
-                    RowDefinitions="20,20,20"
-                    ColumnDefinitions="30, *">
-                    <Image Grid.Row="1" Grid.Column="0">
-                        <Image.Source>
-                            <FontImageSource FontFamily="FASolid" Glyph="{x:Static fa:Solid.Users}" Color="{StaticResource White}" />
-                        </Image.Source>
-                    </Image>
-                    <Label
-                        Grid.Row="0" Grid.Column="1"
-                        x:Name="lb_nbr_user"
-                        Text="0"
-                        FontSize="15"
-                        TextColor="{StaticResource White}"
-                        FontAttributes="Bold"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="End" />
-                    <Label
-                        Grid.Row="2" Grid.Column="1"
-                        x:Name="lb_user"
-                        Text="Utilisateur"
-                        FontSize="15"
-                        TextColor="{StaticResource White}"
                         FontAttributes="Bold"
                         VerticalOptions="Center" 
                         HorizontalOptions="End" />
