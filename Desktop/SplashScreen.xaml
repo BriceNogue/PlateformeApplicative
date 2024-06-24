@@ -18,12 +18,21 @@
         materialDesign:ElevationAssist.Elevation="Dp4"
         Background="{DynamicResource MaterialDesignPaper}">
 
-        <TextBlock 
-            Text="Splash"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
-            FontSize="60"
-            FontWeight="Bold"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            
+            <Image Source="Ressources/Images/AppLogo_B.png"/>
+            <TextBlock 
+                Grid.Row="1"
+                Text="IT M"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="60"
+                FontWeight="Bold"/>
+        </Grid>
         
     </materialDesign:Card>
 </Window>

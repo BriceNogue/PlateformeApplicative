@@ -9,10 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Ressources\Images\AppLogo_B.png" />
     <None Remove="Ressources\Images\poste.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Ressources\Images\AppLogo_B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Ressources\Images\poste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -131,7 +131,7 @@
                         <p><b>Date De Création</b> <br /> @parc.DateCreation.ToShortDateString()</p>
                     </div>
                     <div class="btns-div">
-                        <button class="btn btn-primary btn-edit">
+                        <button class="btn btn-primary btn-edit" @onclick="(() => ToggleModal())">
                             <span class="oi oi-pencil"></span>
                         </button>
                         <button class="btn btn-danger">
@@ -144,6 +144,60 @@
             <div class="blur blur-1"></div>
             <div class="blur blur-2"></div>
         </div>
+
+        @******************* Start Modal ********************@
+
+        <div class="modal @modalClass" tabindex="-1" role="dialog" style="display:@modalDisplay">
+            <div class="modal-dialog-centered" role="document">
+                <div class="modal-dialog">
+                    @if (isAnUpdate)
+                    {
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Nouvelle utilisateur</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" @onclick="(() => ToggleModal())">
+                                </button>
+                            </div>
+                            <form class="form modal-body">
+                                <div>
+                                    <p>@resText</p>
+                                </div>
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <label for="name" class="form-label">Nom :</label>
+                                        <input type="text" id="name" @bind="parc!.Nom" placeholder="Nom" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email" class="form-label">Email :</label>
+                                        <input type="email" id="email" @bind="parc!.Email" placeholder="Email" class="form-input" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="phone" class="form-label">Télephone :</label>
+                                        <input type="phone" id="phone" @bind="parc!.Telephone" placeholder="Téléphone" class="form-input" />
+                                    </div>
+                                </div>
+                                <div class="form-action">
+                                    <div>
+                                        <button type="button" class="btn btn-primary btn-create" @onclick="@(()=> UpdateParc(parc!))">Créer</button>
+                                    </div>
+                                    <div>
+                                        <button type="reset" class="btn btn-danger btn-cancel" @onclick="(() => ToggleModal())">Annuler</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (ShowBackdrop)
+        {
+            <div class="modal-backdrop fade show"></div>
+        }
+
+        @******************* End Modal ********************@
+
     }
 
 </div>
@@ -156,6 +210,14 @@
     private string resText = "";
     private bool isConditionsAcept = false;
     private string form_class = "parc-form";
+
+    private EtablissementModele? updatedParc;
+    private bool isAnUpdate = false;
+
+    private string modalDisplay = "none";
+    private string modalClass = "";
+    private bool ShowBackdrop = false;
+    private string searchClass = "";
 
     protected override void OnInitialized()
     {
@@ -198,6 +260,27 @@
         }
     }
 
+    private void ToggleModal()
+    {
+        isAnUpdate = !isAnUpdate;
+        if (modalClass == "show")
+        {
+            modalDisplay = "none";
+            modalClass = "";
+            ShowBackdrop = false;
+            updatedParc = new EtablissementModele();
+        }
+        else
+        {
+            modalDisplay = "block";
+            modalClass = "show";
+            ShowBackdrop = true;
+        }
+
+        resText = "";
+        //StateHasChanged();
+    }
+
     private async Task CreateNewParc(EtablissementModele etab)
     {
         var validationResults = new List<ValidationResult>();
@@ -236,6 +319,60 @@
                         }
                     }                    
                 }
+            }
+            else
+            {
+                resText = "Veuillez accepter les conditions générales d'utilisation.";
+            }
+        }
+        else
+        {
+            resText = "";
+            foreach (var result in validationResults)
+            {
+                resText += result.ToString();
+            }
+        }
+    }
+
+    private async Task UpdateParc(EtablissementModele etab)
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(etab, serviceProvider: null, items: null);
+
+        bool isValid = Validator.TryValidateObject(etab, validationContext, validationResults, validateAllProperties: true);
+
+        if (isValid)
+        {
+            resText = "";
+
+            if (isConditionsAcept)
+            {
+                string userToken = await userService.GetUserToken();
+                var user = await userService.GetUserSession();
+                var parc = await parcService.GetParcSession();
+
+                /*if (userToken != null && user != null && parc != null)
+                {
+                    int userId = user.Id ?? 0;
+                    var res = await parcService.Create(newEtab!, userId, userToken);
+
+                    if (res is not null)
+                    {
+                        resText = res.Message;
+
+                        if (res!.Flag)
+                        {
+                            var e = await parcService.GetByName(newEtab!.Nom, userToken);
+
+                            if (e is not null)
+                            {
+                                parcService.SetParcSession(e);
+                                NavigationM.NavigateTo("/dashboard");
+                            }
+                        }
+                    }
+                }*/
             }
             else
             {

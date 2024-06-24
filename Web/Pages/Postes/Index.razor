@@ -23,9 +23,9 @@
             }
         </div>
         <div class="form-group">
-            <label for="Salles" class="form-label">Filtre par salle</label>
+            <label for="Salles" class="form-label">Filtre par type</label>
             <select class="form-select" @onchange="HandleOnChangeSelectedSearch">
-                <option selected value="0">Sélectionnez le type de salle</option>
+                <option selected value="0">Tous les postes</option>
                 @foreach (var type in types)
                 {
                     <option class="select-item" value="@type.Id">@type.Libelle</option>
