@@ -13,7 +13,7 @@ namespace Domain.Repositories
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-ALPHA;Database=ITInfrastructureDB;Trusted_Connection=true;TrustServerCertificate=true;")
+            optionsBuilder.UseSqlServer("Server=PC-ALPHA;Database=ITInfrastructureDB;Trusted_Connection=true;TrustServerCertificate=true;")
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         }
 
